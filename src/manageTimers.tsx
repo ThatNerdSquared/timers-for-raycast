@@ -1,4 +1,4 @@
-import { ActionPanel, environment, Icon, List } from "@raycast/api";
+import { Action, ActionPanel, environment, Icon, List } from "@raycast/api";
 import { useEffect, useState } from "react";
 import { getTimers, stopTimer } from "./timerUtils";
 import { Timer } from "./types";
@@ -23,7 +23,7 @@ export default function Command() {
   const formatTime = (timeInSeconds: number | string) => {
     const time = new Date(timeInSeconds);
     time.setSeconds(Number(timeInSeconds));
-    return time.toISOString().substr(11, 8);
+    return time.toISOString().substring(11, 19);
   };
 
   return (
@@ -36,7 +36,7 @@ export default function Command() {
           subtitle={formatTime(timer.timeLeft)}
           actions={
             <ActionPanel>
-              <ActionPanel.Item title="Stop Timer" onAction={() => handleTimerStop(timer)} />
+              <Action title="Stop Timer" onAction={() => handleTimerStop(timer)} />
             </ActionPanel>
           }
         />

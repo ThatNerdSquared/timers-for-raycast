@@ -1,4 +1,4 @@
-import { ActionPanel, closeMainWindow, Form, showHUD, SubmitFormAction } from "@raycast/api";
+import { Action, ActionPanel, closeMainWindow, Form, showHUD } from "@raycast/api";
 import { startTimer } from "./timerUtils";
 import { Values } from "./types";
 
@@ -18,7 +18,7 @@ export default function Command() {
     <Form
       actions={
         <ActionPanel>
-          <SubmitFormAction title="Start Custom Timer" onSubmit={async (values: Values) => handleSubmit(values)} />
+          <Action.SubmitForm title="Start Custom Timer" onSubmit={async (values: Values) => handleSubmit(values)} />
         </ActionPanel>
       }
     >
