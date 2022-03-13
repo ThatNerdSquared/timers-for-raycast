@@ -4,11 +4,10 @@ import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { Timer } from "./types";
 
-async function startTimer(timeInSeconds: number) {
-  const notification = "Untitled";
+async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
-  writeFileSync(masterName, notification);
+  writeFileSync(masterName, timerName);
   const command = `sleep ${timeInSeconds} && if [ -f "${masterName}" ]; then afplay /System/Library/Sounds/Submarine.aiff && osascript -e 'display notification "'"Timer complete"'" with title "Ding!"' && rm "${masterName}"; else echo "Timer deleted"; fi`;
   exec(command, (error, stderr) => {
     if (error) {
