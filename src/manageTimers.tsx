@@ -20,6 +20,12 @@ export default function Command() {
     setTimers(newTimers);
   };
 
+  const formatTime = (timeInSeconds: number | string) => {
+    const time = new Date(timeInSeconds);
+    time.setSeconds(Number(timeInSeconds));
+    return time.toISOString().substr(11, 8);
+  };
+
   return (
     <List isLoading={timers == []}>
       {timers?.map((timer, index) => (
@@ -27,7 +33,7 @@ export default function Command() {
           key={index}
           icon={Icon.Clock}
           title={timer.name}
-          accessoryTitle={timer.timeLeft.toString()}
+          subtitle={formatTime(timer.timeLeft)}
           actions={
             <ActionPanel>
               <ActionPanel.Item title="Stop Timer" onAction={() => handleTimerStop(timer)} />

@@ -8,85 +8,85 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "start-5-minute-timer",
+      "name": "start5MinuteTimer",
       "title": "Start 5 Minute Timer",
       "description": "Set a countdown for 5 minutes.",
       "mode": "no-view"
     },
     {
-      "name": "start-10-minute-timer",
+      "name": "start10MinuteTimer",
       "title": "Start 10 Minute Timer",
       "description": "Set a countdown for 10 minutes.",
       "mode": "no-view"
     },
     {
-      "name": "start-15-minute-timer",
+      "name": "start15MinuteTimer",
       "title": "Start 15 Minute Timer",
       "description": "Set a countdown for 15 minutes.",
       "mode": "no-view"
     },
     {
-      "name": "start-25-minute-timer",
+      "name": "start25MinuteTimer",
       "title": "Start 25 Minute Timer",
       "description": "Set a countdown for 25 minutes.",
       "mode": "no-view"
     },
     {
-      "name": "start-30-minute-timer",
+      "name": "start30MinuteTimer",
       "title": "Start 30 Minute Timer",
       "description": "Set a countdown for 30 minutes.",
       "mode": "no-view"
     },
     {
-      "name": "start-45-minute-timer",
+      "name": "start45MinuteTimer",
       "title": "Start 45 Minute Timer",
       "description": "Set a countdown for 45 minutes.",
       "mode": "no-view"
     },
     {
-      "name": "start-60-minute-timer",
+      "name": "start60MinuteTimer",
       "title": "Start 60 Minute Timer",
       "description": "Set a countdown for 60 minutes.",
       "mode": "view"
     },
     {
-      "name": "start-90-minute-timer",
+      "name": "start90MinuteTimer",
       "title": "Start 90 Minute Timer",
       "description": "Set a countdown for 90 minutes.",
       "mode": "no-view"
     },
     {
-      "name": "start-custom-timer",
+      "name": "startCustomTimer",
       "title": "Start Custom Timer",
       "description": "Set a countdown for a custom amount of time.",
       "mode": "view"
     },
     {
-      "name": "start-stopwatch",
+      "name": "startStopwatch",
       "title": "Start Stopwatch",
       "description": "Start a stopwatch that runs infinitely until stopped.",
       "mode": "view"
     },
     {
-      "name": "set-alarm",
+      "name": "setAlarm",
       "title": "Set Alarm",
       "description": "Set an alarm for a custom date or time.",
       "mode": "view"
     },
     {
-      "name": "manage-timers",
+      "name": "manageTimers",
       "title": "Manage Timers",
       "description": "View, start, or stop existing countdown timers.",
       "mode": "view"
     },
     {
-      "name": "manage-stopwatches",
+      "name": "manageStopwatches",
       "title": "Manage Stopwatches",
       "description": "View, start, or stop existing stopwatches.",
       "mode": "view"
     },
     {
-      "name": "manage-alarms",
+      "name": "manageAlarms",
       "title": "Manage Alarms",
       "description": "View, start, or stop existing alarms.",
       "mode": "view"
