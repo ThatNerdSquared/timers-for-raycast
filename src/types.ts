@@ -6,8 +6,8 @@ export interface Timer {
 }
 
 export interface Values {
-    hours: string,
-    minutes: string,
-    seconds: string,
-    name: string
+  hours: string;
+  minutes: string;
+  seconds: string;
+  name: string;
 }

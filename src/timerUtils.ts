@@ -23,7 +23,7 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
 
 async function stopTimer(timerFile: string) {
   const command = `if [ -f "${timerFile}" ]; then rm "${timerFile}"; else echo "Timer deleted"; fi`;
-  execSync(command)
+  execSync(command);
 }
 
 async function getTimers() {
@@ -41,13 +41,11 @@ async function getTimers() {
       const timerFileParts = timerFile.split("---");
       timer.secondsSet = Number(timerFileParts[1].split(".")[0]);
       const timeStarted = timerFileParts[0].replace(/__/g, ":");
-      timer.timeLeft = Math.round(
-        timer.secondsSet - (new Date().getTime() - new Date(timeStarted).getTime()) / 1000
-      );
+      timer.timeLeft = Math.round(timer.secondsSet - (new Date().getTime() - new Date(timeStarted).getTime()) / 1000);
       setOfTimers.push(timer);
     }
   });
-  return setOfTimers
+  return setOfTimers;
 }
 
 export { getTimers, startTimer, stopTimer };
