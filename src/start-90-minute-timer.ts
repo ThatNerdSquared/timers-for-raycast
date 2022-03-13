@@ -1,5 +1,5 @@
 import { closeMainWindow, showHUD } from "@raycast/api";
-import startTimer from "./timerUtils";
+import { startTimer } from "./timerUtils";
 
 export default async () => {
   await closeMainWindow();
