@@ -10,4 +10,10 @@ export interface Values {
   minutes: string;
   seconds: string;
   name: string;
+  willBeSaved: boolean;
+}
+
+export interface CustomTimer {
+  name: string;
+  timeInSeconds: number;
 }

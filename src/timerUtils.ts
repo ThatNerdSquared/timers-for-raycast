@@ -1,8 +1,8 @@
 import { environment } from "@raycast/api";
 import { exec, execSync } from "child_process";
-import { readdirSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
-import { Timer } from "./types";
+import { CustomTimer, Timer } from "./types";
 
 async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
@@ -48,4 +48,26 @@ async function getTimers() {
   return setOfTimers;
 }
 
-export { getTimers, startTimer, stopTimer };
+async function createCustomTimer(newTimer: CustomTimer) {
+  const dataPath = environment.supportPath + "/customTimers.json";
+  console.log(dataPath);
+  if (!existsSync(dataPath)) {
+    writeFileSync(dataPath, JSON.stringify([]));
+  }
+  const customTimers = JSON.parse(readFileSync(dataPath).toString());
+  customTimers.push(newTimer);
+  writeFileSync(dataPath, JSON.stringify(customTimers));
+}
+
+async function readCustomTimers() {
+  const dataPath = environment.supportPath + "/customTimers.json";
+  if (!existsSync(dataPath)) {
+    writeFileSync(dataPath, JSON.stringify([]));
+    return [];
+  } else {
+    const customTimers = JSON.parse(readFileSync(dataPath).toString());
+    return customTimers;
+  }
+}
+
+export { createCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer };
