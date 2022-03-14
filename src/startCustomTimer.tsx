@@ -1,20 +1,31 @@
-import { Action, ActionPanel, closeMainWindow, Form, popToRoot, showHUD } from "@raycast/api";
+import { Action, ActionPanel, closeMainWindow, Form, popToRoot, showHUD, Toast } from "@raycast/api";
 import { createCustomTimer, startTimer } from "./timerUtils";
 import { Values } from "./types";
 
 export default function CustomTimerView() {
   const handleSubmit = async (values: Values) => {
-    await closeMainWindow();
-    await popToRoot();
-    const timerName = values.name ? values.name : "Untitled";
-    const timeInSeconds = 3600 * Number(values.hours) + 60 * Number(values.minutes) + Number(values.seconds)
-    await startTimer(timeInSeconds, timerName);
-    if (values.willBeSaved) createCustomTimer({"name": values.name, "timeInSeconds": timeInSeconds})
-    await showHUD(
-      `Timer "${timerName}" started for ${values.hours ? values.hours : 0}h${values.minutes ? values.minutes : 0}m${
-        values.seconds ? values.seconds : 0
-      }s! 🎉`
-    );
+    if (isNaN(Number(values.hours))) {
+      const toast = new Toast({ style: Toast.Style.Failure, title: "Hours must be a number!" });
+      await toast.show();
+    } else if (isNaN(Number(values.minutes))) {
+      const toast = new Toast({ style: Toast.Style.Failure, title: "Minutes must be a number!" });
+      await toast.show();
+    } else if (isNaN(Number(values.seconds))) {
+      const toast = new Toast({ style: Toast.Style.Failure, title: "Seconds must be a number!" });
+      await toast.show();
+    } else {
+      await closeMainWindow();
+      await popToRoot();
+      const timerName = values.name ? values.name : "Untitled";
+      const timeInSeconds = 3600 * Number(values.hours) + 60 * Number(values.minutes) + Number(values.seconds);
+      await startTimer(timeInSeconds, timerName);
+      if (values.willBeSaved) createCustomTimer({ name: values.name, timeInSeconds: timeInSeconds });
+      await showHUD(
+        `Timer "${timerName}" started for ${values.hours ? values.hours : 0}h${values.minutes ? values.minutes : 0}m${
+          values.seconds ? values.seconds : 0
+        }s! 🎉`
+      );
+    }
   };
 
   return (
@@ -33,5 +44,3 @@ export default function CustomTimerView() {
     </Form>
   );
 }
-
-
