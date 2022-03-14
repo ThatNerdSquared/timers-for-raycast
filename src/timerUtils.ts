@@ -48,6 +48,11 @@ async function getTimers() {
   return setOfTimers;
 }
 
+async function renameTimer(timerFile: string, newName: string) {
+  const dataPath = environment.supportPath + "/" + timerFile;
+  writeFileSync(dataPath, newName);
+}
+
 async function createCustomTimer(newTimer: CustomTimer) {
   const dataPath = environment.supportPath + "/customTimers.json";
   console.log(dataPath);
@@ -70,4 +75,4 @@ async function readCustomTimers() {
   }
 }
 
-export { createCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer };
+export { createCustomTimer, getTimers, readCustomTimers, renameTimer, startTimer, stopTimer };
