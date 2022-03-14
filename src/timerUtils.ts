@@ -75,4 +75,19 @@ async function readCustomTimers() {
   }
 }
 
-export { createCustomTimer, getTimers, readCustomTimers, renameTimer, startTimer, stopTimer };
+async function renameCustomTimer(originalName: string, newName: string) {
+  const dataPath = environment.supportPath + "/customTimers.json";
+  if (!existsSync(dataPath)) {
+    throw Error("Custom timers not found!");
+  } else {
+    const customTimers = JSON.parse(readFileSync(dataPath).toString());
+    customTimers.forEach((customTimer: CustomTimer) => {
+      if (customTimer.name == originalName) {
+        customTimer.name = newName;
+      }
+    });
+    writeFileSync(dataPath, JSON.stringify(customTimers));
+  }
+}
+
+export { createCustomTimer, getTimers, readCustomTimers, renameTimer, renameCustomTimer, startTimer, stopTimer };

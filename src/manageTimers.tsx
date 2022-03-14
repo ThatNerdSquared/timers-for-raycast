@@ -103,6 +103,14 @@ export default function Command() {
             actions={
               <ActionPanel>
                 <Action title="Start Timer" onAction={() => handleTimerStart(customTimer)} />
+                <Action
+                  title="Rename Timer"
+                  shortcut={{
+                    modifiers: ["cmd", "shift"],
+                    key: "enter",
+                  }}
+                  onAction={() => push(<RenameView currentName={customTimer.name} timerFile={"customTimer"} />)}
+                />
               </ActionPanel>
             }
           />
