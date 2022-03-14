@@ -1,7 +1,7 @@
 import { Action, ActionPanel, Color, environment, Icon, List, useNavigation } from "@raycast/api";
 import { useEffect, useState } from "react";
 import CustomTimerView from "./startCustomTimer";
-import { getTimers, readCustomTimers, startTimer, stopTimer } from "./timerUtils";
+import { createCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer } from "./timerUtils";
 import { CustomTimer, Timer } from "./types";
 
 export default function Command() {
@@ -36,6 +36,15 @@ export default function Command() {
     await refreshTimers();
   };
 
+  const handleCreateCustom = async (timer: Timer) => {
+    const customTimer: CustomTimer = {
+        "name": timer.name,
+        "timeInSeconds": timer.secondsSet
+    }
+    await createCustomTimer(customTimer)
+    await refreshTimers();
+  };
+
   const formatTime = (timeInSeconds: number | string) => {
     const time = new Date(timeInSeconds);
     time.setSeconds(Number(timeInSeconds));
@@ -51,10 +60,12 @@ export default function Command() {
               key={index}
               icon={{ source: Icon.Clock, tintColor: Color.Yellow }}
               title={timer.name}
-              subtitle={formatTime(timer.timeLeft)}
+              subtitle={formatTime(timer.timeLeft) + " left"}
+              accessoryTitle={formatTime(timer.secondsSet) + " originally"}
               actions={
                 <ActionPanel>
                   <Action title="Stop Timer" onAction={() => handleTimerStop(timer)} />
+                  <Action title="Save Timer as Preset" onAction={() => handleCreateCustom(timer)} />
                 </ActionPanel>
               }
             />
