@@ -1,5 +1,6 @@
 import { environment } from "@raycast/api";
 import { exec, execSync } from "child_process";
+import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { CustomTimer, Timer } from "./types";
@@ -55,37 +56,32 @@ async function renameTimer(timerFile: string, newName: string) {
 
 async function createCustomTimer(newTimer: CustomTimer) {
   const dataPath = environment.supportPath + "/customTimers.json";
-  console.log(dataPath);
   if (!existsSync(dataPath)) {
-    writeFileSync(dataPath, JSON.stringify([]));
+    writeFileSync(dataPath, JSON.stringify({}));
   }
   const customTimers = JSON.parse(readFileSync(dataPath).toString());
-  customTimers.push(newTimer);
+  customTimers[randomUUID()] = newTimer;
   writeFileSync(dataPath, JSON.stringify(customTimers));
 }
 
 async function readCustomTimers() {
   const dataPath = environment.supportPath + "/customTimers.json";
   if (!existsSync(dataPath)) {
-    writeFileSync(dataPath, JSON.stringify([]));
-    return [];
+    writeFileSync(dataPath, JSON.stringify({}));
+    return {};
   } else {
     const customTimers = JSON.parse(readFileSync(dataPath).toString());
     return customTimers;
   }
 }
 
-async function renameCustomTimer(originalName: string, newName: string) {
+async function renameCustomTimer(ctID: string, newName: string) {
   const dataPath = environment.supportPath + "/customTimers.json";
   if (!existsSync(dataPath)) {
     throw Error("Custom timers not found!");
   } else {
     const customTimers = JSON.parse(readFileSync(dataPath).toString());
-    customTimers.forEach((customTimer: CustomTimer) => {
-      if (customTimer.name == originalName) {
-        customTimer.name = newName;
-      }
-    });
+    customTimers[ctID].name = newName;
     writeFileSync(dataPath, JSON.stringify(customTimers));
   }
 }

@@ -7,7 +7,7 @@ import { CustomTimer, Timer } from "./types";
 
 export default function Command() {
   const [timers, setTimers] = useState<Timer[] | null>([]);
-  const [customTimers, setCustomTimers] = useState<CustomTimer[]>([]);
+  const [customTimers, setCustomTimers] = useState<Record<string, CustomTimer>>({});
   const { push } = useNavigation();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Command() {
     } else {
       setTimers(setOfTimers);
     }
-    const setOfCustomTimers: CustomTimer[] = await readCustomTimers();
+    const setOfCustomTimers: Record<string, CustomTimer> = await readCustomTimers();
     setCustomTimers(setOfCustomTimers);
   };
 
@@ -53,7 +53,7 @@ export default function Command() {
   };
 
   return (
-    <List isLoading={timers == [] || customTimers == []}>
+    <List isLoading={timers == [] || customTimers == {}}>
       <List.Section title="Currently Running">
         {timers != null ? (
           timers.map((timer, index) => (
@@ -94,22 +94,24 @@ export default function Command() {
         )}
       </List.Section>
       <List.Section title="Custom Timers">
-        {customTimers?.map((customTimer, index) => (
+        {Object.keys(customTimers)?.map((ctID) => (
           <List.Item
-            key={index}
+            key={ctID}
             icon={Icon.Clock}
-            title={customTimer.name}
-            subtitle={formatTime(customTimer.timeInSeconds)}
+            title={customTimers[ctID].name}
+            subtitle={formatTime(customTimers[ctID].timeInSeconds)}
             actions={
               <ActionPanel>
-                <Action title="Start Timer" onAction={() => handleTimerStart(customTimer)} />
+                <Action title="Start Timer" onAction={() => handleTimerStart(customTimers[ctID])} />
                 <Action
                   title="Rename Timer"
                   shortcut={{
                     modifiers: ["cmd", "shift"],
                     key: "enter",
                   }}
-                  onAction={() => push(<RenameView currentName={customTimer.name} timerFile={"customTimer"} />)}
+                  onAction={() =>
+                    push(<RenameView currentName={customTimers[ctID].name} timerFile={"customTimer"} ctID={ctID} />)
+                  }
                 />
               </ActionPanel>
             }
