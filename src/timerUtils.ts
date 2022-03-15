@@ -92,9 +92,18 @@ async function deleteCustomTimer(ctID: string) {
     throw Error("Custom timers not found!");
   } else {
     const customTimers = JSON.parse(readFileSync(dataPath).toString());
-    delete customTimers[ctID]
+    delete customTimers[ctID];
     writeFileSync(dataPath, JSON.stringify(customTimers));
   }
 }
 
-export { createCustomTimer, deleteCustomTimer, getTimers, readCustomTimers, renameTimer, renameCustomTimer, startTimer, stopTimer };
+export {
+  createCustomTimer,
+  deleteCustomTimer,
+  getTimers,
+  readCustomTimers,
+  renameTimer,
+  renameCustomTimer,
+  startTimer,
+  stopTimer,
+};

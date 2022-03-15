@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Color, environment, Icon, Keyboard, List, useNavigation } from "@raycast/api";
+import { Action, ActionPanel, Color, environment, Icon, List, useNavigation } from "@raycast/api";
 import { useEffect, useState } from "react";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
@@ -71,14 +71,19 @@ export default function Command() {
               actions={
                 <ActionPanel>
                   <Action title="Stop Timer" onAction={() => handleTimerStop(timer)} />
-                  <Action title="Save Timer as Preset" onAction={() => handleCreateCustom(timer)} />
                   <Action
                     title="Rename Timer"
+                    onAction={() =>
+                      push(<RenameView currentName={timer.name} timerFile={timer.originalFile} ctID={null} />)
+                    }
+                  />
+                  <Action
+                    title="Save Timer as Preset"
                     shortcut={{
                       modifiers: ["cmd", "shift"],
                       key: "enter",
                     }}
-                    onAction={() => push(<RenameView currentName={timer.name} timerFile={timer.originalFile} />)}
+                    onAction={() => handleCreateCustom(timer)}
                   />
                 </ActionPanel>
               }
@@ -110,10 +115,6 @@ export default function Command() {
                 <Action title="Start Timer" onAction={() => handleTimerStart(customTimers[ctID])} />
                 <Action
                   title="Rename Timer"
-                  shortcut={{
-                    modifiers: ["cmd", "shift"],
-                    key: "enter",
-                  }}
                   onAction={() =>
                     push(<RenameView currentName={customTimers[ctID].name} timerFile={"customTimer"} ctID={ctID} />)
                   }
