@@ -62,33 +62,9 @@
       "mode": "view"
     },
     {
-      "name": "startStopwatch",
-      "title": "Start Stopwatch",
-      "description": "Start a stopwatch that runs infinitely until stopped.",
-      "mode": "view"
-    },
-    {
-      "name": "setAlarm",
-      "title": "Set Alarm",
-      "description": "Set an alarm for a custom date or time.",
-      "mode": "view"
-    },
-    {
       "name": "manageTimers",
       "title": "Manage Timers",
       "description": "View, start, or stop existing countdown timers.",
-      "mode": "view"
-    },
-    {
-      "name": "manageStopwatches",
-      "title": "Manage Stopwatches",
-      "description": "View, start, or stop existing stopwatches.",
-      "mode": "view"
-    },
-    {
-      "name": "manageAlarms",
-      "title": "Manage Alarms",
-      "description": "View, start, or stop existing alarms.",
       "mode": "view"
     }
   ],
