@@ -5,6 +5,7 @@
   "description": "Start/stop countdown timers and stopwatches, directly in Raycast, with no external dependencies.",
   "icon": "command-icon.png",
   "author": "ThatNerd",
+"  categories": ["Productivity", "System"],
   "license": "MIT",
   "commands": [
     {
