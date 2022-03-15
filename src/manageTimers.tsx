@@ -2,7 +2,7 @@ import { Action, ActionPanel, Color, environment, Icon, Keyboard, List, useNavig
 import { useEffect, useState } from "react";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
-import { createCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer } from "./timerUtils";
+import { createCustomTimer, deleteCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer } from "./timerUtils";
 import { CustomTimer, Timer } from "./types";
 
 export default function Command() {
@@ -43,6 +43,11 @@ export default function Command() {
       timeInSeconds: timer.secondsSet,
     };
     await createCustomTimer(customTimer);
+    await refreshTimers();
+  };
+
+  const handleDeleteCustom = async (ctID: string) => {
+    await deleteCustomTimer(ctID);
     await refreshTimers();
   };
 
@@ -112,6 +117,14 @@ export default function Command() {
                   onAction={() =>
                     push(<RenameView currentName={customTimers[ctID].name} timerFile={"customTimer"} ctID={ctID} />)
                   }
+                />
+                <Action
+                  title="Delete Custom Timer"
+                  shortcut={{
+                    modifiers: ["ctrl"],
+                    key: "x",
+                  }}
+                  onAction={() => handleDeleteCustom(ctID)}
                 />
               </ActionPanel>
             }

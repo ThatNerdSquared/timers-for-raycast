@@ -86,4 +86,15 @@ async function renameCustomTimer(ctID: string, newName: string) {
   }
 }
 
-export { createCustomTimer, getTimers, readCustomTimers, renameTimer, renameCustomTimer, startTimer, stopTimer };
+async function deleteCustomTimer(ctID: string) {
+  const dataPath = environment.supportPath + "/customTimers.json";
+  if (!existsSync(dataPath)) {
+    throw Error("Custom timers not found!");
+  } else {
+    const customTimers = JSON.parse(readFileSync(dataPath).toString());
+    delete customTimers[ctID]
+    writeFileSync(dataPath, JSON.stringify(customTimers));
+  }
+}
+
+export { createCustomTimer, deleteCustomTimer, getTimers, readCustomTimers, renameTimer, renameCustomTimer, startTimer, stopTimer };
