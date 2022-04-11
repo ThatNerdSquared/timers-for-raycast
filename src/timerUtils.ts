@@ -5,6 +5,8 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { CustomTimer, Timer } from "./types";
 
+const DATAPATH = environment.supportPath + "/customTimers.json";
+
 async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
@@ -54,52 +56,43 @@ async function renameTimer(timerFile: string, newName: string) {
   writeFileSync(dataPath, newName);
 }
 
-async function createCustomTimer(newTimer: CustomTimer) {
-  const dataPath = environment.supportPath + "/customTimers.json";
-  if (!existsSync(dataPath)) {
-    writeFileSync(dataPath, JSON.stringify({}));
+async function ensureCTFileExists() {
+  if (!existsSync(DATAPATH)) {
+    writeFileSync(DATAPATH, JSON.stringify({}));
   }
-  const customTimers = JSON.parse(readFileSync(dataPath).toString());
+}
+
+async function createCustomTimer(newTimer: CustomTimer) {
+  await ensureCTFileExists();
+  const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
   customTimers[randomUUID()] = newTimer;
-  writeFileSync(dataPath, JSON.stringify(customTimers));
+  writeFileSync(DATAPATH, JSON.stringify(customTimers));
 }
 
 async function readCustomTimers() {
-  const dataPath = environment.supportPath + "/customTimers.json";
-  if (!existsSync(dataPath)) {
-    writeFileSync(dataPath, JSON.stringify({}));
-    return {};
-  } else {
-    const customTimers = JSON.parse(readFileSync(dataPath).toString());
-    return customTimers;
-  }
+  await ensureCTFileExists();
+  const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
+  return customTimers;
 }
 
 async function renameCustomTimer(ctID: string, newName: string) {
-  const dataPath = environment.supportPath + "/customTimers.json";
-  if (!existsSync(dataPath)) {
-    throw Error("Custom timers not found!");
-  } else {
-    const customTimers = JSON.parse(readFileSync(dataPath).toString());
-    customTimers[ctID].name = newName;
-    writeFileSync(dataPath, JSON.stringify(customTimers));
-  }
+  await ensureCTFileExists();
+  const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
+  customTimers[ctID].name = newName;
+  writeFileSync(DATAPATH, JSON.stringify(customTimers));
 }
 
 async function deleteCustomTimer(ctID: string) {
-  const dataPath = environment.supportPath + "/customTimers.json";
-  if (!existsSync(dataPath)) {
-    throw Error("Custom timers not found!");
-  } else {
-    const customTimers = JSON.parse(readFileSync(dataPath).toString());
-    delete customTimers[ctID];
-    writeFileSync(dataPath, JSON.stringify(customTimers));
-  }
+  await ensureCTFileExists();
+  const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
+  delete customTimers[ctID];
+  writeFileSync(DATAPATH, JSON.stringify(customTimers));
 }
 
 export {
   createCustomTimer,
   deleteCustomTimer,
+  ensureCTFileExists,
   getTimers,
   readCustomTimers,
   renameTimer,

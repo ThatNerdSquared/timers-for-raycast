@@ -1,9 +1,10 @@
 import { Action, ActionPanel, closeMainWindow, Form, popToRoot, showHUD, Toast } from "@raycast/api";
-import { createCustomTimer, startTimer } from "./timerUtils";
+import { createCustomTimer, ensureCTFileExists, startTimer } from "./timerUtils";
 import { Values } from "./types";
 
 export default function CustomTimerView() {
   const handleSubmit = async (values: Values) => {
+    await ensureCTFileExists();
     if (isNaN(Number(values.hours))) {
       const toast = new Toast({ style: Toast.Style.Failure, title: "Hours must be a number!" });
       await toast.show();

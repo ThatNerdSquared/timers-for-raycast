@@ -24,8 +24,7 @@ export default function RenameView(props: { currentName: string; timerFile: stri
         </ActionPanel>
       }
     >
-      <Form.Description title="Current Name" text={`${props.currentName}`} />
-      <Form.TextField id="newName" title="New name" placeholder="Pour Tea" />
+      <Form.TextField id="newName" title="New name" placeholder={props.currentName} />
     </Form>
   );
 }

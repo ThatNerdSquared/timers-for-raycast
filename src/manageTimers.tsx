@@ -2,7 +2,15 @@ import { Action, ActionPanel, Color, environment, Icon, List, useNavigation } fr
 import { useEffect, useState } from "react";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
-import { createCustomTimer, deleteCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer } from "./timerUtils";
+import {
+  createCustomTimer,
+  deleteCustomTimer,
+  ensureCTFileExists,
+  getTimers,
+  readCustomTimers,
+  startTimer,
+  stopTimer,
+} from "./timerUtils";
 import { CustomTimer, Timer } from "./types";
 
 export default function Command() {
@@ -17,6 +25,7 @@ export default function Command() {
   }, []);
 
   const refreshTimers = async () => {
+    await ensureCTFileExists();
     const setOfTimers: Timer[] = await getTimers();
     if (setOfTimers.length == 0) {
       setTimers(null);
