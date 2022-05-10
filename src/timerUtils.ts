@@ -13,7 +13,13 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   writeFileSync(masterName, timerName);
 
   const prefs = getPreferenceValues<Preferences>();
-  const command = `sleep ${timeInSeconds} && if [ -f "${masterName}" ]; then afplay ${prefs.selectedSound} && osascript -e 'display notification "'"Timer complete"'" with title "Ding!"' && rm "${masterName}"; else echo "Timer deleted"; fi`;
+  let command = `sleep ${timeInSeconds} && if [ -f "${masterName}" ]; then `
+  if (prefs.selectedSound === "speak_timer_name") {
+      command += `say "${timerName}"`
+  } else {
+      command += `afplay "${environment.assetsPath + "/" + prefs.selectedSound}"`
+  }
+  command += ` && osascript -e 'display notification "'"Timer complete"'" with title "Ding!"' && rm "${masterName}"; else echo "Timer deleted"; fi`
   exec(command, (error, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);

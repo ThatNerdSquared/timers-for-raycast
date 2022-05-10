@@ -78,8 +78,13 @@
       "description": "Sound played when a timer finishes.",
       "default": "Submarine",
       "data": [
-        {"title": "Submarine", "value": "/System/Library/Sounds/Submarine.aiff"},
-        {"title": "Funk", "value": "/System/Library/Sounds/Funk.aiff"}
+        {"title": "Alarm Clock", "value": "alarmClock.wav"},
+        {"title": "Dismembered Woodpecker", "value": "dismemberedWoodpecker.wav"},
+        {"title": "Flute Riff", "value": "fluteRiff.wav"},
+        {"title": "Level Up", "value": "levelUp.wav"},
+        {"title": "Piano Chime", "value": "pianoChime.wav"},
+        {"title": "Terminator", "value": "terminator.wav"},
+        {"title": "Speak Timer Name", "value": "speak_timer_name"}
       ]
     }
   ],
