@@ -19,9 +19,9 @@ export default function Command() {
   const { push } = useNavigation();
 
   useEffect(() => {
-    (async () => {
+    setInterval(async () => {
       await refreshTimers();
-    })();
+    }, 1000);
   }, []);
 
   const refreshTimers = async () => {
