@@ -17,3 +17,7 @@ export interface CustomTimer {
   name: string;
   timeInSeconds: number;
 }
+
+export interface Preferences {
+  selectedSound: string;
+}

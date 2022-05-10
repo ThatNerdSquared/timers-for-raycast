@@ -1,9 +1,9 @@
-import { environment } from "@raycast/api";
+import { environment, getPreferenceValues } from "@raycast/api";
 import { exec, execSync } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
-import { CustomTimer, Timer } from "./types";
+import { CustomTimer, Preferences, Timer } from "./types";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 
@@ -11,7 +11,9 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName);
-  const command = `sleep ${timeInSeconds} && if [ -f "${masterName}" ]; then afplay /System/Library/Sounds/Submarine.aiff && osascript -e 'display notification "'"Timer complete"'" with title "Ding!"' && rm "${masterName}"; else echo "Timer deleted"; fi`;
+
+  const prefs = getPreferenceValues<Preferences>();
+  const command = `sleep ${timeInSeconds} && if [ -f "${masterName}" ]; then afplay ${prefs.selectedSound} && osascript -e 'display notification "'"Timer complete"'" with title "Ding!"' && rm "${masterName}"; else echo "Timer deleted"; fi`;
   exec(command, (error, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);

@@ -69,6 +69,20 @@
       "mode": "view"
     }
   ],
+  "preferences": [
+    {
+      "name": "selectedSound",
+      "type": "dropdown",
+      "required": true,
+      "title": "Selected Sound",
+      "description": "Sound played when a timer finishes.",
+      "default": "Submarine",
+      "data": [
+        {"title": "Submarine", "value": "/System/Library/Sounds/Submarine.aiff"},
+        {"title": "Funk", "value": "/System/Library/Sounds/Funk.aiff"}
+      ]
+    }
+  ],
   "dependencies": {
     "@raycast/api": "^1.27.0"
   },
