@@ -67,7 +67,7 @@ export default function Command() {
   };
 
   return (
-    <List isLoading={timers?.length == 0 || Object.keys(customTimers).length == 0}>
+    <List isLoading={timers === undefined || customTimers === undefined}>
       <List.Section title="Currently Running">
         {timers != null ? (
           timers.map((timer, index) => (
