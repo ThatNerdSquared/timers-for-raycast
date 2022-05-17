@@ -14,8 +14,8 @@ import {
 import { CustomTimer, Timer } from "./types";
 
 export default function Command() {
-  const [timers, setTimers] = useState<Timer[] | null>([]);
-  const [customTimers, setCustomTimers] = useState<Record<string, CustomTimer>>({});
+  const [timers, setTimers] = useState<Timer[] | undefined>(undefined);
+  const [customTimers, setCustomTimers] = useState<Record<string, CustomTimer> | undefined>(undefined);
   const { push } = useNavigation();
 
   useEffect(() => {
@@ -27,11 +27,7 @@ export default function Command() {
   const refreshTimers = async () => {
     await ensureCTFileExists();
     const setOfTimers: Timer[] = await getTimers();
-    if (setOfTimers.length == 0) {
-      setTimers(null);
-    } else {
       setTimers(setOfTimers);
-    }
     const setOfCustomTimers: Record<string, CustomTimer> = await readCustomTimers();
     setCustomTimers(setOfCustomTimers);
   };
@@ -69,8 +65,7 @@ export default function Command() {
   return (
     <List isLoading={timers === undefined || customTimers === undefined}>
       <List.Section title="Currently Running">
-        {timers != null ? (
-          timers.map((timer, index) => (
+          {timers?.map((timer, index) => (
             <List.Item
               key={index}
               icon={{ source: Icon.Clock, tintColor: Color.Yellow }}
@@ -97,12 +92,11 @@ export default function Command() {
                 </ActionPanel>
               }
             />
-          ))
-        ) : (
+          ))}
           <List.Item
             key={0}
             icon={Icon.Clock}
-            title={"No running timers!"}
+            title={"Create a new timer"}
             subtitle={"Press Enter to start a timer"}
             actions={
               <ActionPanel>
@@ -110,10 +104,9 @@ export default function Command() {
               </ActionPanel>
             }
           />
-        )}
       </List.Section>
       <List.Section title="Custom Timers">
-        {Object.keys(customTimers)?.map((ctID) => (
+        {Object.keys(customTimers || {})?.map((ctID) => (
           <List.Item
             key={ctID}
             icon={Icon.Clock}
