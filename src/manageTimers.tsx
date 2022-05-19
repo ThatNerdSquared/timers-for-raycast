@@ -64,7 +64,7 @@ export default function Command() {
 
   return (
     <List isLoading={timers === undefined || customTimers === undefined}>
-      <List.Section title="Currently Running">
+      <List.Section title={timers?.length !== 0 && timers != null ? "Currently Running" : "No Timers Running"}>
         {timers?.map((timer, index) => (
           <List.Item
             key={index}
