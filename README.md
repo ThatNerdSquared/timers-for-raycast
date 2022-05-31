@@ -1,6 +1,10 @@
 # Timers for Raycast
 
-This is a lightweight extension allowing you to start and stop countdown timers, stopwatches, and alarms. It works directly in Raycast, no external apps or dependencies required.
+This is a lightweight extension allowing you to start and stop countdown timers, stopwatches, and alarms. It works directly in Raycast, no external apps or dependencies required. Now available in the Raycast Store!
+
+<a id="install-extension-button" title="Install Timers Raycast Extension" href="https://www.raycast.com/ThatNerd/timers#install">
+        <img height="64" style="height: 64px" src="https://assets.raycast.com/ThatNerd/timers/install_button@2x.png">
+</a>
 
 ## Commands
 - [x] Start Timer (5, 10, 15, 25, 30, 45, 60, and 90 minute variations)
