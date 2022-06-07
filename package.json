@@ -5,7 +5,10 @@
   "description": "Start, stop, and save countdown timers, directly in Raycast, with no external dependencies.",
   "icon": "command-icon.png",
   "author": "ThatNerd",
-  "categories": ["Productivity", "System"],
+  "categories": [
+    "Productivity",
+    "System"
+  ],
   "license": "MIT",
   "commands": [
     {
@@ -78,26 +81,53 @@
       "description": "Sound played when a timer finishes.",
       "default": "Submarine",
       "data": [
-        {"title": "Alarm Clock", "value": "alarmClock.wav"},
-        {"title": "Dismembered Woodpecker", "value": "dismemberedWoodpecker.wav"},
-        {"title": "Flute Riff", "value": "fluteRiff.wav"},
-        {"title": "Level Up", "value": "levelUp.wav"},
-        {"title": "Piano Chime", "value": "pianoChime.wav"},
-        {"title": "Terminator", "value": "terminator.wav"},
-        {"title": "Speak Timer Name", "value": "speak_timer_name"}
+        {
+          "title": "Alarm Clock",
+          "value": "alarmClock.wav"
+        },
+        {
+          "title": "Dismembered Woodpecker",
+          "value": "dismemberedWoodpecker.wav"
+        },
+        {
+          "title": "Flute Riff",
+          "value": "fluteRiff.wav"
+        },
+        {
+          "title": "Level Up",
+          "value": "levelUp.wav"
+        },
+        {
+          "title": "Piano Chime",
+          "value": "pianoChime.wav"
+        },
+        {
+          "title": "Terminator",
+          "value": "terminator.wav"
+        },
+        {
+          "title": "Speak Timer Name",
+          "value": "speak_timer_name"
+        }
       ]
     },
     {
-        "name": "newTimerInputOrder",
-        "type": "dropdown",
-        "required": true,
-        "title": "New Timer Input Order",
-        "description": "Order for input fields in new timer form.",
-        "default": "Hours , Minutes, Seconds",
-        "data": [
-            {"title": "Hours, Minutes, Seconds", "value": "hhmmss"},
-            {"title": "Seconds, Minutes, Hours", "value": "ssmmhh"}
-        ]
+      "name": "newTimerInputOrder",
+      "type": "dropdown",
+      "required": true,
+      "title": "New Timer Input Order",
+      "description": "Order for input fields in new timer form.",
+      "default": "Hours , Minutes, Seconds",
+      "data": [
+        {
+          "title": "Hours, Minutes, Seconds",
+          "value": "hhmmss"
+        },
+        {
+          "title": "Seconds, Minutes, Hours",
+          "value": "ssmmhh"
+        }
+      ]
     }
   ],
   "dependencies": {
@@ -110,7 +140,6 @@
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "react-devtools": "^4.19.2",
     "typescript": "^4.4.3"
   },
   "scripts": {
