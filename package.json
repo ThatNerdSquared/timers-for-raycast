@@ -70,6 +70,12 @@
       "title": "Manage Timers",
       "description": "View, start, or stop existing countdown timers.",
       "mode": "view"
+    },
+    {
+      "name": "timersMenuBar",
+      "title": "Timers Menu Bar",
+      "description": "View, start, or stop existing countdown timers from the Menu Bar.",
+      "mode": "menu-bar"
     }
   ],
   "preferences": [
@@ -131,7 +137,7 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.27.0"
+    "@raycast/api": "^1.38.1"
   },
   "devDependencies": {
     "@types/node": "~16.10.0",

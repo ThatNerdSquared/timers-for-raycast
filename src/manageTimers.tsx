@@ -10,6 +10,7 @@ import {
   readCustomTimers,
   startTimer,
   stopTimer,
+  formatTime,
 } from "./timerUtils";
 import { CustomTimer, Timer } from "./types";
 
@@ -19,47 +20,41 @@ export default function Command() {
   const { push } = useNavigation();
 
   useEffect(() => {
-    setInterval(async () => {
-      await refreshTimers();
+    setInterval(() => {
+      setTimers(getTimers());
     }, 1000);
   }, []);
 
-  const refreshTimers = async () => {
-    await ensureCTFileExists();
-    const setOfTimers: Timer[] = await getTimers();
+  const refreshTimers = () => {
+    ensureCTFileExists();
+    const setOfTimers: Timer[] = getTimers();
     setTimers(setOfTimers);
-    const setOfCustomTimers: Record<string, CustomTimer> = await readCustomTimers();
+    const setOfCustomTimers: Record<string, CustomTimer> = readCustomTimers();
     setCustomTimers(setOfCustomTimers);
   };
 
-  const handleTimerStop = async (timer: Timer) => {
-    await stopTimer(environment.supportPath + "/" + timer.originalFile);
-    await refreshTimers();
+  const handleTimerStop = (timer: Timer) => {
+    stopTimer(environment.supportPath + "/" + timer.originalFile);
+    refreshTimers();
   };
 
-  const handleTimerStart = async (customTimer: CustomTimer) => {
-    await startTimer(customTimer.timeInSeconds, customTimer.name);
-    await refreshTimers();
+  const handleTimerStart = (customTimer: CustomTimer) => {
+    startTimer(customTimer.timeInSeconds, customTimer.name);
+    refreshTimers();
   };
 
-  const handleCreateCustom = async (timer: Timer) => {
+  const handleCreateCustom = (timer: Timer) => {
     const customTimer: CustomTimer = {
       name: timer.name,
       timeInSeconds: timer.secondsSet,
     };
-    await createCustomTimer(customTimer);
-    await refreshTimers();
+    createCustomTimer(customTimer);
+    refreshTimers();
   };
 
-  const handleDeleteCustom = async (ctID: string) => {
-    await deleteCustomTimer(ctID);
-    await refreshTimers();
-  };
-
-  const formatTime = (timeInSeconds: number | string) => {
-    const time = new Date(timeInSeconds);
-    time.setSeconds(Number(timeInSeconds));
-    return time.toISOString().substring(11, 19);
+  const handleDeleteCustom = (ctID: string) => {
+    deleteCustomTimer(ctID);
+    refreshTimers();
   };
 
   return (

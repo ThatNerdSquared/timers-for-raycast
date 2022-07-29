@@ -1,5 +1,6 @@
 import { environment, getPreferenceValues } from "@raycast/api";
 import { exec, execSync } from "child_process";
+import { time } from "console";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
@@ -7,7 +8,7 @@ import { CustomTimer, Preferences, Timer } from "./types";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 
-async function startTimer(timeInSeconds: number, timerName = "Untitled") {
+function startTimer(timeInSeconds: number, timerName = "Untitled") {
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName);
@@ -30,14 +31,15 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
       return;
     }
   });
+  
 }
 
-async function stopTimer(timerFile: string) {
+function stopTimer(timerFile: string) {
   const command = `if [ -f "${timerFile}" ]; then rm "${timerFile}"; else echo "Timer deleted"; fi`;
   execSync(command);
 }
 
-async function getTimers() {
+function getTimers() {
   const setOfTimers: Timer[] = [];
   const files = readdirSync(environment.supportPath);
   files.forEach((timerFile: string) => {
@@ -62,42 +64,67 @@ async function getTimers() {
   return setOfTimers;
 }
 
-async function renameTimer(timerFile: string, newName: string) {
+function renameTimer(timerFile: string, newName: string) {
   const dataPath = environment.supportPath + "/" + timerFile;
   writeFileSync(dataPath, newName);
 }
 
-async function ensureCTFileExists() {
+function ensureCTFileExists() {
   if (!existsSync(DATAPATH)) {
     writeFileSync(DATAPATH, JSON.stringify({}));
   }
 }
 
-async function createCustomTimer(newTimer: CustomTimer) {
-  await ensureCTFileExists();
+function createCustomTimer(newTimer: CustomTimer) {
+  ensureCTFileExists();
   const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
   customTimers[randomUUID()] = newTimer;
   writeFileSync(DATAPATH, JSON.stringify(customTimers));
 }
 
-async function readCustomTimers() {
-  await ensureCTFileExists();
+function readCustomTimers() {
+  ensureCTFileExists();
   const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
   return customTimers;
 }
 
-async function renameCustomTimer(ctID: string, newName: string) {
-  await ensureCTFileExists();
+function renameCustomTimer(ctID: string, newName: string) {
+  ensureCTFileExists();
   const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
   customTimers[ctID].name = newName;
   writeFileSync(DATAPATH, JSON.stringify(customTimers));
 }
 
-async function deleteCustomTimer(ctID: string) {
-  await ensureCTFileExists();
+function deleteCustomTimer(ctID: string) {
+  ensureCTFileExists();
   const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
   delete customTimers[ctID];
   writeFileSync(DATAPATH, JSON.stringify(customTimers));
+}
+
+function formatTime(seconds: number) {
+  let hours = Math.floor(seconds / 3600);
+  let minutes = Math.floor((seconds - hours * 3600) / 60);
+  seconds = seconds - hours * 3600 - minutes * 60;
+
+  let timeStr = "";
+
+  if (hours < 10) {
+    timeStr += "0" + hours;
+  } else {
+    timeStr += hours;
+  }
+  if (minutes < 10) {
+    timeStr += ":0" + minutes;
+  } else {
+    timeStr += ":" + minutes;
+  }
+  if (seconds < 10) {
+    timeStr += ":0" + seconds;
+  } else {
+    timeStr += ":" + seconds;
+  }
+  return timeStr;
 }
 
 export {
@@ -110,4 +137,5 @@ export {
   renameCustomTimer,
   startTimer,
   stopTimer,
+  formatTime,
 };
