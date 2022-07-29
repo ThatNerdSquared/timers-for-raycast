@@ -1,4 +1,4 @@
-import { environment, getPreferenceValues } from "@raycast/api";
+import { environment, getPreferenceValues, showHUD } from "@raycast/api";
 import { exec, execSync } from "child_process";
 import { time } from "console";
 import { randomUUID } from "crypto";
@@ -8,7 +8,8 @@ import { CustomTimer, Preferences, Timer } from "./types";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 
-function startTimer(timeInSeconds: number, timerName = "Untitled") {
+async function startTimer(timeInSeconds: number, timerName = "Untitled") {
+  console.log("Starting timer for " + timeInSeconds + " seconds");
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName);
@@ -31,10 +32,12 @@ function startTimer(timeInSeconds: number, timerName = "Untitled") {
       return;
     }
   });
-  
+
+  await showHUD("Timer started for 5 minutes! 🎉");
 }
 
 function stopTimer(timerFile: string) {
+  console.log("Stopping timer: " + timerFile);
   const command = `if [ -f "${timerFile}" ]; then rm "${timerFile}"; else echo "Timer deleted"; fi`;
   execSync(command);
 }
