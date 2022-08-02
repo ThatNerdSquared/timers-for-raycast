@@ -26,8 +26,8 @@ export default function Command() {
 
   function handleTimerStop(timer: Timer) {
     console.log("Clicked stop timer", timer.name);
-    stopTimer(environment.supportPath + "/" + timer.originalFile);
     setTimers(timers.filter((t) => t.originalFile !== timer.originalFile));
+    stopTimer(environment.supportPath + "/" + timer.originalFile);
   }
 
   function handleTimerStart(seconds: number, name: string) {
@@ -40,7 +40,7 @@ export default function Command() {
   return (
     <MenuBarExtra icon={Icon.Clock} isLoading={timers.length == 0}>
       {timers.map((timer, index) => (
-        <MenuBarExtra.Submenu title={timer.name + ": " + " left"} key={timer.originalFile}>
+        <MenuBarExtra.Submenu title={timer.name + ": " + formatTime(timer.timeLeft) + " left"} key={timer.originalFile}>
           <MenuBarExtra.Item title="Stop Timer" onAction={() => handleTimerStop(timer)} key={"Stop"} />
         </MenuBarExtra.Submenu>
       ))}
