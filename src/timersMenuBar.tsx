@@ -18,10 +18,13 @@ import { CustomTimer, Timer } from "./types";
 export default function Command() {
   const [timers, setTimers] = useState<Timer[]>([]);
   const [customTimers, setCustomTimers] = useState<Record<string, CustomTimer>>({});
+  const [isLoading, setIsLoading] = useState(timers.length === 0);
 
   useEffect(() => {
     setTimers(getTimers());
+    console.log(timers);
     setCustomTimers(readCustomTimers());
+    setIsLoading(false);
   }, []);
 
   function handleTimerStop(timer: Timer) {
@@ -35,15 +38,16 @@ export default function Command() {
     startTimer(seconds, name);
   }
 
-  console.log("Executed");
+  console.log(timers);
 
   return (
-    <MenuBarExtra icon={Icon.Clock} isLoading={timers.length == 0}>
+    <MenuBarExtra icon={Icon.Clock} isLoading={isLoading}>
       {timers.map((timer, index) => (
         <MenuBarExtra.Submenu title={timer.name + ": " + formatTime(timer.timeLeft) + " left"} key={timer.originalFile}>
           <MenuBarExtra.Item title="Stop Timer" onAction={() => handleTimerStop(timer)} key={"Stop"} />
         </MenuBarExtra.Submenu>
       ))}
+
       <MenuBarExtra.Separator />
       {Object.keys(customTimers)
         ?.sort((a, b) => {
