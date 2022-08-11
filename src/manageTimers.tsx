@@ -21,7 +21,7 @@ export default function Command() {
 
   useEffect(() => {
     setInterval(() => {
-      setTimers(getTimers());
+      refreshTimers();
     }, 1000);
   }, []);
 

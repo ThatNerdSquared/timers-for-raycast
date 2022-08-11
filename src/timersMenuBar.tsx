@@ -1,18 +1,6 @@
-import { Action, ActionPanel, Color, environment, Icon, List, MenuBarExtra, useNavigation } from "@raycast/api";
-import { time } from "console";
+import { environment, Icon, MenuBarExtra } from "@raycast/api";
 import { useEffect, useState } from "react";
-import RenameView from "./RenameView";
-import CustomTimerView from "./startCustomTimer";
-import {
-  createCustomTimer,
-  deleteCustomTimer,
-  ensureCTFileExists,
-  getTimers,
-  readCustomTimers,
-  startTimer,
-  stopTimer,
-  formatTime,
-} from "./timerUtils";
+import { deleteCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer, formatTime } from "./timerUtils";
 import { CustomTimer, Timer } from "./types";
 
 export default function Command() {
@@ -22,27 +10,22 @@ export default function Command() {
 
   useEffect(() => {
     setTimers(getTimers());
-    console.log(timers);
     setCustomTimers(readCustomTimers());
     setIsLoading(false);
   }, []);
 
   function handleTimerStop(timer: Timer) {
-    console.log("Clicked stop timer", timer.name);
-    setTimers(timers.filter((t) => t.originalFile !== timer.originalFile));
+    setTimers(timers.filter((t: Timer) => t.originalFile !== timer.originalFile));
     stopTimer(environment.supportPath + "/" + timer.originalFile);
   }
 
   function handleTimerStart(seconds: number, name: string) {
-    console.log("Clicked on " + name);
     startTimer(seconds, name);
   }
 
-  console.log(timers);
-
   return (
     <MenuBarExtra icon={Icon.Clock} isLoading={isLoading}>
-      {timers.map((timer, index) => (
+      {timers.map((timer: Timer, index: number) => (
         <MenuBarExtra.Submenu title={timer.name + ": " + formatTime(timer.timeLeft) + " left"} key={timer.originalFile}>
           <MenuBarExtra.Item title="Stop Timer" onAction={() => handleTimerStop(timer)} key={"Stop"} />
         </MenuBarExtra.Submenu>

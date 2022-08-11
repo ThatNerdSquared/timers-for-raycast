@@ -1,6 +1,5 @@
 import { environment, getPreferenceValues, showHUD } from "@raycast/api";
 import { exec, execSync } from "child_process";
-import { time } from "console";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
@@ -9,7 +8,6 @@ import { CustomTimer, Preferences, Timer } from "./types";
 const DATAPATH = environment.supportPath + "/customTimers.json";
 
 async function startTimer(timeInSeconds: number, timerName = "Untitled") {
-  console.log("Starting timer for " + timeInSeconds + " seconds");
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName);
@@ -37,7 +35,6 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
 }
 
 function stopTimer(timerFile: string) {
-  console.log("Stopping timer: " + timerFile);
   const command = `if [ -f "${timerFile}" ]; then rm "${timerFile}"; else echo "Timer deleted"; fi`;
   execSync(command);
 }
@@ -106,28 +103,9 @@ function deleteCustomTimer(ctID: string) {
 }
 
 function formatTime(seconds: number) {
-  let hours = Math.floor(seconds / 3600);
-  let minutes = Math.floor((seconds - hours * 3600) / 60);
-  seconds = seconds - hours * 3600 - minutes * 60;
-
-  let timeStr = "";
-
-  if (hours < 10) {
-    timeStr += "0" + hours;
-  } else {
-    timeStr += hours;
-  }
-  if (minutes < 10) {
-    timeStr += ":0" + minutes;
-  } else {
-    timeStr += ":" + minutes;
-  }
-  if (seconds < 10) {
-    timeStr += ":0" + seconds;
-  } else {
-    timeStr += ":" + seconds;
-  }
-  return timeStr;
+  const time = new Date(seconds);
+  time.setSeconds(Number(seconds));
+  return time.toISOString().substring(11, 19);
 }
 
 export {

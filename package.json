@@ -9,6 +9,9 @@
     "Productivity",
     "System"
   ],
+  "contributors": [
+    "marcjulian"
+  ],
   "license": "MIT",
   "commands": [
     {
