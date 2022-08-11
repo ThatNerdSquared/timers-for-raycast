@@ -12,32 +12,32 @@ import { createCustomTimer, ensureCTFileExists, startTimer } from "./timerUtils"
 import { Values } from "./types";
 
 export default function CustomTimerView() {
-  const handleSubmit = async (values: Values) => {
-    await ensureCTFileExists();
+  const handleSubmit = (values: Values) => {
+    ensureCTFileExists();
     if (values.hours === "" && values.minutes === "" && values.seconds === "") {
       const toast = new Toast({ style: Toast.Style.Failure, title: "No values set for timer length!" });
-      await toast.show();
+      toast.show();
     } else if (isNaN(Number(values.hours))) {
       const toast = new Toast({ style: Toast.Style.Failure, title: "Hours must be a number!" });
-      await toast.show();
+      toast.show();
     } else if (isNaN(Number(values.minutes))) {
       const toast = new Toast({ style: Toast.Style.Failure, title: "Minutes must be a number!" });
-      await toast.show();
+      toast.show();
     } else if (isNaN(Number(values.seconds))) {
       const toast = new Toast({ style: Toast.Style.Failure, title: "Seconds must be a number!" });
-      await toast.show();
+      toast.show();
     } else {
-      await closeMainWindow();
+      closeMainWindow();
       const timerName = values.name ? values.name : "Untitled";
       const timeInSeconds = 3600 * Number(values.hours) + 60 * Number(values.minutes) + Number(values.seconds);
-      await startTimer(timeInSeconds, timerName);
+      startTimer(timeInSeconds, timerName);
       if (values.willBeSaved) createCustomTimer({ name: values.name, timeInSeconds: timeInSeconds });
-      await showHUD(
+      showHUD(
         `Timer "${timerName}" started for ${values.hours ? values.hours : 0}h${values.minutes ? values.minutes : 0}m${
           values.seconds ? values.seconds : 0
         }s! 🎉`
       );
-      await popToRoot();
+      popToRoot();
     }
   };
 
@@ -53,7 +53,7 @@ export default function CustomTimerView() {
     <Form
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Start Custom Timer" onSubmit={async (values: Values) => handleSubmit(values)} />
+          <Action.SubmitForm title="Start Custom Timer" onSubmit={(values: Values) => handleSubmit(values)} />
         </ActionPanel>
       }
     >

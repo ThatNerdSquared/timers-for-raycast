@@ -3,6 +3,6 @@ import { startTimer } from "./timerUtils";
 
 export default async () => {
   await closeMainWindow();
-  await startTimer(60 * 90);
+  startTimer(60 * 90, "90 Minute Timer");
   await showHUD("Timer started for 90 minutes! 🎉");
 };
