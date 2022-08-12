@@ -1,13 +1,4 @@
-import {
-  Action,
-  ActionPanel,
-  closeMainWindow,
-  Form,
-  getPreferenceValues,
-  popToRoot,
-  showHUD,
-  Toast,
-} from "@raycast/api";
+import { Action, ActionPanel, closeMainWindow, Form, getPreferenceValues, Toast } from "@raycast/api";
 import { createCustomTimer, ensureCTFileExists, startTimer } from "./timerUtils";
 import { Values } from "./types";
 
@@ -32,12 +23,6 @@ export default function CustomTimerView() {
       const timeInSeconds = 3600 * Number(values.hours) + 60 * Number(values.minutes) + Number(values.seconds);
       startTimer(timeInSeconds, timerName);
       if (values.willBeSaved) createCustomTimer({ name: values.name, timeInSeconds: timeInSeconds });
-      showHUD(
-        `Timer "${timerName}" started for ${values.hours ? values.hours : 0}h${values.minutes ? values.minutes : 0}m${
-          values.seconds ? values.seconds : 0
-        }s! 🎉`
-      );
-      popToRoot();
     }
   };
 

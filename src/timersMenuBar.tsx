@@ -25,7 +25,7 @@ export default function Command() {
 
   return (
     <MenuBarExtra icon={Icon.Clock} isLoading={isLoading}>
-      {timers.map((timer: Timer, index: number) => (
+      {timers.map((timer: Timer) => (
         <MenuBarExtra.Submenu title={timer.name + ": " + formatTime(timer.timeLeft) + " left"} key={timer.originalFile}>
           <MenuBarExtra.Item title="Stop Timer" onAction={() => handleTimerStop(timer)} key={"Stop"} />
         </MenuBarExtra.Submenu>
@@ -62,6 +62,11 @@ export default function Command() {
         title="Start 30 Minute Timer"
         onAction={() => handleTimerStart(60 * 30, "30 Minute Timer")}
         key="30M"
+      />
+      <MenuBarExtra.Item
+        title="Start 45 Minute Timer"
+        onAction={() => handleTimerStart(60 * 45, "45 Minute Timer")}
+        key="45M"
       />
       <MenuBarExtra.Item
         title="Start 60 Minute Timer"

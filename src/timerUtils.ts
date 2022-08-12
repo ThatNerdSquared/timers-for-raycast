@@ -1,4 +1,4 @@
-import { environment, getPreferenceValues, showHUD } from "@raycast/api";
+import { environment, getPreferenceValues, popToRoot, showHUD } from "@raycast/api";
 import { exec, execSync } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
@@ -30,8 +30,8 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
       return;
     }
   });
-
-  await showHUD("Timer started for 5 minutes! 🎉");
+  popToRoot();
+  await showHUD(`Timer "${timerName}" started for ${formatTime(timeInSeconds)}! 🎉`);
 }
 
 function stopTimer(timerFile: string) {
