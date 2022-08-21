@@ -1,6 +1,6 @@
 import { environment, Icon, MenuBarExtra } from "@raycast/api";
 import { useEffect, useState } from "react";
-import { deleteCustomTimer, getTimers, readCustomTimers, startTimer, stopTimer, formatTime } from "./timerUtils";
+import { getTimers, readCustomTimers, startTimer, stopTimer, formatTime, ensureCTFileExists } from "./timerUtils";
 import { CustomTimer, Timer } from "./types";
 
 export default function Command() {
@@ -9,10 +9,21 @@ export default function Command() {
   const [isLoading, setIsLoading] = useState(timers.length === 0);
 
   useEffect(() => {
-    setTimers(getTimers());
-    setCustomTimers(readCustomTimers());
+    refreshTimers();
     setIsLoading(false);
+    setInterval(() => {
+      refreshTimers();
+      setIsLoading(false);
+    }, 1000);
   }, []);
+
+  const refreshTimers = () => {
+    ensureCTFileExists();
+    const setOfTimers: Timer[] = getTimers();
+    setTimers(setOfTimers);
+    const setOfCustomTimers: Record<string, CustomTimer> = readCustomTimers();
+    setCustomTimers(setOfCustomTimers);
+  };
 
   function handleTimerStop(timer: Timer) {
     setTimers(timers.filter((t: Timer) => t.originalFile !== timer.originalFile));
@@ -21,14 +32,18 @@ export default function Command() {
 
   function handleTimerStart(seconds: number, name: string) {
     startTimer(seconds, name);
+    refreshTimers();
   }
 
   return (
     <MenuBarExtra icon={Icon.Clock} isLoading={isLoading}>
+      <MenuBarExtra.Item title="Click running timer to stop" />
       {timers.map((timer: Timer) => (
-        <MenuBarExtra.Submenu title={timer.name + ": " + formatTime(timer.timeLeft) + " left"} key={timer.originalFile}>
-          <MenuBarExtra.Item title="Stop Timer" onAction={() => handleTimerStop(timer)} key={"Stop"} />
-        </MenuBarExtra.Submenu>
+        <MenuBarExtra.Item
+          title={timer.name + ": " + formatTime(timer.timeLeft) + " left"}
+          key={timer.originalFile}
+          onAction={() => handleTimerStop(timer)}
+        />
       ))}
 
       <MenuBarExtra.Separator />
@@ -37,9 +52,11 @@ export default function Command() {
           return customTimers[a].timeInSeconds - customTimers[b].timeInSeconds;
         })
         .map((ctID) => (
-          <MenuBarExtra.Submenu title={customTimers[ctID].name} key={ctID}>
-            <MenuBarExtra.Item title="Stop Timer" onAction={() => deleteCustomTimer(ctID)}></MenuBarExtra.Item>
-          </MenuBarExtra.Submenu>
+          <MenuBarExtra.Item
+            title={'Start "' + customTimers[ctID].name + '"'}
+            key={ctID}
+            onAction={() => handleTimerStart(customTimers[ctID].timeInSeconds, customTimers[ctID].name)}
+          />
         ))}
 
       <MenuBarExtra.Separator />
