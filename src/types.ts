@@ -32,4 +32,13 @@ export interface InputField {
   id: keyof CTInlineArgs;
   title: string;
   placeholder: string;
+  err: string | undefined;
+  drop: () => void;
+  validator: (event: RayFormEvent) => void;
+}
+
+export interface RayFormEvent {
+  target: {
+    value?: string | undefined
+  }
 }
