@@ -1,8 +1,10 @@
 import { Action, ActionPanel, closeMainWindow, Form, getPreferenceValues, Toast } from "@raycast/api";
 import { createCustomTimer, ensureCTFileExists, startTimer } from "./timerUtils";
-import { Values } from "./types";
+import { CTInlineArgs, InputField, Values } from "./types";
 
-export default function CustomTimerView() {
+export default function CustomTimerView(props: { arguments: CTInlineArgs }) {
+  const hasArgs = Object.values(props.arguments).some((x) => x !== "");
+
   const handleSubmit = (values: Values) => {
     ensureCTFileExists();
     if (values.hours === "" && values.minutes === "" && values.seconds === "") {
@@ -26,7 +28,7 @@ export default function CustomTimerView() {
     }
   };
 
-  const inputFields = [
+  const inputFields: InputField[] = [
     { id: "hours", title: "Hours", placeholder: "0" },
     { id: "minutes", title: "Minutes", placeholder: "00" },
     { id: "seconds", title: "Seconds", placeholder: "00" },
@@ -43,9 +45,15 @@ export default function CustomTimerView() {
       }
     >
       {inputFields.map((item, index) => (
-        <Form.TextField key={index} id={item.id} title={item.title} placeholder={item.placeholder} />
+        <Form.TextField
+          key={index}
+          id={item.id}
+          title={item.title}
+          placeholder={item.placeholder}
+          defaultValue={props.arguments[item.id]}
+        />
       ))}
-      <Form.TextField id="name" title="Name" placeholder="Pour Tea" />
+      <Form.TextField id="name" title="Name" placeholder="Pour Tea" autoFocus={hasArgs} />
       <Form.Checkbox id="willBeSaved" label="Save as preset" />
     </Form>
   );

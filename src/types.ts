@@ -21,3 +21,15 @@ export interface CustomTimer {
 export interface Preferences {
   selectedSound: string;
 }
+
+export interface CTInlineArgs {
+  hours: string;
+  minutes: string;
+  seconds: string;
+}
+
+export interface InputField {
+  id: keyof CTInlineArgs;
+  title: string;
+  placeholder: string;
+}

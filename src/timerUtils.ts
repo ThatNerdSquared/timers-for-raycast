@@ -103,9 +103,14 @@ function deleteCustomTimer(ctID: string) {
 }
 
 function formatTime(seconds: number) {
-  const time = new Date(seconds);
-  time.setSeconds(Number(seconds));
-  return time.toISOString().substring(11, 19);
+  const hours = Math.floor(seconds / 3600)
+  const mins = String(
+    Math.floor((seconds % 3600) / 60)
+  ).padStart(2, "0")
+  const secs = String(
+    Math.floor(seconds % 60)
+  ).padStart(2, "0")
+  return `${hours}:${mins}:${secs}`
 }
 
 export {
