@@ -28,6 +28,7 @@ export default function Command() {
   function handleTimerStop(timer: Timer) {
     setTimers(timers.filter((t: Timer) => t.originalFile !== timer.originalFile));
     stopTimer(environment.supportPath + "/" + timer.originalFile);
+    refreshTimers();
   }
 
   function handleTimerStart(seconds: number, name: string) {

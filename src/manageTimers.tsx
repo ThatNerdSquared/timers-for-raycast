@@ -20,6 +20,7 @@ export default function Command() {
   const { push } = useNavigation();
 
   useEffect(() => {
+    refreshTimers();
     setInterval(() => {
       refreshTimers();
     }, 1000);
@@ -34,6 +35,7 @@ export default function Command() {
   };
 
   const handleTimerStop = (timer: Timer) => {
+    setTimers(timers?.filter((t: Timer) => t.originalFile !== timer.originalFile));
     stopTimer(environment.supportPath + "/" + timer.originalFile);
     refreshTimers();
   };
@@ -95,7 +97,10 @@ export default function Command() {
           subtitle={"Press Enter to start a timer"}
           actions={
             <ActionPanel>
-              <Action title="Start Timer" onAction={() => push(<CustomTimerView />)} />
+              <Action
+                title="Start Timer"
+                onAction={() => push(<CustomTimerView arguments={{ hours: "", minutes: "", seconds: "" }} />)}
+              />
             </ActionPanel>
           }
         />
