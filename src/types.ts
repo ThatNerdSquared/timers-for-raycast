@@ -39,6 +39,6 @@ export interface InputField {
 
 export interface RayFormEvent {
   target: {
-    value?: string | undefined
-  }
+    value?: string | undefined;
+  };
 }

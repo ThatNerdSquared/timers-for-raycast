@@ -1,22 +1,21 @@
-import { Action, ActionPanel, Color, environment, Icon, List, useNavigation } from "@raycast/api";
-import { useEffect, useState } from "react";
+import { Action, ActionPanel, Color, Icon, List, useNavigation } from "@raycast/api";
+import { useEffect } from "react";
+import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
-import {
-  createCustomTimer,
-  deleteCustomTimer,
-  ensureCTFileExists,
-  getTimers,
-  readCustomTimers,
-  startTimer,
-  stopTimer,
-  formatTime,
-} from "./timerUtils";
-import { CustomTimer, Timer } from "./types";
+import { formatTime } from "./timerUtils";
 
 export default function Command() {
-  const [timers, setTimers] = useState<Timer[] | undefined>(undefined);
-  const [customTimers, setCustomTimers] = useState<Record<string, CustomTimer>>({});
+  const {
+    timers,
+    customTimers,
+    isLoading,
+    refreshTimers,
+    handleStopTimer,
+    handleStartCT,
+    handleCreateCT,
+    handleDeleteCT,
+  } = useTimers();
   const { push } = useNavigation();
 
   useEffect(() => {
@@ -26,52 +25,19 @@ export default function Command() {
     }, 1000);
   }, []);
 
-  const refreshTimers = () => {
-    ensureCTFileExists();
-    const setOfTimers: Timer[] = getTimers();
-    setTimers(setOfTimers);
-    const setOfCustomTimers: Record<string, CustomTimer> = readCustomTimers();
-    setCustomTimers(setOfCustomTimers);
-  };
-
-  const handleTimerStop = (timer: Timer) => {
-    setTimers(timers?.filter((t: Timer) => t.originalFile !== timer.originalFile));
-    stopTimer(environment.supportPath + "/" + timer.originalFile);
-    refreshTimers();
-  };
-
-  const handleTimerStart = (customTimer: CustomTimer) => {
-    startTimer(customTimer.timeInSeconds, customTimer.name);
-    refreshTimers();
-  };
-
-  const handleCreateCustom = (timer: Timer) => {
-    const customTimer: CustomTimer = {
-      name: timer.name,
-      timeInSeconds: timer.secondsSet,
-    };
-    createCustomTimer(customTimer);
-    refreshTimers();
-  };
-
-  const handleDeleteCustom = (ctID: string) => {
-    deleteCustomTimer(ctID);
-    refreshTimers();
-  };
-
   return (
-    <List isLoading={timers === undefined || customTimers === undefined}>
+    <List isLoading={isLoading}>
       <List.Section title={timers?.length !== 0 && timers != null ? "Currently Running" : "No Timers Running"}>
-        {timers?.map((timer, index) => (
+        {timers?.map((timer) => (
           <List.Item
-            key={index}
+            key={timer.originalFile}
             icon={{ source: Icon.Clock, tintColor: Color.Yellow }}
             title={timer.name}
             subtitle={formatTime(timer.timeLeft) + " left"}
             accessoryTitle={formatTime(timer.secondsSet) + " originally"}
             actions={
               <ActionPanel>
-                <Action title="Stop Timer" onAction={() => handleTimerStop(timer)} />
+                <Action title="Stop Timer" onAction={() => handleStopTimer(timer)} />
                 <Action
                   title="Rename Timer"
                   onAction={() =>
@@ -84,7 +50,7 @@ export default function Command() {
                     modifiers: ["cmd", "shift"],
                     key: "enter",
                   }}
-                  onAction={() => handleCreateCustom(timer)}
+                  onAction={() => handleCreateCT(timer)}
                 />
               </ActionPanel>
             }
@@ -118,7 +84,7 @@ export default function Command() {
               subtitle={formatTime(customTimers[ctID].timeInSeconds)}
               actions={
                 <ActionPanel>
-                  <Action title="Start Timer" onAction={() => handleTimerStart(customTimers[ctID])} />
+                  <Action title="Start Timer" onAction={() => handleStartCT(customTimers[ctID])} />
                   <Action
                     title="Rename Timer"
                     onAction={() =>
@@ -131,7 +97,7 @@ export default function Command() {
                       modifiers: ["ctrl"],
                       key: "x",
                     }}
-                    onAction={() => handleDeleteCustom(ctID)}
+                    onAction={() => handleDeleteCT(ctID)}
                   />
                 </ActionPanel>
               }
