@@ -16,12 +16,12 @@ If you enjoy using Timers for Raycast and/or want to support further development
 - [x] Start Timer (5, 10, 15, 25, 30, 45, 60, and 90 minute variations)
 - [x] Start Custom Timer (allows you to set a custom countdown and optionally save it for future use)
 - [x] Manage Timers (view/rename/start/stop running or preset countdown timers)
+- [x] Start Stopwatch
+- [x] Manage Stopwatches (view/start/stop running stopwatches)
 
 ### Not Yet Implemented
 - [ ] Set Alarm
 - [ ] Manage Alarms (view/start/stop running alarms)
-- [ ] Start Stopwatch
-- [ ] Manage Stopwatches (view/start/stop running stopwatches)
 
 ## Contributing
 If you'd like to file an issue, make a feature request, or improve the code in this extension, feel free to open an issue or PR! Here are a few pieces of advice:
