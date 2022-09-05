@@ -1,7 +1,7 @@
 import { Icon, MenuBarExtra } from "@raycast/api";
 import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
-import { formatTime } from "./timerUtils";
+import { formatTime } from "./formatUtils";
 
 export default function Command() {
   const { timers, customTimers, isLoading, refreshTimers, handleStartTimer, handleStopTimer, handleStartCT } =

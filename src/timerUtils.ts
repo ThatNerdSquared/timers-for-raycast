@@ -105,13 +105,6 @@ function deleteCustomTimer(ctID: string) {
   writeFileSync(DATAPATH, JSON.stringify(customTimers));
 }
 
-function formatTime(seconds: number) {
-  const hours = Math.floor(seconds / 3600);
-  const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
-  const secs = String(Math.floor(seconds % 60)).padStart(2, "0");
-  return `${hours}:${mins}:${secs}`;
-}
-
 export {
   createCustomTimer,
   deleteCustomTimer,
@@ -122,5 +115,4 @@ export {
   renameCustomTimer,
   startTimer,
   stopTimer,
-  formatTime,
 };

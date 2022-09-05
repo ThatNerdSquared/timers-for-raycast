@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
-import { formatTime } from "./timerUtils";
+import { formatTime } from "./formatUtils";
 
 export default function Command() {
   const {

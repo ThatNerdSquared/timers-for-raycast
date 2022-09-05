@@ -2,7 +2,7 @@ import { Action, ActionPanel, Color, Icon, List, useNavigation } from "@raycast/
 import { useEffect } from "react";
 import useStopwatches from "./hooks/useStopwatches";
 import RenameView from "./RenameView";
-import { formatTime } from "./timerUtils";
+import { formatTime, formatDateTime } from "./formatUtils";
 
 export default function Command() {
   const { stopwatches, isLoading, refreshSWes, handleStartSW, handleStopSW } = useStopwatches();
@@ -26,7 +26,7 @@ export default function Command() {
             icon={{ source: Icon.Clock, tintColor: Color.Red }}
             title={sw.name}
             subtitle={formatTime(sw.timeElapsed) + " elapsed"}
-            accessoryTitle={"Started at " + sw.timeStarted.toISOString().split(".")[0].replace("T", " ")}
+            accessoryTitle={"Started at " + formatDateTime(sw.timeStarted)}
             actions={
               <ActionPanel>
                 <Action title="Stop Stopwatch" onAction={() => handleStopSW(sw)} />
