@@ -1,10 +1,6 @@
 import { environment } from "@raycast/api";
 import { useState } from "react";
-import {
-  getStopwatches,
-  startStopwatch,
-  stopStopwatch
-} from "../stopwatchUtils";
+import { getStopwatches, startStopwatch, stopStopwatch } from "../stopwatchUtils";
 import { Stopwatch } from "../types";
 
 export default function useStopwatches() {
@@ -33,6 +29,6 @@ export default function useStopwatches() {
     isLoading,
     refreshSWes,
     handleStartSW,
-    handleStopSW
+    handleStopSW,
   };
 }

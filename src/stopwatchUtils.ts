@@ -17,7 +17,6 @@ const getStopwatches = () => {
       };
       stopwatch.name = readFileSync(environment.supportPath + "/" + swFile).toString();
       const timeStarted = swFile.replace(/__/g, ":").replace(".stopwatch", "");
-      console.log(timeStarted)
       stopwatch.timeStarted = new Date(timeStarted);
       stopwatch.timeElapsed = Math.max(0, Math.round(new Date().getTime() - new Date(timeStarted).getTime()) / 1000);
       setOfStopwatches.push(stopwatch);
