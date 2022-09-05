@@ -100,6 +100,26 @@
       "title": "Timers Menu Bar",
       "description": "View, start, or stop existing countdown timers from the Menu Bar.",
       "mode": "menu-bar"
+    },
+    {
+      "name": "startStopwatch",
+      "title": "Start Stopwatch",
+      "description": "Start a stopwatch",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "name",
+          "placeholder": "stopwatch name",
+          "required": false,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "manageStopwatches",
+      "title": "Manage Stopwatches",
+      "description": "View, start, or stop existing stopwatches.",
+      "mode": "view"
     }
   ],
   "preferences": [
