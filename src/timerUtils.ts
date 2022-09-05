@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { CustomTimer, Preferences, Timer } from "./types";
+import { formatTime } from "./formatUtils";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 
