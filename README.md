@@ -13,6 +13,7 @@ If you enjoy using Timers for Raycast and/or want to support further development
 <a href="https://www.buymeacoffee.com/nathanyeung" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ## Commands
+
 - [x] Start Timer (5, 10, 15, 25, 30, 45, 60, and 90 minute variations)
 - [x] Start Custom Timer (allows you to set a custom countdown and optionally save it for future use)
 - [x] Manage Timers (view/rename/start/stop running or preset countdown timers)
@@ -20,11 +21,14 @@ If you enjoy using Timers for Raycast and/or want to support further development
 - [x] Manage Stopwatches (view/start/stop running stopwatches)
 
 ### Not Yet Implemented
+
 - [ ] Set Alarm
 - [ ] Manage Alarms (view/start/stop running alarms)
 
 ## Contributing
+
 If you'd like to file an issue, make a feature request, or improve the code in this extension, feel free to open an issue or PR! Here are a few pieces of advice:
+
 - Please check my [personal repo for this extension](https://github.com/ThatNerdSquared/timers-for-raycast) first as I may already be working on a fix, or there may already be an issue/PR for your idea ;) I am also more reachable there for PRs/issues.
 - If you decide to file an issue on the main `raycast/extensions` repo, please ping me (`@ThatNerdSquared`) so that I don't miss your request!
 - Feel free to reach out to me on the Raycast Slack (`@ThatNerd(Squared)`) if I have not responded to you in a timely manner.
@@ -32,6 +36,6 @@ If you'd like to file an issue, make a feature request, or improve the code in t
 - Custom timers are saved in a `customTimers.json` file as an array of [`CustomTimers`](https://github.com/ThatNerdSquared/timers-for-raycast/blob/3ea18a109a357ade47a2f854883e21c1680f497b/src/types.ts#L16), and running timers are stored as text files where the filename is `[date and time started, with illegal characters replaced with __]---[length of timer in seconds]` and the file content is a single line with the name of the timer.
 - If you submit changes, please update these contributing guidelines as necessary to prevent confusion :)
 
-
 ## Acknowledgements
+
 Sound effects procured royalty-free from [Mixkit](https://mixkit.co/free-sound-effects/alerts/).
