@@ -32,7 +32,7 @@ export default function Command() {
                 <Action title="Stop Stopwatch" onAction={() => handleStopSW(sw)} />
                 <Action
                   title="Rename Stopwatch"
-                  onAction={() => push(<RenameView currentName={sw.name} timerFile={sw.originalFile} ctID={null} />)}
+                  onAction={() => push(<RenameView currentName={sw.name} originalFile={sw.originalFile} ctID={null} />)}
                 />
               </ActionPanel>
             }

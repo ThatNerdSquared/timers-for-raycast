@@ -22,10 +22,7 @@ export default function RenameView(props: { currentName: string; originalFile: s
     <Form
       actions={
         <ActionPanel>
-          <Action.SubmitForm
-            title="Rename"
-            onSubmit={(values: { newName: string }) => handleSubmit(values.newName)}
-          />
+          <Action.SubmitForm title="Rename" onSubmit={(values: { newName: string }) => handleSubmit(values.newName)} />
         </ActionPanel>
       }
     >

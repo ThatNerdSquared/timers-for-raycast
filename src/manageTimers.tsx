@@ -41,7 +41,7 @@ export default function Command() {
                 <Action
                   title="Rename Timer"
                   onAction={() =>
-                    push(<RenameView currentName={timer.name} timerFile={timer.originalFile} ctID={null} />)
+                    push(<RenameView currentName={timer.name} originalFile={timer.originalFile} ctID={null} />)
                   }
                 />
                 <Action
@@ -88,7 +88,9 @@ export default function Command() {
                   <Action
                     title="Rename Timer"
                     onAction={() =>
-                      push(<RenameView currentName={customTimers[ctID].name} timerFile={"customTimer"} ctID={ctID} />)
+                      push(
+                        <RenameView currentName={customTimers[ctID].name} originalFile={"customTimer"} ctID={ctID} />
+                      )
                     }
                   />
                   <Action
