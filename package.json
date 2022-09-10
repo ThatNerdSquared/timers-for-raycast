@@ -5,13 +5,13 @@
   "description": "Start, stop, and save countdown timers, directly in Raycast, with no external dependencies.",
   "icon": "command-icon.png",
   "author": "ThatNerd",
-  "categories": [
-    "Productivity",
-    "System"
-  ],
   "contributors": [
     "marcjulian",
     "GastroGeek"
+  ],
+  "categories": [
+    "Productivity",
+    "System"
   ],
   "license": "MIT",
   "commands": [
@@ -189,8 +189,9 @@
       "name": "ringContinuously",
       "type": "checkbox",
       "required": true,
-      "title": "Ring Continuously",
+      "title": "Timer Alert Type",
       "description": "Whether or not to play the timer alert sound continuously until dismissed.",
+      "label": "Ring Continuously",
       "default": false
     }
   ],

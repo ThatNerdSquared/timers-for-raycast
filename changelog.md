@@ -1,6 +1,6 @@
 # Timers Changelog
 
-## [Support new Raycast features and add Stopwatch support] - 2022-09-05
+## [Support new Raycast features and add Stopwatch support] - 2022-09-10
 
 - Added MenuBarExtra support (thanks to @marcjulianschwarz)
 - Added inline argument support for the Start Custom Timer command
