@@ -120,6 +120,12 @@
       "title": "Manage Stopwatches",
       "description": "View, start, or stop existing stopwatches.",
       "mode": "view"
+    },
+    {
+      "name": "dismissTimerAlert",
+      "title": "Dismiss Timer Alert",
+      "description": "Stop a ringing alert from a finished timer.",
+      "mode": "no-view"
     }
   ],
   "preferences": [
@@ -178,6 +184,14 @@
           "value": "ssmmhh"
         }
       ]
+    },
+    {
+      "name": "ringContinuously",
+      "type": "checkbox",
+      "required": true,
+      "title": "Ring Continuously",
+      "description": "Whether or not to play the timer alert sound continuously until dismissed.",
+      "default": false
     }
   ],
   "dependencies": {

@@ -19,6 +19,7 @@ If you enjoy using Timers for Raycast and/or want to support further development
 - [x] Manage Timers (view/rename/start/stop running or preset countdown timers)
 - [x] Start Stopwatch
 - [x] Manage Stopwatches (view/start/stop running stopwatches)
+- [x] Dismiss Timer (stop a ringing alert for a finished timer, if you've checked the Ring Continously setting)
 
 ### Not Yet Implemented
 

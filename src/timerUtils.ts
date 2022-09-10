@@ -14,11 +14,17 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   writeFileSync(masterName, timerName);
 
   const prefs = getPreferenceValues<Preferences>();
+  const selectedSoundPath = `${environment.assetsPath + "/" + prefs.selectedSound}`;
   let command = `sleep ${timeInSeconds} && if [ -f "${masterName}" ]; then `;
   if (prefs.selectedSound === "speak_timer_name") {
     command += `say "${timerName}"`;
   } else {
-    command += `afplay "${environment.assetsPath + "/" + prefs.selectedSound}"`;
+    command += `afplay "${selectedSoundPath}"`;
+  }
+  if (prefs.ringContinuously) {
+    const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
+    writeFileSync(dismissFile, ".dismiss file for Timers");
+    command += ` && while [ -f "${dismissFile}" ]; do afplay "${selectedSoundPath}"; done`;
   }
   command += ` && osascript -e 'display notification "'"Timer complete"'" with title "Ding!"' && rm "${masterName}"; else echo "Timer deleted"; fi`;
   exec(command, (error, stderr) => {
@@ -36,8 +42,11 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
 }
 
 function stopTimer(timerFile: string) {
-  const command = `if [ -f "${timerFile}" ]; then rm "${timerFile}"; else echo "Timer deleted"; fi`;
-  execSync(command);
+  const deleteTimerCmd = `if [ -f "${timerFile}" ]; then rm "${timerFile}"; else echo "Timer deleted"; fi`;
+  const dismissFile = timerFile.replace(".timer", ".dismiss");
+  const deleteDismissCmd = `if [ -f "${dismissFile}" ]; then rm "${dismissFile}"; else echo "Timer deleted"; fi`;
+  execSync(deleteTimerCmd);
+  execSync(deleteDismissCmd);
 }
 
 function getTimers() {

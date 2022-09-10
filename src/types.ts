@@ -27,6 +27,7 @@ export interface CustomTimer {
 
 export interface Preferences {
   selectedSound: string;
+  ringContinuously: boolean;
 }
 
 export interface CTInlineArgs {
