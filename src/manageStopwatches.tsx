@@ -36,7 +36,7 @@ export default function Command() {
                 />
                 <Action
                   title="Copy Current Time"
-                  shortcut={{ modifiers: ["opt"], key: "c"}}
+                  shortcut={{ modifiers: ["opt"], key: "c" }}
                   onAction={() => Clipboard.copy(formatTime(sw.timeElapsed))}
                 />
               </ActionPanel>

@@ -22,7 +22,7 @@ export default function useStopwatches() {
   const handleStopSW = (stopwatch: Stopwatch) => {
     const prefs = getPreferenceValues();
     if (prefs.copyOnSwStop) {
-      Clipboard.copy(formatTime(stopwatch.timeElapsed))
+      Clipboard.copy(formatTime(stopwatch.timeElapsed));
     }
     setStopwatches(stopwatches?.filter((s: Stopwatch) => s.originalFile !== stopwatch.originalFile));
     stopStopwatch(`${environment.supportPath}/${stopwatch.originalFile}`);
