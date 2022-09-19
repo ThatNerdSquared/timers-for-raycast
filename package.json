@@ -193,6 +193,15 @@
       "description": "Whether or not to play the timer alert sound continuously until dismissed.",
       "label": "Ring Continuously",
       "default": false
+    },
+    {
+      "name": "copyOnSwStop",
+      "type": "checkbox",
+      "required": true,
+      "title": "Copy on Stopwatch Stop",
+      "description": "Whether or not to copy the elapsed time on a stopwatch when it is stopped.",
+      "label": "Copy elapsed time",
+      "default": false
     }
   ],
   "dependencies": {
