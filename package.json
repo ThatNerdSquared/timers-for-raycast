@@ -16,6 +16,12 @@
   "license": "MIT",
   "commands": [
     {
+      "name": "start2MinuteTimer",
+      "title": "Start 2 Minute Timer",
+      "description": "Set a countdown for 2 minutes.",
+      "mode": "no-view"
+    },
+    {
       "name": "start5MinuteTimer",
       "title": "Start 5 Minute Timer",
       "description": "Set a countdown for 5 minutes.",
