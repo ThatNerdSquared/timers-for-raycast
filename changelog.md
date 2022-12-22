@@ -1,5 +1,19 @@
 # Timers Changelog
 
+## [Minor fixes, alert sound preview command] - 2022-12-21
+
+- Added a 2 minute preset
+- Show timer name in alert notification
+- Add command to preview alert sound effects
+
+## [Enhancement] - 2022-12-10
+
+- Added custom timer option to menubar
+
+## [Faster menubar] - 2022-11-01
+
+- Now updating every ten seconds instead of every minute.
+
 ## [Support new Raycast features and add Stopwatch support] - 2022-09-19
 
 - Added MenuBarExtra support (thanks to @marcjulianschwarz)

@@ -7,7 +7,8 @@
   "author": "ThatNerd",
   "contributors": [
     "marcjulian",
-    "GastroGeek"
+    "GastroGeek",
+    "pernielsentikaer"
   ],
   "categories": [
     "Productivity",
@@ -106,7 +107,7 @@
       "title": "Timers Menu Bar",
       "description": "View, start, or stop existing countdown timers from the Menu Bar.",
       "mode": "menu-bar",
-      "interval": "1m"
+      "interval": "10s"
     },
     {
       "name": "startStopwatch",
