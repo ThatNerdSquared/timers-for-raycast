@@ -216,6 +216,14 @@
       "description": "Whether or not to copy the elapsed time on a stopwatch when it is stopped.",
       "label": "Copy elapsed time",
       "default": false
+    },
+    {
+      "name": "volumeSetting",
+      "type": "textfield",
+      "required": true,
+      "title": "Timer Alert Volume",
+      "description": "Volume of the alert sound. Decimal between 0 and 1.",
+      "default": "1"
     }
   ],
   "dependencies": {

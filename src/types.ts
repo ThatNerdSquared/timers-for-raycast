@@ -31,6 +31,7 @@ export interface Preferences {
   selectedSound: string;
   ringContinuously: boolean;
   copyOnSwStop: boolean;
+  volumeSetting: number;
 }
 
 export interface CTInlineArgs {

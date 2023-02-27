@@ -19,7 +19,7 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   if (prefs.selectedSound === "speak_timer_name") {
     command += `say "${timerName}"`;
   } else {
-    command += `afplay "${selectedSoundPath}"`;
+    command += `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting}`;
   }
   if (prefs.ringContinuously) {
     const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
