@@ -50,7 +50,6 @@ export default function Command() {
       const selectedSoundPath = `${environment.assetsPath + "/" + fileName}`;
       command = `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting}`;
     }
-    console.log(command)
     exec(command, (error, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);

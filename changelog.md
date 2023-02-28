@@ -1,5 +1,9 @@
 # Timers Changelog
 
+## [UNRELEASED] []
+
+- Add volume customization for the timer alert sound
+
 ## [Minor fixes, alert sound preview command] - 2022-12-21
 
 - Added a 2 minute preset
