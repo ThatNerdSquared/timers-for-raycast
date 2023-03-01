@@ -58,7 +58,7 @@ function getTimers() {
         name: "",
         secondsSet: -99,
         timeLeft: -99,
-        originalFile: timerFile,
+        originalFile: timerFile
       };
       timer.name = readFileSync(environment.supportPath + "/" + timerFile).toString();
       const timerFileParts = timerFile.split("---");
@@ -97,8 +97,7 @@ function createCustomTimer(newTimer: CustomTimer) {
 
 function readCustomTimers() {
   ensureCTFileExists();
-  const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
-  return customTimers;
+  return JSON.parse(readFileSync(DATAPATH, "utf8"));
 }
 
 function renameCustomTimer(ctID: string, newName: string) {
@@ -124,5 +123,5 @@ export {
   renameTimer,
   renameCustomTimer,
   startTimer,
-  stopTimer,
+  stopTimer
 };

@@ -26,7 +26,7 @@ export default function Command() {
             icon={{ source: Icon.Clock, tintColor: Color.Red }}
             title={sw.name}
             subtitle={formatTime(sw.timeElapsed) + " elapsed"}
-            accessoryTitle={"Started at " + formatDateTime(sw.timeStarted)}
+            accessories={[{ text: "Started at " + formatDateTime(sw.timeStarted) }]}
             actions={
               <ActionPanel>
                 <Action title="Stop Stopwatch" onAction={() => handleStopSW(sw)} />

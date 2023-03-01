@@ -14,7 +14,7 @@ export default function Command() {
     handleStopTimer,
     handleStartCT,
     handleCreateCT,
-    handleDeleteCT,
+    handleDeleteCT
   } = useTimers();
   const { push } = useNavigation();
 
@@ -34,7 +34,7 @@ export default function Command() {
             icon={{ source: Icon.Clock, tintColor: Color.Yellow }}
             title={timer.name}
             subtitle={formatTime(timer.timeLeft) + " left"}
-            accessoryTitle={formatTime(timer.secondsSet) + " originally"}
+            accessories={[{ text: formatTime(timer.secondsSet) + " originally" }]}
             actions={
               <ActionPanel>
                 <Action title="Stop Timer" onAction={() => handleStopTimer(timer)} />
@@ -48,7 +48,7 @@ export default function Command() {
                   title="Save Timer as Preset"
                   shortcut={{
                     modifiers: ["cmd", "shift"],
-                    key: "enter",
+                    key: "enter"
                   }}
                   onAction={() => handleCreateCT(timer)}
                 />
@@ -97,7 +97,7 @@ export default function Command() {
                     title="Delete Custom Timer"
                     shortcut={{
                       modifiers: ["ctrl"],
-                      key: "x",
+                      key: "x"
                     }}
                     onAction={() => handleDeleteCT(ctID)}
                   />
