@@ -15,19 +15,22 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled") {
 
   const prefs = getPreferenceValues<Preferences>();
   const selectedSoundPath = `${environment.assetsPath + "/" + prefs.selectedSound}`;
-  let command = `sleep ${timeInSeconds} && if [ -f "${masterName}" ]; then `;
+  const cmdParts = [`sleep ${timeInSeconds}`];
+  cmdParts.push(
+    `if [ -f "${masterName}" ]; then osascript -e 'display notification "Timer \\"${timerName}\\" complete" with title "Ding!"'`
+  );
   if (prefs.selectedSound === "speak_timer_name") {
-    command += `say "${timerName}"`;
+    cmdParts.push(`say "${timerName}"`);
   } else {
-    command += `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting}`;
+    cmdParts.push(`afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting}`);
   }
   if (prefs.ringContinuously) {
     const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
     writeFileSync(dismissFile, ".dismiss file for Timers");
-    command += ` && while [ -f "${dismissFile}" ]; do afplay "${selectedSoundPath}"; done`;
+    cmdParts.push(`while [ -f "${dismissFile}" ]; do afplay "${selectedSoundPath}"; done`);
   }
-  command += ` && osascript -e 'display notification "Timer \\"${timerName}\\" complete" with title "Ding!"' && rm "${masterName}"; else echo "Timer deleted"; fi`;
-  exec(command, (error, stderr) => {
+  cmdParts.push(`rm "${masterName}"; else echo "Timer deleted"; fi`);
+  exec(cmdParts.join(" && "), (error, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -58,7 +61,7 @@ function getTimers() {
         name: "",
         secondsSet: -99,
         timeLeft: -99,
-        originalFile: timerFile
+        originalFile: timerFile,
       };
       timer.name = readFileSync(environment.supportPath + "/" + timerFile).toString();
       const timerFileParts = timerFile.split("---");
@@ -123,5 +126,5 @@ export {
   renameTimer,
   renameCustomTimer,
   startTimer,
-  stopTimer
+  stopTimer,
 };
