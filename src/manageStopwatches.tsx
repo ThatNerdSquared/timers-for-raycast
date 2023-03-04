@@ -22,7 +22,7 @@ export default function Command() {
       >
         {stopwatches?.map((sw) => (
           <List.Item
-            key={sw.originalFile}
+            key={sw.swID}
             icon={{ source: Icon.Clock, tintColor: Color.Red }}
             title={sw.name}
             subtitle={formatTime(sw.timeElapsed) + " elapsed"}
@@ -32,7 +32,7 @@ export default function Command() {
                 <Action title="Stop Stopwatch" onAction={() => handleStopSW(sw)} />
                 <Action
                   title="Rename Stopwatch"
-                  onAction={() => push(<RenameView currentName={sw.name} originalFile={sw.originalFile} ctID={null} />)}
+                  onAction={() => push(<RenameView currentName={sw.name} originalFile={sw.swID} ctID={null} />)}
                 />
                 <Action
                   title="Copy Current Time"

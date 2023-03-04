@@ -14,7 +14,7 @@ export default function Command() {
     handleStopTimer,
     handleStartCT,
     handleCreateCT,
-    handleDeleteCT
+    handleDeleteCT,
   } = useTimers();
   const { push } = useNavigation();
 
@@ -48,7 +48,7 @@ export default function Command() {
                   title="Save Timer as Preset"
                   shortcut={{
                     modifiers: ["cmd", "shift"],
-                    key: "enter"
+                    key: "enter",
                   }}
                   onAction={() => handleCreateCT(timer)}
                 />
@@ -97,7 +97,7 @@ export default function Command() {
                     title="Delete Custom Timer"
                     shortcut={{
                       modifiers: ["ctrl"],
-                      key: "x"
+                      key: "x",
                     }}
                     onAction={() => handleDeleteCT(ctID)}
                   />

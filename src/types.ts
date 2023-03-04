@@ -9,9 +9,11 @@ export interface Timer {
 
 export interface Stopwatch {
   name: string;
+  swID: string;
   timeStarted: Date;
   timeElapsed: number;
-  originalFile: string;
+  lastPaused: Date | null;
+  pauseElapsed: number;
 }
 
 export interface Values {
