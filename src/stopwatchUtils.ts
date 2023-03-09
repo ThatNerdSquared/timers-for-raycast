@@ -3,6 +3,7 @@ import { execSync } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
+import { secondsBetweenDates } from "./formatUtils";
 import { Stopwatch } from "./types";
 
 const SWPATH = environment.supportPath + "/raycast-stopwatches.json";
@@ -19,18 +20,28 @@ const initStopwatch = (swName = ""): Stopwatch => {
     swID: randomUUID(),
     timeStarted: new Date(),
     timeElapsed: -99,
-    lastPaused: null,
+    lastPaused: "----",
     pauseElapsed: 0,
   };
+};
+
+const processStopwatches = (swSet: Stopwatch[]) => {
+  swSet.map((x) => {
+    if (x.lastPaused != "----") {
+      x.timeElapsed = Math.max(0, secondsBetweenDates({ d1: x.lastPaused, d2: x.timeStarted }) - x.pauseElapsed);
+    } else {
+      const rawElapsedTime = Math.max(0, secondsBetweenDates({ d2: x.timeStarted }));
+      x.timeElapsed = rawElapsedTime - x.pauseElapsed;
+    }
+  });
+  return swSet;
 };
 
 const getStopwatches = () => {
   ensureSWFileExists();
   const rawStopwatches: Stopwatch[] = JSON.parse(readFileSync(SWPATH).toString());
-  const setOfStopwatches = cleanUpOldStopwatches(rawStopwatches);
-  setOfStopwatches.map((x) => {
-    x.timeElapsed = Math.max(0, Math.round(new Date().getTime() - new Date(x.timeStarted).getTime()) / 1000);
-  });
+  const fullStopwatchSet = cleanUpOldStopwatches(rawStopwatches);
+  const setOfStopwatches = processStopwatches(fullStopwatchSet);
   setOfStopwatches.sort((a, b) => {
     return a.timeElapsed - b.timeElapsed;
   });
@@ -48,6 +59,28 @@ const startStopwatch = async (swName = "Untitled") => {
   await showHUD(`Stopwatch "${swName}" started! 🎉`);
 };
 
+const pauseStopwatch = (swToPause: string) => {
+  ensureSWFileExists();
+  let swStore: Stopwatch[] = JSON.parse(readFileSync(SWPATH).toString());
+  swStore = swStore.map((s) => (s.swID == swToPause ? { ...s, lastPaused: new Date() } : s));
+  writeFileSync(SWPATH, JSON.stringify(swStore));
+};
+
+const unpauseStopwatch = (swToUnpause: string) => {
+  ensureSWFileExists();
+  let swStore: Stopwatch[] = JSON.parse(readFileSync(SWPATH).toString());
+  swStore = swStore.map((s) =>
+    s.swID == swToUnpause
+      ? {
+          ...s,
+          pauseElapsed: s.pauseElapsed + secondsBetweenDates({ d2: s.lastPaused }),
+          lastPaused: "----",
+        }
+      : s
+  );
+  writeFileSync(SWPATH, JSON.stringify(swStore));
+};
+
 const stopStopwatch = (swToDelete: string) => {
   ensureSWFileExists();
   let swStore: Stopwatch[] = JSON.parse(readFileSync(SWPATH).toString());
@@ -62,7 +95,7 @@ const cleanUpOldStopwatches = (newStore: Stopwatch[]) => {
       const stopwatch = initStopwatch(readFileSync(environment.supportPath + "/" + swFile).toString());
       const timeStarted = swFile.replace(/__/g, ":").replace(".stopwatch", "");
       stopwatch.timeStarted = new Date(timeStarted);
-      stopwatch.timeElapsed = Math.max(0, Math.round(new Date().getTime() - new Date(timeStarted).getTime()) / 1000);
+      stopwatch.timeElapsed = Math.max(0, secondsBetweenDates({}));
       execSync(`rm "${environment.supportPath}/${swFile}"`);
       newStore.push(stopwatch);
     }
@@ -71,4 +104,4 @@ const cleanUpOldStopwatches = (newStore: Stopwatch[]) => {
   return newStore;
 };
 
-export { getStopwatches, startStopwatch, stopStopwatch };
+export { getStopwatches, pauseStopwatch, unpauseStopwatch, startStopwatch, stopStopwatch };

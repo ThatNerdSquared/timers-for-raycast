@@ -12,7 +12,7 @@ export interface Stopwatch {
   swID: string;
   timeStarted: Date;
   timeElapsed: number;
-  lastPaused: Date | null;
+  lastPaused: Date | "----";
   pauseElapsed: number;
 }
 

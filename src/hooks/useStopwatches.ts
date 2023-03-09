@@ -1,7 +1,7 @@
 import { Clipboard, getPreferenceValues } from "@raycast/api";
 import { useState } from "react";
 import { formatTime } from "../formatUtils";
-import { getStopwatches, startStopwatch, stopStopwatch } from "../stopwatchUtils";
+import { getStopwatches, pauseStopwatch, startStopwatch, stopStopwatch, unpauseStopwatch } from "../stopwatchUtils";
 import { Stopwatch } from "../types";
 
 export default function useStopwatches() {
@@ -16,6 +16,16 @@ export default function useStopwatches() {
 
   const handleStartSW = () => {
     startStopwatch();
+    refreshSWes();
+  };
+
+  const handlePauseSW = (swID: string) => {
+    pauseStopwatch(swID);
+    refreshSWes();
+  };
+
+  const handleUnpauseSW = (swID: string) => {
+    unpauseStopwatch(swID);
     refreshSWes();
   };
 
@@ -34,5 +44,7 @@ export default function useStopwatches() {
     refreshSWes,
     handleStartSW,
     handleStopSW,
+    handlePauseSW,
+    handleUnpauseSW,
   };
 }
