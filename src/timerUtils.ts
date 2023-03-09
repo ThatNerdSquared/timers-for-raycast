@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { CustomTimer, Preferences, Timer } from "./types";
-import { formatTime } from "./formatUtils";
+import { formatTime, secondsBetweenDates } from "./formatUtils";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 
@@ -67,10 +67,7 @@ function getTimers() {
       const timerFileParts = timerFile.split("---");
       timer.secondsSet = Number(timerFileParts[1].split(".")[0]);
       const timeStarted = timerFileParts[0].replace(/__/g, ":");
-      timer.timeLeft = Math.max(
-        0,
-        Math.round(timer.secondsSet - (new Date().getTime() - new Date(timeStarted).getTime()) / 1000)
-      );
+      timer.timeLeft = Math.max(0, Math.round(timer.secondsSet - secondsBetweenDates({ d2: timeStarted })));
       setOfTimers.push(timer);
     }
   });

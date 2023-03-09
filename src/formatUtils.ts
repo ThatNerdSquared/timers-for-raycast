@@ -20,4 +20,14 @@ const formatDateTime = (d: Date) => {
   return `${date} ${time}`;
 };
 
-export { formatTime, formatDateTime };
+const secondsBetweenDates = (args: { d1?: Date | string; d2?: Date | string }) => {
+  args.d1 = args.d1 == "----" ? undefined : args.d1
+  args.d2 = args.d2 == "----" ? undefined : args.d2
+  return (
+    Math.round(
+      (args.d1 ? new Date(args.d1) : new Date()).getTime() - (args.d2 ? new Date(args.d2) : new Date()).getTime()
+    ) / 1000
+  );
+};
+
+export { formatTime, formatDateTime, secondsBetweenDates };
