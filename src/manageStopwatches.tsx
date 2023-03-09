@@ -17,10 +17,10 @@ export default function Command() {
     }, 1000);
   }, []);
 
-  const pausedTag = { tag: { value: "Paused", color: Color.Red } }
-  const unpausedTag = { tag: { value: "Running", color: Color.Green } }
-  const pausedIcon = { source: Icon.Clock, tintColor: Color.Red }
-  const unpausedIcon = { source: Icon.Clock, tintColor: Color.Green }
+  const pausedTag = { tag: { value: "Paused", color: Color.Red } };
+  const unpausedTag = { tag: { value: "Running", color: Color.Green } };
+  const pausedIcon = { source: Icon.Clock, tintColor: Color.Red };
+  const unpausedIcon = { source: Icon.Clock, tintColor: Color.Green };
 
   return (
     <List isLoading={isLoading}>
@@ -35,7 +35,7 @@ export default function Command() {
             subtitle={formatTime(sw.timeElapsed) + " elapsed"}
             accessories={[
               { text: "Started at " + formatDateTime(sw.timeStarted) },
-              sw.lastPaused == "----" ? unpausedTag : pausedTag
+              sw.lastPaused == "----" ? unpausedTag : pausedTag,
             ]}
             actions={
               <ActionPanel>
