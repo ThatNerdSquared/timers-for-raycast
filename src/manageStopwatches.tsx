@@ -46,7 +46,7 @@ export default function Command() {
                 )}
                 <Action
                   title="Rename Stopwatch"
-                  onAction={() => push(<RenameView currentName={sw.name} originalFile={sw.swID} ctID={null} />)}
+                  onAction={() => push(<RenameView currentName={sw.name} originalFile={"stopwatch"} ctID={sw.swID} />)}
                 />
                 <Action
                   title="Copy Current Time"

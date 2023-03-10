@@ -104,4 +104,11 @@ const cleanUpOldStopwatches = (newStore: Stopwatch[]) => {
   return newStore;
 };
 
-export { getStopwatches, pauseStopwatch, unpauseStopwatch, startStopwatch, stopStopwatch };
+const renameStopwatch = (swID: string, newName: string) => {
+  ensureSWFileExists();
+  const stopwatches: Stopwatch[] = JSON.parse(readFileSync(SWPATH, "utf8"));
+  const renamedSW = stopwatches.map((x) => (x.swID == swID ? { ...x, name: newName } : x));
+  writeFileSync(SWPATH, JSON.stringify(renamedSW));
+};
+
+export { getStopwatches, pauseStopwatch, unpauseStopwatch, startStopwatch, stopStopwatch, renameStopwatch };
