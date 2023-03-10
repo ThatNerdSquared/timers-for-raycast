@@ -1,8 +1,9 @@
 # Timers Changelog
 
-## [UNRELEASED] []
+## [Alert sound volume customization and pausable stopwatches] - 2023-03-10
 
 - Add volume customization for the timer alert sound
+- Add ability to pause stopwatches
 
 ## [Added missing 2 minute timer in README] - 2023-01-02
 

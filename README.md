@@ -20,6 +20,7 @@ If you enjoy using Timers for Raycast and/or want to support further development
 - [x] Start Stopwatch
 - [x] Manage Stopwatches (view/start/stop running stopwatches)
 - [x] Dismiss Timer (stop a ringing alert for a finished timer, if you've checked the Ring Continously setting)
+- [x] Preview Alert Sounds (test out the bundled timer alert sounds before selecting one in settings)
 
 ### Not Yet Implemented
 
