@@ -40,14 +40,16 @@ export default function useTimers() {
 
   const handleStartCT = (customTimer: CustomTimer, launchedFromMenuBar = false) => {
     if (!checkForOverlyLoudAlert(launchedFromMenuBar)) return;
-    startTimer(customTimer.timeInSeconds, customTimer.name);
+    startTimer(customTimer.timeInSeconds, customTimer.name, customTimer.selectedSound);
     refreshTimers();
   };
 
   const handleCreateCT = (timer: Timer) => {
+    // TODO: make it possible to provide selected sound into CustomTimer
     const customTimer: CustomTimer = {
       name: timer.name,
       timeInSeconds: timer.secondsSet,
+      selectedSound: "default",
     };
     createCustomTimer(customTimer);
     refreshTimers();
