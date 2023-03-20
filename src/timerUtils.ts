@@ -14,14 +14,13 @@ const checkForOverlyLoudAlert = (launchedFromMenuBar = false) => {
     const errorMsg = "⚠️ Timer alert volume should not be louder than 5 (it can get quite loud!)";
     if (launchedFromMenuBar) {
       showHUD(errorMsg);
+    } else {
+      showToast({ style: Toast.Style.Failure, title: errorMsg });
     }
-    else {
-      showToast({style: Toast.Style.Failure, title: errorMsg })
-    }
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 async function startTimer(timeInSeconds: number, timerName = "Untitled") {
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
