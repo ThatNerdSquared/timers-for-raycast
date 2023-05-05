@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
-import { formatTime } from "./formatUtils";
+import { formatDateTime, formatTime } from "./formatUtils";
+import { getTimeAfterSeconds } from "./timeCalculationUtils";
 
 export default function Command() {
   const {
@@ -34,7 +35,10 @@ export default function Command() {
             icon={{ source: Icon.Clock, tintColor: Color.Yellow }}
             title={timer.name}
             subtitle={formatTime(timer.timeLeft) + " left"}
-            accessories={[{ text: formatTime(timer.secondsSet) + " originally" }]}
+            accessories={[
+              { text: formatTime(timer.secondsSet) + " originally" },
+              { text: `(${formatDateTime(getTimeAfterSeconds(timer.timeLeft))})`}
+            ]}
             actions={
               <ActionPanel>
                 <Action title="Stop Timer" onAction={() => handleStopTimer(timer)} />
