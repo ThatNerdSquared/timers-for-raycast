@@ -26,18 +26,22 @@ export default function Command() {
     }, 1000);
   }, []);
 
+  const runningIcon = { tag: { value: "Running", color: Color.Yellow } };
+  const finishedIcon = { tag: { value: "Finished!", color: Color.Green } };
+
   return (
     <List isLoading={isLoading}>
       <List.Section title={timers?.length !== 0 && timers != null ? "Currently Running" : "No Timers Running"}>
         {timers?.map((timer) => (
           <List.Item
             key={timer.originalFile}
-            icon={{ source: Icon.Clock, tintColor: Color.Yellow }}
+            icon={{ source: Icon.Clock, tintColor: timer.timeLeft === 0 ? Color.Green : Color.Yellow }}
             title={timer.name}
             subtitle={formatTime(timer.timeLeft) + " left"}
             accessories={[
               { text: formatTime(timer.secondsSet) + " originally" },
-              { text: `(${formatDateTime(getTimeAfterSeconds(timer.timeLeft))})`}
+              { text: `Ends at ${formatDateTime(getTimeAfterSeconds(timer.timeLeft))}` },
+              timer.timeLeft === 0 ? finishedIcon : runningIcon,
             ]}
             actions={
               <ActionPanel>
