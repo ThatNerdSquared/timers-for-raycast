@@ -4,7 +4,6 @@ import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
 import { formatDateTime, formatTime } from "./formatUtils";
-import { getTimeAfterSeconds } from "./timeCalculationUtils";
 
 export default function Command() {
   const {
@@ -40,7 +39,7 @@ export default function Command() {
             subtitle={formatTime(timer.timeLeft) + " left"}
             accessories={[
               { text: formatTime(timer.secondsSet) + " originally" },
-              { text: `Ends at ${formatDateTime(getTimeAfterSeconds(timer.timeLeft))}` },
+              { text: `${timer.timeLeft === 0 ? "Ended" : "Ends"} at ${formatDateTime(timer.timeEnds)}` },
               timer.timeLeft === 0 ? finishedIcon : runningIcon,
             ]}
             actions={
