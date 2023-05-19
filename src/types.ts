@@ -5,6 +5,7 @@ export interface Timer {
   secondsSet: number;
   timeLeft: number;
   originalFile: string;
+  timeEnds: Date;
 }
 
 export interface Stopwatch {
