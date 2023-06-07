@@ -6,8 +6,16 @@ import { formatTime, formatDateTime } from "./formatUtils";
 import { Stopwatch } from "./types";
 
 export default function Command() {
-  const { stopwatches, isLoading, refreshSWes, handleStartSW, handleStopSW, handlePauseSW, handleUnpauseSW } =
-    useStopwatches();
+  const {
+    stopwatches,
+    isLoading,
+    refreshSWes,
+    handleRestartSW,
+    handleStartSW,
+    handleStopSW,
+    handlePauseSW,
+    handleUnpauseSW,
+  } = useStopwatches();
   const { push } = useNavigation();
 
   useEffect(() => {
@@ -50,8 +58,13 @@ export default function Command() {
                 />
                 <Action
                   title="Copy Current Time"
-                  shortcut={{ modifiers: ["opt"], key: "c" }}
+                  shortcut={{ modifiers: ["cmd"], key: "c" }}
                   onAction={() => Clipboard.copy(formatTime(sw.timeElapsed))}
+                />
+                <Action
+                  title="Restart Stopwatch"
+                  shortcut={{ modifiers: ["cmd"], key: "r" }}
+                  onAction={() => handleRestartSW(sw)}
                 />
                 <Action
                   title="Stop Stopwatch"
