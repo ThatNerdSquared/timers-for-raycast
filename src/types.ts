@@ -33,6 +33,7 @@ export interface CustomTimer {
 }
 
 export interface Preferences {
+  showMenubarIconOnlyOnRun: boolean;
   selectedSound: string;
   ringContinuously: boolean;
   copyOnSwStop: boolean;
