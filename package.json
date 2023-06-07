@@ -138,6 +138,13 @@
       "mode": "no-view"
     },
     {
+      "name": "stopwatchMenuBar",
+      "title": "Stopwatch Menu Bar",
+      "description": "View, start, or stop existing stopwatches from the Menu Bar.",
+      "mode": "menu-bar",
+      "interval": "10s"
+    },
+    {
       "name": "previewAlertSounds",
       "title": "Preview Alert Sounds",
       "description": "Play samples of different alert sound effects.",
