@@ -218,13 +218,26 @@
       "default": false
     },
     {
-      "name": "showMenubarIconOnlyOnRun",
-      "type": "checkbox",
+      "name": "showMenuBarItemWhen",
+      "type": "dropdown",
       "required": true,
-      "title": "Menubar icon",
-      "description": "Whether or not to show icon in menubar always or only when timer is running.",
-      "label": "Show icon only when timer is running",
-      "default": false
+      "title": "Show Menu Bar Item When",
+      "description": "When to show icon in menubar.",
+      "default": "Always",
+      "data": [
+        {
+          "title": "Never",
+          "value": "never"
+        },
+        {
+          "title": "Only When Running",
+          "value": "onlyWhenRunning"
+        },
+        {
+          "title": "Always",
+          "value": "always"
+        }
+      ]
     },
     {
       "name": "copyOnSwStop",

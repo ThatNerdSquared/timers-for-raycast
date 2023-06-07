@@ -19,14 +19,14 @@ export default function Command() {
   const prefs = getPreferenceValues<Preferences>();
   if (
     (stopwatches == undefined || stopwatches.length == 0 || stopwatches.length == undefined) &&
-    prefs.showMenubarIconOnlyOnRun
+    prefs.showMenuBarItemWhen !== "always"
   ) {
     return null;
   }
 
   return (
     <MenuBarExtra
-      icon={Icon.Stopwatch}
+      icon={prefs.showMenuBarItemWhen !== "never" ? Icon.Stopwatch : undefined}
       isLoading={isLoading}
       title={
         stopwatches != undefined && stopwatches?.length > 0
