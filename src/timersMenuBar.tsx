@@ -25,13 +25,21 @@ export default function Command() {
     return null;
   }
 
+  const getTimerMenuBarTitle = () => {
+    if (timers === undefined || timers?.length === 0 || timers.length == undefined) {
+      return undefined;
+    } else if (prefs.showTitleInMenuBar) {
+      return `${timers[0].name}: ~${formatTime(timers[0].timeLeft)}`;
+    } else {
+      return `~${formatTime(timers[0].timeLeft)}`;
+    }
+  };
+
   return (
     <MenuBarExtra
       icon={prefs.showMenuBarItemWhen !== "never" ? Icon.Clock : undefined}
       isLoading={isLoading}
-      title={
-        timers != undefined && timers?.length > 0 ? `${timers[0].name}: ~${formatTime(timers[0].timeLeft)}` : undefined
-      }
+      title={getTimerMenuBarTitle()}
     >
       <MenuBarExtra.Item title="Click running timer to stop" />
       {timers?.map((timer) => (

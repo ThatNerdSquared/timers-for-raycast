@@ -191,22 +191,12 @@
       ]
     },
     {
-      "name": "newTimerInputOrder",
-      "type": "dropdown",
+      "name": "volumeSetting",
+      "type": "textfield",
       "required": true,
-      "title": "New Timer Input Order",
-      "description": "Order for input fields in new timer form.",
-      "default": "Hours , Minutes, Seconds",
-      "data": [
-        {
-          "title": "Hours, Minutes, Seconds",
-          "value": "hhmmss"
-        },
-        {
-          "title": "Seconds, Minutes, Hours",
-          "value": "ssmmhh"
-        }
-      ]
+      "title": "Timer Alert Volume",
+      "description": "Volume of the alert sound. Decimal between 0 and 1.",
+      "default": "1"
     },
     {
       "name": "ringContinuously",
@@ -240,6 +230,15 @@
       ]
     },
     {
+      "name": "showTitleInMenuBar",
+      "type": "checkbox",
+      "required": true,
+      "title": "Show Title in Menu Bar",
+      "description": "Whether or not to show the timer or stopwatch title in the menu bar.",
+      "label": "Show title",
+      "default": true
+    },
+    {
       "name": "copyOnSwStop",
       "type": "checkbox",
       "required": true,
@@ -249,12 +248,22 @@
       "default": false
     },
     {
-      "name": "volumeSetting",
-      "type": "textfield",
+      "name": "newTimerInputOrder",
+      "type": "dropdown",
       "required": true,
-      "title": "Timer Alert Volume",
-      "description": "Volume of the alert sound. Decimal between 0 and 1.",
-      "default": "1"
+      "title": "New Timer Input Order",
+      "description": "Order for input fields in new timer form.",
+      "default": "Hours , Minutes, Seconds",
+      "data": [
+        {
+          "title": "Hours, Minutes, Seconds",
+          "value": "hhmmss"
+        },
+        {
+          "title": "Seconds, Minutes, Hours",
+          "value": "ssmmhh"
+        }
+      ]
     }
   ],
   "dependencies": {

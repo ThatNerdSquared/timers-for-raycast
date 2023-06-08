@@ -38,6 +38,7 @@ export interface Preferences {
   ringContinuously: boolean;
   copyOnSwStop: boolean;
   volumeSetting: string;
+  showTitleInMenuBar: boolean;
 }
 
 export interface CTInlineArgs {

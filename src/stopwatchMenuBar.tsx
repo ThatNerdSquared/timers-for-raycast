@@ -24,15 +24,21 @@ export default function Command() {
     return null;
   }
 
+  const getSWMenuBarTitle = () => {
+    if (stopwatches === undefined || stopwatches?.length === 0 || stopwatches.length == undefined) {
+      return undefined;
+    } else if (prefs.showTitleInMenuBar) {
+      return `${stopwatches[0].name}: ~${formatTime(stopwatches[0].timeElapsed)}`;
+    } else {
+      return `~${formatTime(stopwatches[0].timeElapsed)}`;
+    }
+  };
+
   return (
     <MenuBarExtra
       icon={prefs.showMenuBarItemWhen !== "never" ? Icon.Stopwatch : undefined}
       isLoading={isLoading}
-      title={
-        stopwatches != undefined && stopwatches?.length > 0
-          ? `${stopwatches[0].name}: ~${formatTime(stopwatches[0].timeElapsed)}`
-          : undefined
-      }
+      title={getSWMenuBarTitle()}
     >
       <MenuBarExtra.Item title="Click running stopwatch to pause" />
       {stopwatches?.map((sw) => (
