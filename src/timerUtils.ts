@@ -23,6 +23,7 @@ const checkForOverlyLoudAlert = (launchedFromMenuBar = false) => {
 };
 
 async function startTimer(timeInSeconds: number, timerName = "Untitled", selectedSound = "default") {
+  popToRoot();
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName);
@@ -57,7 +58,6 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled", selecte
       return;
     }
   });
-  popToRoot();
   await showHUD(`Timer "${timerName}" started for ${formatTime(timeInSeconds)}! 🎉`);
 }
 
