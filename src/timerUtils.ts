@@ -34,7 +34,7 @@ async function startTimer(timeInSeconds: number, timerName = "Untitled", selecte
   }`;
   const cmdParts = [`sleep ${timeInSeconds}`];
   cmdParts.push(
-    `if [ -f "${masterName}" ]; then osascript -e 'display notification "Timer \\"${timerName}\\" complete" with title "Ding!"'`
+    `if [ -f "${masterName}" ]; then osascript -e 'display notification "Timer \\"${timerName}\\" complete" with title "Ding!"'`,
   );
   const afplayString = `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting.replace(",", ".")}`;
   if (prefs.selectedSound === "speak_timer_name") {

@@ -1,14 +1,4 @@
-import {
-  Action,
-  ActionPanel,
-  Color,
-  Icon,
-  LaunchProps,
-  List,
-  Toast,
-  showToast,
-  useNavigation,
-} from "@raycast/api";
+import { Action, ActionPanel, Color, Icon, LaunchProps, List, Toast, showToast, useNavigation } from "@raycast/api";
 import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
@@ -128,7 +118,7 @@ export default function Command(props: LaunchProps<{ launchContext: CommandLinkP
                     title="Rename Timer"
                     onAction={() =>
                       push(
-                        <RenameView currentName={customTimers[ctID].name} originalFile={"customTimer"} ctID={ctID} />
+                        <RenameView currentName={customTimers[ctID].name} originalFile={"customTimer"} ctID={ctID} />,
                       )
                     }
                   />
