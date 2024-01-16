@@ -1,4 +1,14 @@
-import { Action, ActionPanel, Color, Icon, LaunchProps, List, Toast, showToast, useNavigation } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Color,
+  Icon,
+  LaunchProps,
+  List,
+  Toast,
+  showToast,
+  useNavigation,
+} from "@raycast/api";
 import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";

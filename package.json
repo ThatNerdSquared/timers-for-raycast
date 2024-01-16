@@ -16,6 +16,14 @@
     "Productivity",
     "System"
   ],
+  "keywords": [
+    "timer",
+    "stopwatch",
+    "alert",
+    "pom",
+    "alarm",
+    "clock"
+  ],
   "license": "MIT",
   "commands": [
     {
