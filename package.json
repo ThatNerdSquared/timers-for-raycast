@@ -229,28 +229,28 @@
       "default": true
     },
     {
-      "name": "showMenuBarItemWhen",
+      "name": "showMenuBarIconWhen",
       "type": "dropdown",
       "required": false,
-      "title": "Show Menu Bar Item When",
+      "title": "Show Menu Bar Icon When",
       "description": "When to show icon in menubar.",
       "default": "Always",
       "data": [
         {
-          "title": "Never",
-          "value": "never"
-        },
-        {
-          "title": "Only When Running",
-          "value": "onlyWhenRunning"
+          "title": "Always",
+          "value": "always"
         },
         {
           "title": "Only When Not Running",
           "value": "onlyWhenNotRunning"
         },
         {
-          "title": "Always",
-          "value": "always"
+          "title": "Only When Running",
+          "value": "onlyWhenRunning"
+        },
+        {
+          "title": "Never",
+          "value": "never"
         }
       ]
     },

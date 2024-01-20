@@ -20,7 +20,7 @@ export default function Command() {
   const prefs = getPreferenceValues<Preferences>();
   if (
     (timers == undefined || timers.length == 0 || timers.length == undefined) &&
-    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarItemWhen)
+    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarIconWhen)
   ) {
     return null;
   }
@@ -36,7 +36,7 @@ export default function Command() {
   };
 
   const getTimerMenuBarIcon = () => {
-    switch (prefs.showMenuBarItemWhen) {
+    switch (prefs.showMenuBarIconWhen) {
       case "always":
         return Icon.Clock;
       case "never":

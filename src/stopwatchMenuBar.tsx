@@ -20,7 +20,7 @@ export default function Command() {
   const prefs = getPreferenceValues<Preferences>();
   if (
     (stopwatches == undefined || stopwatches.length == 0 || stopwatches.length == undefined) &&
-    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarItemWhen)
+    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarIconWhen)
   ) {
     return null;
   }
@@ -36,7 +36,7 @@ export default function Command() {
   };
 
   const getSWMenuBarIcon = () => {
-    switch (prefs.showMenuBarItemWhen) {
+    switch (prefs.showMenuBarIconWhen) {
       case "always":
         return Icon.Stopwatch;
       case "never":
