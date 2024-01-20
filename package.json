@@ -85,7 +85,9 @@
       "title": "Start Custom Timer",
       "description": "Set a countdown for a custom amount of time.",
       "mode": "view",
-      "keywords": ["new"],
+      "keywords": [
+        "new"
+      ],
       "arguments": [
         {
           "name": "hours",
@@ -143,7 +145,10 @@
     {
       "name": "dismissTimerAlert",
       "title": "Dismiss Ringing Timer",
-      "keywords": ["Dismiss Timer Alert", "Alert"],
+      "keywords": [
+        "Dismiss Timer Alert",
+        "Alert"
+      ],
       "description": "Stop a ringing alert from a finished timer.",
       "mode": "no-view"
     },
@@ -238,6 +243,10 @@
         {
           "title": "Only When Running",
           "value": "onlyWhenRunning"
+        },
+        {
+          "title": "Only When Not Running",
+          "value": "onlyWhenNotRunning"
         },
         {
           "title": "Always",

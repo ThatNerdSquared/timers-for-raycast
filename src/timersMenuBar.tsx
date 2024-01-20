@@ -20,7 +20,7 @@ export default function Command() {
   const prefs = getPreferenceValues<Preferences>();
   if (
     (timers == undefined || timers.length == 0 || timers.length == undefined) &&
-    prefs.showMenuBarItemWhen !== "always"
+    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarItemWhen)
   ) {
     return null;
   }
@@ -35,12 +35,21 @@ export default function Command() {
     }
   };
 
+  const getTimerMenuBarIcon = () => {
+    switch (prefs.showMenuBarItemWhen) {
+      case "always":
+        return Icon.Clock;
+      case "never":
+        return undefined;
+      case "onlyWhenRunning":
+        return timers !== undefined && timers?.length > 0 ? Icon.Clock : undefined;
+      case "onlyWhenNotRunning":
+        return timers === undefined || timers?.length === 0 ? Icon.Clock : undefined;
+    }
+  };
+
   return (
-    <MenuBarExtra
-      icon={prefs.showMenuBarItemWhen !== "never" ? Icon.Clock : undefined}
-      isLoading={isLoading}
-      title={getTimerMenuBarTitle()}
-    >
+    <MenuBarExtra icon={getTimerMenuBarIcon()} isLoading={isLoading} title={getTimerMenuBarTitle()}>
       <MenuBarExtra.Item title="Click running timer to stop" />
       {timers?.map((timer) => (
         <MenuBarExtra.Item

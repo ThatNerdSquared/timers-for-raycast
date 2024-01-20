@@ -33,7 +33,7 @@ export interface CustomTimer {
 }
 
 export interface Preferences {
-  showMenuBarItemWhen: "never" | "onlyWhenRunning" | "always";
+  showMenuBarItemWhen: "never" | "onlyWhenRunning" | "onlyWhenNotRunning" | "always";
   selectedSound: string;
   ringContinuously: boolean;
   copyOnSwStop: boolean;

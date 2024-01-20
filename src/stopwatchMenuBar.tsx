@@ -20,7 +20,7 @@ export default function Command() {
   const prefs = getPreferenceValues<Preferences>();
   if (
     (stopwatches == undefined || stopwatches.length == 0 || stopwatches.length == undefined) &&
-    prefs.showMenuBarItemWhen !== "always"
+    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarItemWhen)
   ) {
     return null;
   }
@@ -35,16 +35,25 @@ export default function Command() {
     }
   };
 
+  const getSWMenuBarIcon = () => {
+    switch (prefs.showMenuBarItemWhen) {
+      case "always":
+        return Icon.Stopwatch;
+      case "never":
+        return undefined;
+      case "onlyWhenRunning":
+        return stopwatches !== undefined && stopwatches?.length > 0 ? Icon.Stopwatch : undefined;
+      case "onlyWhenNotRunning":
+        return stopwatches === undefined || stopwatches?.length === 0 ? Icon.Stopwatch : undefined;
+    }
+  };
+
   const swTitleSuffix = (sw: Stopwatch) => {
     return sw.lastPaused === "----" ? " elapsed" : " (paused)";
   };
 
   return (
-    <MenuBarExtra
-      icon={prefs.showMenuBarItemWhen !== "never" ? Icon.Stopwatch : undefined}
-      isLoading={isLoading}
-      title={getSWMenuBarTitle()}
-    >
+    <MenuBarExtra icon={getSWMenuBarIcon()} isLoading={isLoading} title={getSWMenuBarTitle()}>
       <MenuBarExtra.Item title="Click running stopwatch to pause" />
       {stopwatches?.map((sw) => (
         <MenuBarExtra.Item
