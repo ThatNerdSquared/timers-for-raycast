@@ -234,7 +234,7 @@
       "required": false,
       "title": "Show Menu Bar Icon When",
       "description": "When to show icon in menubar.",
-      "default": "Always",
+      "default": "always",
       "data": [
         {
           "title": "Always",

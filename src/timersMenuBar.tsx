@@ -2,7 +2,8 @@ import { Icon, MenuBarExtra, launchCommand, LaunchType, getPreferenceValues } fr
 import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
 import { formatTime } from "./formatUtils";
-import { Preferences } from "./types";
+import { Preferences, Timer } from "./types";
+import { formatMenuBarIcon, formatMenuBarTitle, shortCircuitMenuBar } from "./menuBarUtils";
 
 export default function Command() {
   const { timers, customTimers, isLoading, refreshTimers, handleStartTimer, handleStopTimer, handleStartCT } =
@@ -18,38 +19,14 @@ export default function Command() {
     refreshTimers();
   }
   const prefs = getPreferenceValues<Preferences>();
-  if (
-    (timers == undefined || timers.length == 0 || timers.length == undefined) &&
-    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarIconWhen)
-  ) {
-    return null;
-  }
-
-  const getTimerMenuBarTitle = () => {
-    if (timers === undefined || timers?.length === 0 || timers.length == undefined) {
-      return undefined;
-    } else if (prefs.showTitleInMenuBar) {
-      return `${timers[0].name}: ~${formatTime(timers[0].timeLeft)}`;
-    } else {
-      return `~${formatTime(timers[0].timeLeft)}`;
-    }
-  };
-
-  const getTimerMenuBarIcon = () => {
-    switch (prefs.showMenuBarIconWhen) {
-      case "always":
-        return Icon.Clock;
-      case "never":
-        return undefined;
-      case "onlyWhenRunning":
-        return timers !== undefined && timers?.length > 0 ? Icon.Clock : undefined;
-      case "onlyWhenNotRunning":
-        return timers === undefined || timers?.length === 0 ? Icon.Clock : undefined;
-    }
-  };
+  if (shortCircuitMenuBar<Timer>(timers, prefs)) return null;
 
   return (
-    <MenuBarExtra icon={getTimerMenuBarIcon()} isLoading={isLoading} title={getTimerMenuBarTitle()}>
+    <MenuBarExtra
+      icon={formatMenuBarIcon(timers, prefs, Icon.Clock)}
+      isLoading={isLoading}
+      title={formatMenuBarTitle<Timer>(timers, prefs)}
+    >
       <MenuBarExtra.Item title="Click running timer to stop" />
       {timers?.map((timer) => (
         <MenuBarExtra.Item

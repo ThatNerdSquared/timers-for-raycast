@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import useStopwatches from "./hooks/useStopwatches";
 import { formatTime } from "./formatUtils";
 import { Preferences, Stopwatch } from "./types";
+import { formatMenuBarIcon, formatMenuBarTitle, shortCircuitMenuBar } from "./menuBarUtils";
 
 export default function Command() {
   const { stopwatches, isLoading, refreshSWes, handlePauseSW, handleStartSW, handleStopSW, handleUnpauseSW } =
@@ -18,42 +19,18 @@ export default function Command() {
     refreshSWes();
   }
   const prefs = getPreferenceValues<Preferences>();
-  if (
-    (stopwatches == undefined || stopwatches.length == 0 || stopwatches.length == undefined) &&
-    !["always", "onlyWhenNotRunning"].includes(prefs.showMenuBarIconWhen)
-  ) {
-    return null;
-  }
-
-  const getSWMenuBarTitle = () => {
-    if (stopwatches === undefined || stopwatches?.length === 0 || stopwatches.length == undefined) {
-      return undefined;
-    } else if (prefs.showTitleInMenuBar) {
-      return `${stopwatches[0].name}: ~${formatTime(stopwatches[0].timeElapsed)}`;
-    } else {
-      return `~${formatTime(stopwatches[0].timeElapsed)}`;
-    }
-  };
-
-  const getSWMenuBarIcon = () => {
-    switch (prefs.showMenuBarIconWhen) {
-      case "always":
-        return Icon.Stopwatch;
-      case "never":
-        return undefined;
-      case "onlyWhenRunning":
-        return stopwatches !== undefined && stopwatches?.length > 0 ? Icon.Stopwatch : undefined;
-      case "onlyWhenNotRunning":
-        return stopwatches === undefined || stopwatches?.length === 0 ? Icon.Stopwatch : undefined;
-    }
-  };
+  if (shortCircuitMenuBar<Stopwatch>(stopwatches, prefs)) return null;
 
   const swTitleSuffix = (sw: Stopwatch) => {
     return sw.lastPaused === "----" ? " elapsed" : " (paused)";
   };
 
   return (
-    <MenuBarExtra icon={getSWMenuBarIcon()} isLoading={isLoading} title={getSWMenuBarTitle()}>
+    <MenuBarExtra
+      icon={formatMenuBarIcon<Stopwatch>(stopwatches, prefs, Icon.Stopwatch)}
+      isLoading={isLoading}
+      title={formatMenuBarTitle<Stopwatch>(stopwatches, prefs)}
+    >
       <MenuBarExtra.Item title="Click running stopwatch to pause" />
       {stopwatches?.map((sw) => (
         <MenuBarExtra.Item
