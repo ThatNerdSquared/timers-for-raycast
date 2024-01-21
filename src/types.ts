@@ -30,6 +30,7 @@ export interface CustomTimer {
   name: string;
   timeInSeconds: number;
   selectedSound: string;
+  showInMenuBar: boolean;
 }
 
 export interface Preferences {

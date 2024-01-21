@@ -21,6 +21,7 @@
     "stopwatch",
     "alert",
     "pom",
+    "pomodoro",
     "alarm",
     "clock"
   ],
@@ -170,6 +171,12 @@
       "title": "Stop Running Timer",
       "description": "Stop the running timer closest to completion.",
       "mode": "no-view"
+    },
+    {
+      "name": "configureMenubarPresets",
+      "title": "Configure Custom Presets in Menu Bar",
+      "description": "Configure which custom presets to show in the Timers Menu Bar.",
+      "mode": "view"
     }
   ],
   "preferences": [

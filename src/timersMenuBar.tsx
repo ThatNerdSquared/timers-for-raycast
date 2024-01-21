@@ -41,6 +41,7 @@ export default function Command() {
           ?.sort((a, b) => {
             return customTimers[a].timeInSeconds - customTimers[b].timeInSeconds;
           })
+          .filter((ctID) => customTimers[ctID].showInMenuBar)
           .map((ctID) => (
             <MenuBarExtra.Item
               title={'Start "' + customTimers[ctID].name + '"'}

@@ -118,7 +118,12 @@ function createCustomTimer(newTimer: CustomTimer) {
 
 function readCustomTimers() {
   ensureCTFileExists();
-  return JSON.parse(readFileSync(DATAPATH, "utf8"));
+  const res: Record<string, CustomTimer> = JSON.parse(readFileSync(DATAPATH, "utf8"));
+  return Object.fromEntries(
+    Object.entries(res).map(([ctID, timer]) =>
+      timer.showInMenuBar === undefined ? [ctID, { ...timer, showInMenuBar: true }] : [ctID, timer],
+    ),
+  );
 }
 
 function renameCustomTimer(ctID: string, newName: string) {
@@ -135,6 +140,14 @@ function deleteCustomTimer(ctID: string) {
   writeFileSync(DATAPATH, JSON.stringify(customTimers));
 }
 
+function toggleCustomTimerMenubarVisibility(ctID: string) {
+  ensureCTFileExists();
+  const customTimers = JSON.parse(readFileSync(DATAPATH, "utf8"));
+  const currentVisibility = customTimers[ctID].showInMenuBar;
+  customTimers[ctID].showInMenuBar = currentVisibility === undefined ? false : !currentVisibility;
+  writeFileSync(DATAPATH, JSON.stringify(customTimers));
+}
+
 export {
   checkForOverlyLoudAlert,
   createCustomTimer,
@@ -144,6 +157,7 @@ export {
   readCustomTimers,
   renameTimer,
   renameCustomTimer,
+  toggleCustomTimerMenubarVisibility,
   startTimer,
   stopTimer,
 };
