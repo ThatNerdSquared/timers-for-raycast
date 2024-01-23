@@ -76,3 +76,9 @@ export interface SoundData {
 export interface CommandLinkParams {
   timerID: string;
 }
+
+export interface DefaultTimerPreset {
+  key: string;
+  title: string;
+  seconds: number;
+}
