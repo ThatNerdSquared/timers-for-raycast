@@ -1,61 +1,19 @@
 import { Icon, MenuBarExtra, launchCommand, LaunchType, getPreferenceValues } from "@raycast/api";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
 import { formatTime } from "./formatUtils";
-import { DefaultTimerPreset, Preferences, Timer } from "./types";
+import { Preferences, Timer } from "./types";
 import { formatMenuBarIcon, formatMenuBarTitle, shortCircuitMenuBar } from "./menuBarUtils";
-import { readDefaultPresetVisibles } from "./timerUtils";
+import useDefaultPresetVisibles from "./hooks/useDefaultPresetVisibles";
 
 export default function Command() {
   const { timers, customTimers, isLoading, refreshTimers, handleStartTimer, handleStopTimer, handleStartCT } =
     useTimers();
-  const defaultPresets: DefaultTimerPreset[] = [
-    {
-      key: "2M",
-      title: "2 Minute Timer",
-      seconds: 60 * 2,
-    },
-    {
-      key: "5M",
-      title: "5 Minute Timer",
-      seconds: 60 * 5,
-    },
-    {
-      key: "10M",
-      title: "10 Minute Timer",
-      seconds: 60 * 10,
-    },
-    {
-      key: "15M",
-      title: "15 Minute Timer",
-      seconds: 60 * 15,
-    },
-    {
-      key: "30M",
-      title: "30 Minute Timer",
-      seconds: 60 * 30,
-    },
-    {
-      key: "45M",
-      title: "45 Minute Timer",
-      seconds: 60 * 45,
-    },
-    {
-      key: "60M",
-      title: "60 Minute Timer",
-      seconds: 60 * 60,
-    },
-    {
-      key: "90M",
-      title: "90 Minute Timer",
-      seconds: 60 * 60 * 1.5,
-    },
-  ];
-  const [defaultVisibles, setDefaultVisibles] = useState<Record<string, boolean> | undefined>();
+  const { defaultPresets, defaultVisibles, refreshDefaultVisibles, isLoadingVisibles } = useDefaultPresetVisibles();
 
   useEffect(() => {
     refreshTimers();
-    setDefaultVisibles(readDefaultPresetVisibles());
+    refreshDefaultVisibles();
     setInterval(() => {
       refreshTimers();
     }, 1000);
@@ -70,7 +28,7 @@ export default function Command() {
   return (
     <MenuBarExtra
       icon={formatMenuBarIcon(timers, prefs, Icon.Clock)}
-      isLoading={isLoading && defaultVisibles == undefined}
+      isLoading={isLoading && isLoadingVisibles}
       title={formatMenuBarTitle<Timer>(timers, prefs)}
     >
       <MenuBarExtra.Item title="Click running timer to stop" />
