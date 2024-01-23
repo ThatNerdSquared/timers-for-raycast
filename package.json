@@ -174,8 +174,8 @@
     },
     {
       "name": "configureMenubarPresets",
-      "title": "Configure Custom Presets in Menu Bar",
-      "description": "Configure which custom presets to show in the Timers Menu Bar.",
+      "title": "Configure Presets in Menu Bar",
+      "description": "Configure which presets to show in the Timers Menu Bar.",
       "mode": "view"
     }
   ],
@@ -299,14 +299,14 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.61.1"
+    "@raycast/api": "^1.65.1"
   },
   "devDependencies": {
     "@raycast/eslint-config": "^1.0.8",
-    "@types/node": "~20.8.10",
-    "@types/react": "^18.2.35",
-    "eslint": "^8.53.0",
-    "typescript": "^5.2.2"
+    "@types/node": "~20.11.5",
+    "@types/react": "^18.2.48",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
   },
   "scripts": {
     "build": "ray build -e dist",
