@@ -120,6 +120,23 @@
       ]
     },
     {
+      "name": "startCustomStopwatch",
+      "title": "Start Custom Stopwatch",
+      "description": "Set a stopwatch for a custom title.",
+      "mode": "view",
+      "keywords": [
+        "new"
+      ],
+      "arguments": [
+        {
+          "name": "title",
+          "placeholder": "Add your title",
+          "required": false,
+          "type": "text"
+        }
+      ]
+    },
+    {
       "name": "manageTimers",
       "title": "Manage Timers",
       "description": "View, start, or stop existing countdown timers.",
@@ -234,6 +251,15 @@
       "title": "Timer Alert Volume",
       "description": "Volume of the alert sound. Decimal between 0 and 1.",
       "default": "1"
+    },
+    {
+      "name": "stopwatchesSetting",
+      "type": "textfield",
+      "required": false,
+      "title": "Stopwatches Title",
+      "description": "Stopwatches titles. Comma separated list of strings.",
+      "label": "Ring Continuously",
+      "default": "Coffee time, Work, Sleep"
     },
     {
       "name": "ringContinuously",

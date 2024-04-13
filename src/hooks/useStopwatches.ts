@@ -1,7 +1,7 @@
 import { Clipboard, getPreferenceValues } from "@raycast/api";
 import { useState } from "react";
 import { formatTime } from "../formatUtils";
-import { getStopwatches, pauseStopwatch, startStopwatch, stopStopwatch, unpauseStopwatch } from "../stopwatchUtils";
+import { getStopwatches, pauseStopwatch, startStopwatch, stopStopwatch, unpauseStopwatch } from "../stopwatchStore";
 import { Stopwatch } from "../types";
 
 export default function useStopwatches() {

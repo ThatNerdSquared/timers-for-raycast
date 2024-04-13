@@ -1,5 +1,5 @@
 import { closeMainWindow } from "@raycast/api";
-import { startStopwatch } from "./stopwatchUtils";
+import { startStopwatch } from "./stopwatchStore";
 import { SWInlineArgs } from "./types";
 
 export default async (props: { arguments: SWInlineArgs }) => {
@@ -7,6 +7,6 @@ export default async (props: { arguments: SWInlineArgs }) => {
   if (props.arguments.name) {
     startStopwatch(props.arguments.name);
   } else {
-    startStopwatch();
+    startStopwatch('Untitled');
   }
 };

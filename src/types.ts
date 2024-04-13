@@ -17,6 +17,12 @@ export interface Stopwatch {
   pauseElapsed: number;
 }
 
+export interface StopwatchCustomValues {
+  name: string;
+  willBeSaved: boolean;
+  selectedTitle: string;
+}
+
 export interface Values {
   hours: string;
   minutes: string;
@@ -40,6 +46,7 @@ export interface Preferences {
   copyOnSwStop: boolean;
   volumeSetting: string;
   showTitleInMenuBar: boolean;
+  stopwatchesSetting: string;
 }
 
 export interface CTInlineArgs {
@@ -81,4 +88,8 @@ export interface DefaultTimerPreset {
   key: string;
   title: string;
   seconds: number;
+}
+export interface StopwatchTitle {
+  title: string;
+  updated: Date;
 }

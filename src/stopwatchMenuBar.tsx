@@ -1,7 +1,8 @@
-import { Icon, MenuBarExtra, getPreferenceValues } from "@raycast/api";
+import { Icon, MenuBarExtra, getPreferenceValues, launchCommand, LaunchType } from "@raycast/api";
 import { useEffect } from "react";
 import useStopwatches from "./hooks/useStopwatches";
 import { formatTime } from "./formatUtils";
+import { getStopwatchesPreferenceTitles, getStopwatchesTitles } from "./stopwatchStore";
 import { Preferences, Stopwatch } from "./types";
 import { formatMenuBarIcon, formatMenuBarTitle, shortCircuitMenuBar } from "./menuBarUtils";
 
@@ -19,6 +20,9 @@ export default function Command() {
     refreshSWes();
   }
   const prefs = getPreferenceValues<Preferences>();
+  const listStopwatchesTitle = getStopwatchesTitles();
+  const listPreferenceTitle = getStopwatchesPreferenceTitles();
+
   if (shortCircuitMenuBar<Stopwatch>(stopwatches, prefs)) return null;
 
   const swTitleSuffix = (sw: Stopwatch) => {
@@ -45,8 +49,24 @@ export default function Command() {
         ))}
       </MenuBarExtra.Section>
 
-      <MenuBarExtra.Section>
-        <MenuBarExtra.Item title="Start New Stopwatch" onAction={() => handleStartSW()} key="startSW" />
+      <MenuBarExtra.Section title="Custom Stopwatch">
+        <MenuBarExtra.Item
+          title="Start Custom Stopwatch"
+          onAction={async () => await launchCommand({ name: "startCustomStopwatch", type: LaunchType.UserInitiated })}
+          key="custom"
+        />
+      </MenuBarExtra.Section>
+
+      <MenuBarExtra.Section title="Preference Stopwatch">
+        {listPreferenceTitle.map((swTitle) => (
+          <MenuBarExtra.Item title={"Start New [" + swTitle.title + "] Stopwatch"} onAction={() => handleStartSW(swTitle.title)} key={"startSW" + swTitle.title} />
+        ))}
+      </MenuBarExtra.Section>
+
+      <MenuBarExtra.Section title="Last Created Stopwatch">
+        {listStopwatchesTitle.map((swTitle) => (
+          <MenuBarExtra.Item title={"Start New [" + swTitle.title + "] Stopwatch"} onAction={() => handleStartSW(swTitle.title)} key={"startSW" + swTitle.title} />
+        ))}
       </MenuBarExtra.Section>
     </MenuBarExtra>
   );

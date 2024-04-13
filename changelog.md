@@ -1,5 +1,13 @@
 # Timers Changelog
 
+## [Improve Stopwatch titles, menu bar, create custom Stopwatch] - 2024-04-13
+
+ - Update store `files` -> `cache`
+ - Add preference setting for stopwatch titles
+ - Add store for custom titles 
+ - Add startCustomStopwatch command
+ - Add to stopwatchMenuBar preference titles and last created custom titles
+
 ## [Fix dismissTimerAlert leaving behind residual timer files] - 2024-02-02
 
 ## [Fix sorting and time subtitle in configureMenubarPresets] - 2024-01-23
