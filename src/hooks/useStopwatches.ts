@@ -14,8 +14,8 @@ export default function useStopwatches() {
     setIsLoading(false);
   };
 
-  const handleStartSW = (swName = "Untitled") => {
-    startStopwatch(swName);
+  const handleStartSW = (swName = "Untitled", launchedFromMenuBar = false) => {
+    startStopwatch(swName, launchedFromMenuBar);
     refreshSWes();
   };
 

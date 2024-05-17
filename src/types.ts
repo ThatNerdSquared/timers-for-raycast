@@ -38,8 +38,10 @@ export interface Preferences {
   selectedSound: string;
   ringContinuously: boolean;
   copyOnSwStop: boolean;
+  closeWindowOnTimerStart: boolean;
   volumeSetting: string;
   showTitleInMenuBar: boolean;
+  newTimerInputOrder: string;
 }
 
 export interface CTInlineArgs {

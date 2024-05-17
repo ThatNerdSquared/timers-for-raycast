@@ -29,7 +29,7 @@ export default function useTimers() {
 
   const handleStartTimer = (seconds: number, name: string, launchedFromMenuBar = false) => {
     if (!checkForOverlyLoudAlert(launchedFromMenuBar)) return;
-    startTimer(seconds, name);
+    startTimer(seconds, launchedFromMenuBar, name);
     refreshTimers();
   };
 
@@ -41,7 +41,7 @@ export default function useTimers() {
 
   const handleStartCT = (customTimer: CustomTimer, launchedFromMenuBar = false) => {
     if (!checkForOverlyLoudAlert(launchedFromMenuBar)) return;
-    startTimer(customTimer.timeInSeconds, customTimer.name, customTimer.selectedSound);
+    startTimer(customTimer.timeInSeconds, launchedFromMenuBar, customTimer.name, customTimer.selectedSound);
     refreshTimers();
   };
 

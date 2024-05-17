@@ -17,7 +17,7 @@ export default function Command(props: LaunchProps<{ launchContext: CommandLinkP
         title: "This custom timer no longer exists!",
       });
     } else {
-      startTimer(ct.timeInSeconds, ct.name, ct.selectedSound);
+      startTimer(ct.timeInSeconds, false, ct.name, ct.selectedSound);
       return;
     }
   }

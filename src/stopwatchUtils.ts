@@ -1,10 +1,11 @@
-import { environment, popToRoot, showHUD } from "@raycast/api";
+import { environment, popToRoot } from "@raycast/api";
 import { execSync } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { secondsBetweenDates } from "./formatUtils";
 import { Stopwatch } from "./types";
+import { showHudOrToast } from "./utils";
 
 const SWPATH = environment.supportPath + "/raycast-stopwatches.json";
 
@@ -48,7 +49,7 @@ const getStopwatches = () => {
   return setOfStopwatches;
 };
 
-const startStopwatch = async (swName = "Untitled") => {
+const startStopwatch = async (swName = "Untitled", launchedFromMenuBar: boolean) => {
   ensureSWFileExists();
   const swStore: Stopwatch[] = JSON.parse(readFileSync(SWPATH).toString());
   const newTimer = initStopwatch(swName);
@@ -56,7 +57,7 @@ const startStopwatch = async (swName = "Untitled") => {
   writeFileSync(SWPATH, JSON.stringify(swStore));
 
   popToRoot();
-  await showHUD(`Stopwatch "${swName}" started! 🎉`);
+  showHudOrToast(`Stopwatch "${swName}" started!`, launchedFromMenuBar, false);
 };
 
 const pauseStopwatch = (swToPause: string) => {
