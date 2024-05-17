@@ -1,3 +1,10 @@
+//
+//  TimerNotifHelperApp.swift
+//  TimerNotifHelper
+//
+//  Created by Nathan Yeung on 2024-05-16.
+//
+
 import UserNotifications
 
 func scheduleNotif() async -> Void {
@@ -11,7 +18,7 @@ func scheduleNotif() async -> Void {
     let content = UNMutableNotificationContent()
     content.title = "Ding!"
     let trigger = UNTimeIntervalNotificationTrigger(
-        timeInterval: 5,
+        timeInterval: 1,
         repeats: false
     )
 
