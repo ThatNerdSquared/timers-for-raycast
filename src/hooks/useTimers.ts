@@ -9,8 +9,8 @@ import {
   startTimer,
   stopTimer,
   toggleCustomTimerMenubarVisibility,
-} from "../timerUtils";
-import { CTLaunchConfig, CustomTimer, Timer, TimerLaunchConfig } from "../types";
+} from "../backend/timerBackend";
+import { CTLaunchConfig, CustomTimer, Timer, TimerLaunchConfig } from "../backend/types";
 import { Alert, Icon, confirmAlert } from "@raycast/api";
 
 export default function useTimers() {

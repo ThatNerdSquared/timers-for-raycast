@@ -23,7 +23,7 @@ const checkForOverlyLoudAlert = (launchedFromMenuBar = false) => {
   const prefs = getPreferenceValues<Preferences>();
   if (parseFloat(prefs.volumeSetting) > 5.0) {
     const errorMsg = "Timer alert volume should not be louder than 5 (it can get quite loud!)";
-    showHudOrToast(errorMsg, launchedFromMenuBar, true);
+    showHudOrToast({ msg: errorMsg, launchedFromMenuBar: launchedFromMenuBar, isErr: true });
     return false;
   }
   return true;
@@ -67,7 +67,11 @@ async function startTimer({
       return;
     }
   });
-  showHudOrToast(`Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`, launchedFromMenuBar, false);
+  showHudOrToast({
+    msg: `Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`,
+    launchedFromMenuBar: launchedFromMenuBar,
+    isErr: false,
+  });
 }
 
 function stopTimer(timerFile: string) {

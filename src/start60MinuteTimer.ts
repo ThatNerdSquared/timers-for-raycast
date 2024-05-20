@@ -1,5 +1,5 @@
 import { closeMainWindow } from "@raycast/api";
-import { checkForOverlyLoudAlert, startTimer } from "./timerUtils";
+import { checkForOverlyLoudAlert, startTimer } from "./backend/timerBackend";
 
 export default async () => {
   if (!checkForOverlyLoudAlert()) return;

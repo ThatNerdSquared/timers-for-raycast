@@ -57,7 +57,7 @@ const startStopwatch = async ({ swName = "Untitled", launchedFromMenuBar = false
   writeFileSync(SWPATH, JSON.stringify(swStore));
 
   popToRoot();
-  showHudOrToast(`Stopwatch "${swName}" started!`, launchedFromMenuBar, false);
+  showHudOrToast({ msg: `Stopwatch "${swName}" started!`, launchedFromMenuBar: launchedFromMenuBar, isErr: false });
 };
 
 const pauseStopwatch = (swToPause: string) => {

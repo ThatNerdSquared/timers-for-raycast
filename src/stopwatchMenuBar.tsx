@@ -1,9 +1,10 @@
 import { Icon, MenuBarExtra, getPreferenceValues } from "@raycast/api";
 import { useEffect } from "react";
 import useStopwatches from "./hooks/useStopwatches";
-import { formatTime } from "./formatUtils";
-import { Preferences, Stopwatch } from "./types";
-import { formatMenuBarIcon, formatMenuBarTitle, shortCircuitMenuBar } from "./menuBarUtils";
+import { formatTime } from "./backend/formatUtils";
+import { Preferences, Stopwatch } from "./backend/types";
+import { formatMenuBarIcon, formatMenuBarTitle } from "./backend/menuBarUtils";
+import { shortCircuitMenuBar } from "./backend/utils";
 
 export default function Command() {
   const { stopwatches, isLoading, refreshSWes, handlePauseSW, handleStartSW, handleStopSW, handleUnpauseSW } =

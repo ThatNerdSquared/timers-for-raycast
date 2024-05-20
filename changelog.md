@@ -1,9 +1,8 @@
 # Timers Changelog
 
-## [Persistent commands, enhanced banner notifications] - 2024-05-19
-
-- Add preference to keep "Manage Timers" and "Manage Stopwatches" commands open on Timer start
-- Add custom notification helper that uses Swift User Notifications framework to send banner notifications
+## [Persistent commands, codebase cleanup] - 2024-05-19
+- Add preference to keep "Manage Timers" and "Manage Stopwatches" commands open on timer/stopwatch start
+- Various refactors around the codebase
 
 ## [Fix dismissTimerAlert leaving behind residual timer files] - 2024-02-02
 

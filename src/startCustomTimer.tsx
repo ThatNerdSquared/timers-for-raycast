@@ -1,8 +1,8 @@
 import { Action, ActionPanel, closeMainWindow, Form, getPreferenceValues, Toast } from "@raycast/api";
 import { useState } from "react";
-import { soundData } from "./soundData";
-import { checkForOverlyLoudAlert, createCustomTimer, ensureCTFileExists, startTimer } from "./timerUtils";
-import { CTInlineArgs, InputField, Preferences, RayFormEvent, Values } from "./types";
+import { soundData } from "./backend/soundData";
+import { checkForOverlyLoudAlert, createCustomTimer, ensureCTFileExists, startTimer } from "./backend/timerBackend";
+import { CTInlineArgs, InputField, Preferences, RayFormEvent, Values } from "./backend/types";
 
 export default function CustomTimerView(props: { arguments: CTInlineArgs }) {
   const hasArgs = Object.values(props.arguments).some((x) => x !== "");

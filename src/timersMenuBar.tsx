@@ -1,10 +1,11 @@
 import { Icon, MenuBarExtra, launchCommand, LaunchType, getPreferenceValues } from "@raycast/api";
 import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
-import { formatTime } from "./formatUtils";
-import { Preferences, Timer } from "./types";
-import { formatMenuBarIcon, formatMenuBarTitle, shortCircuitMenuBar } from "./menuBarUtils";
+import { formatTime } from "./backend/formatUtils";
+import { Preferences, Timer } from "./backend/types";
+import { formatMenuBarIcon, formatMenuBarTitle } from "./backend/menuBarUtils";
 import useDefaultPresetVisibles from "./hooks/useDefaultPresetVisibles";
+import { shortCircuitMenuBar } from "./backend/utils";
 
 export default function Command() {
   const { timers, customTimers, isLoading, refreshTimers, handleStartTimer, handleStopTimer, handleStartCT } =
