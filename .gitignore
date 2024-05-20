@@ -4,3 +4,4 @@ node_modules/*
 .vscode/
 .idea/
 raycast-env.d.ts
+assets/TimersNotifHelper.app/
