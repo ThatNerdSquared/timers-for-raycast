@@ -49,15 +49,15 @@ const getStopwatches = () => {
   return setOfStopwatches;
 };
 
-const startStopwatch = async (launchConfig: StopwatchLaunchConfig) => {
+const startStopwatch = async ({ swName = "Untitled", launchedFromMenuBar = false }: StopwatchLaunchConfig) => {
   ensureSWFileExists();
   const swStore: Stopwatch[] = JSON.parse(readFileSync(SWPATH).toString());
-  const newTimer = initStopwatch(launchConfig.swName);
+  const newTimer = initStopwatch(swName);
   swStore.push(newTimer);
   writeFileSync(SWPATH, JSON.stringify(swStore));
 
   popToRoot();
-  showHudOrToast(`Stopwatch "${launchConfig.swName}" started!`, launchConfig.launchedFromMenuBar, false);
+  showHudOrToast(`Stopwatch "${swName}" started!`, launchedFromMenuBar, false);
 };
 
 const pauseStopwatch = (swToPause: string) => {

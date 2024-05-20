@@ -4,7 +4,7 @@ import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
 import { formatDateTime, formatTime } from "./formatUtils";
-import { CommandLinkParams, TimerLaunchConfig } from "./types";
+import { CommandLinkParams } from "./types";
 import { readCustomTimers, startTimer } from "./timerUtils";
 
 export default function Command(props: LaunchProps<{ launchContext: CommandLinkParams }>) {
@@ -17,13 +17,11 @@ export default function Command(props: LaunchProps<{ launchContext: CommandLinkP
         title: "This custom timer no longer exists!",
       });
     } else {
-      const launchConf = new TimerLaunchConfig({
+      startTimer({
         timeInSeconds: ct.timeInSeconds,
-        launchedFromMenuBar: false,
         timerName: ct.name,
         selectedSound: ct.selectedSound,
       });
-      startTimer(launchConf);
       return;
     }
   }
@@ -119,7 +117,7 @@ export default function Command(props: LaunchProps<{ launchContext: CommandLinkP
               subtitle={formatTime(customTimers[ctID].timeInSeconds)}
               actions={
                 <ActionPanel>
-                  <Action title="Start Timer" onAction={() => handleStartCT(customTimers[ctID])} />
+                  <Action title="Start Timer" onAction={() => handleStartCT({ customTimer: customTimers[ctID] })} />
                   <Action
                     title="Rename Timer"
                     onAction={() =>

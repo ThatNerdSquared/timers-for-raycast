@@ -50,7 +50,7 @@ export default function Command() {
             <MenuBarExtra.Item
               title={'Start "' + customTimers[ctID].name + '"'}
               key={ctID}
-              onAction={() => handleStartCT(customTimers[ctID], true)}
+              onAction={() => handleStartCT({ customTimer: customTimers[ctID], launchedFromMenuBar: true })}
             />
           ))}
       </MenuBarExtra.Section>
@@ -62,7 +62,13 @@ export default function Command() {
             <MenuBarExtra.Item
               key={defaultPreset.key}
               title={`Start ${defaultPreset.title}`}
-              onAction={() => handleStartTimer(defaultPreset.seconds, defaultPreset.title, true)}
+              onAction={() =>
+                handleStartTimer({
+                  timeInSeconds: defaultPreset.seconds,
+                  timerName: defaultPreset.title,
+                  launchedFromMenuBar: true,
+                })
+              }
             />
           ))}
       </MenuBarExtra.Section>

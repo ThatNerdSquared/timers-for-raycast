@@ -29,25 +29,25 @@ const checkForOverlyLoudAlert = (launchedFromMenuBar = false) => {
   return true;
 };
 
-async function startTimer(launchConfig: TimerLaunchConfig) {
-  const fileName =
-    environment.supportPath + "/" + new Date().toISOString() + "---" + launchConfig.timeInSeconds + ".timer";
+async function startTimer({
+  timeInSeconds,
+  timerName = "Untitled",
+  launchedFromMenuBar = false,
+  selectedSound = "default",
+}: TimerLaunchConfig) {
+  const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
-  writeFileSync(masterName, launchConfig.timerName);
+  writeFileSync(masterName, timerName);
 
   const prefs = getPreferenceValues<Preferences>();
   const selectedSoundPath = `${
-    environment.assetsPath +
-    "/" +
-    (launchConfig.selectedSound === "default" ? prefs.selectedSound : launchConfig.selectedSound)
+    environment.assetsPath + "/" + (selectedSound === "default" ? prefs.selectedSound : selectedSound)
   }`;
-  const cmdParts = [`sleep ${launchConfig.timeInSeconds}`];
-  cmdParts.push(
-    `if [ -f "${masterName}" ]; then open -b ca.nathanyeung.TimersNotifHelper --args "${launchConfig.timerName}"`,
-  );
+  const cmdParts = [`sleep ${timeInSeconds}`];
+  cmdParts.push(`if [ -f "${masterName}" ]; then open -b ca.nathanyeung.TimersNotifHelper --args "${timerName}"`);
   const afplayString = `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting.replace(",", ".")}`;
   if (prefs.selectedSound === "speak_timer_name") {
-    cmdParts.push(`say "${launchConfig.timerName}"`);
+    cmdParts.push(`say "${timerName}"`);
   } else {
     cmdParts.push(afplayString);
   }
@@ -67,11 +67,7 @@ async function startTimer(launchConfig: TimerLaunchConfig) {
       return;
     }
   });
-  showHudOrToast(
-    `Timer "${launchConfig.timerName}" started for ${formatTime(launchConfig.timeInSeconds)}!`,
-    launchConfig.launchedFromMenuBar,
-    false,
-  );
+  showHudOrToast(`Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`, launchedFromMenuBar, false);
 }
 
 function stopTimer(timerFile: string) {

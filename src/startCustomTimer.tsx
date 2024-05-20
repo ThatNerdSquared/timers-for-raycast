@@ -28,7 +28,11 @@ export default function CustomTimerView(props: { arguments: CTInlineArgs }) {
       closeMainWindow();
       const timerName = values.name ? values.name : "Untitled";
       const timeInSeconds = 3600 * Number(values.hours) + 60 * Number(values.minutes) + Number(values.seconds);
-      startTimer(timeInSeconds, false, timerName, values.selectedSound);
+      startTimer({
+        timeInSeconds: timeInSeconds,
+        timerName: timerName,
+        selectedSound: values.selectedSound,
+      });
       if (values.willBeSaved)
         createCustomTimer({
           name: values.name,

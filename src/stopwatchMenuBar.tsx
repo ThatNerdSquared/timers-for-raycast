@@ -46,7 +46,11 @@ export default function Command() {
       </MenuBarExtra.Section>
 
       <MenuBarExtra.Section>
-        <MenuBarExtra.Item title="Start New Stopwatch" onAction={() => handleStartSW()} key="startSW" />
+        <MenuBarExtra.Item
+          title="Start New Stopwatch"
+          onAction={() => handleStartSW({ launchedFromMenuBar: true })}
+          key="startSW"
+        />
       </MenuBarExtra.Section>
     </MenuBarExtra>
   );

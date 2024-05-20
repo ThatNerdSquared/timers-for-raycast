@@ -82,7 +82,7 @@ export default function Command() {
           subtitle={"Press Enter to start a stopwatch"}
           actions={
             <ActionPanel>
-              <Action title="Start Stopwatch" onAction={() => handleStartSW()} />
+              <Action title="Start Stopwatch" onAction={() => handleStartSW({})} />
             </ActionPanel>
           }
         />

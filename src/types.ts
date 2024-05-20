@@ -85,47 +85,19 @@ export interface DefaultTimerPreset {
   seconds: number;
 }
 
-export class TimerLaunchConfig {
+export interface TimerLaunchConfig {
   timeInSeconds: number;
-  launchedFromMenuBar: boolean;
-  timerName: string;
-  selectedSound: string;
-
-  constructor(args: { timeInSeconds: number; launchedFromMenuBar: boolean; timerName: string; selectedSound: string }) {
-    this.timeInSeconds = args.timeInSeconds;
-    this.launchedFromMenuBar = args.launchedFromMenuBar;
-    this.timerName = args.timerName;
-    this.selectedSound = args.selectedSound;
-  }
-
-  static fromDefaults(args: {
-    timeInSeconds: number;
-    launchedFromMenuBar: boolean;
-    timerName?: string;
-    selectedSound?: string;
-  }) {
-    return new TimerLaunchConfig({
-      timeInSeconds: args.timeInSeconds,
-      launchedFromMenuBar: args.launchedFromMenuBar,
-      timerName: args.timerName !== undefined ? args.timerName : "Untitled",
-      selectedSound: args.selectedSound !== undefined ? args.selectedSound : "default",
-    });
-  }
+  launchedFromMenuBar?: boolean;
+  timerName?: string;
+  selectedSound?: string;
 }
 
-export class StopwatchLaunchConfig {
-  swName: string;
-  launchedFromMenuBar: boolean;
+export interface StopwatchLaunchConfig {
+  swName?: string;
+  launchedFromMenuBar?: boolean;
+}
 
-  constructor(args: { swName: string; launchedFromMenuBar: boolean }) {
-    this.swName = args.swName;
-    this.launchedFromMenuBar = args.launchedFromMenuBar;
-  }
-
-  static fromDefaults(args: { launchedFromMenuBar: boolean }) {
-    return new StopwatchLaunchConfig({
-      swName: "Untitled",
-      launchedFromMenuBar: args.launchedFromMenuBar,
-    });
-  }
+export interface CTLaunchConfig {
+  customTimer: CustomTimer;
+  launchedFromMenuBar?: boolean;
 }

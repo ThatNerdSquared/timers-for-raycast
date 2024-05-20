@@ -4,5 +4,5 @@ import { checkForOverlyLoudAlert, startTimer } from "./timerUtils";
 export default async () => {
   if (!checkForOverlyLoudAlert()) return;
   await closeMainWindow();
-  await startTimer(60 * 30, "30 Minute Timer");
+  await startTimer({ timeInSeconds: 60 * 30, timerName: "30 Minute Timer" });
 };
