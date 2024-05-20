@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { secondsBetweenDates } from "./formatUtils";
-import { Stopwatch } from "./types";
+import { Stopwatch, StopwatchLaunchConfig } from "./types";
 import { showHudOrToast } from "./utils";
 
 const SWPATH = environment.supportPath + "/raycast-stopwatches.json";
@@ -15,7 +15,7 @@ const ensureSWFileExists = () => {
   }
 };
 
-const initStopwatch = (swName = ""): Stopwatch => {
+const initStopwatch = (swName: string): Stopwatch => {
   return {
     name: swName,
     swID: randomUUID(),
@@ -49,15 +49,15 @@ const getStopwatches = () => {
   return setOfStopwatches;
 };
 
-const startStopwatch = async (swName = "Untitled", launchedFromMenuBar: boolean) => {
+const startStopwatch = async (launchConfig: StopwatchLaunchConfig) => {
   ensureSWFileExists();
   const swStore: Stopwatch[] = JSON.parse(readFileSync(SWPATH).toString());
-  const newTimer = initStopwatch(swName);
+  const newTimer = initStopwatch(launchConfig.swName);
   swStore.push(newTimer);
   writeFileSync(SWPATH, JSON.stringify(swStore));
 
   popToRoot();
-  showHudOrToast(`Stopwatch "${swName}" started!`, launchedFromMenuBar, false);
+  showHudOrToast(`Stopwatch "${launchConfig.swName}" started!`, launchConfig.launchedFromMenuBar, false);
 };
 
 const pauseStopwatch = (swToPause: string) => {

@@ -3,7 +3,7 @@ import { exec } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { extname } from "path";
-import { CustomTimer, Preferences, Timer } from "./types";
+import { CustomTimer, Preferences, Timer, TimerLaunchConfig } from "./types";
 import { formatTime, secondsBetweenDates } from "./formatUtils";
 import { showHudOrToast } from "./utils";
 
@@ -29,25 +29,25 @@ const checkForOverlyLoudAlert = (launchedFromMenuBar = false) => {
   return true;
 };
 
-async function startTimer(
-  timeInSeconds: number,
-  launchedFromMenuBar: boolean,
-  timerName = "Untitled",
-  selectedSound = "default",
-) {
-  const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
+async function startTimer(launchConfig: TimerLaunchConfig) {
+  const fileName =
+    environment.supportPath + "/" + new Date().toISOString() + "---" + launchConfig.timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
-  writeFileSync(masterName, timerName);
+  writeFileSync(masterName, launchConfig.timerName);
 
   const prefs = getPreferenceValues<Preferences>();
   const selectedSoundPath = `${
-    environment.assetsPath + "/" + (selectedSound === "default" ? prefs.selectedSound : selectedSound)
+    environment.assetsPath +
+    "/" +
+    (launchConfig.selectedSound === "default" ? prefs.selectedSound : launchConfig.selectedSound)
   }`;
-  const cmdParts = [`sleep ${timeInSeconds}`];
-  cmdParts.push(`if [ -f "${masterName}" ]; then open -b ca.nathanyeung.TimersNotifHelper --args "${timerName}"`);
+  const cmdParts = [`sleep ${launchConfig.timeInSeconds}`];
+  cmdParts.push(
+    `if [ -f "${masterName}" ]; then open -b ca.nathanyeung.TimersNotifHelper --args "${launchConfig.timerName}"`,
+  );
   const afplayString = `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting.replace(",", ".")}`;
   if (prefs.selectedSound === "speak_timer_name") {
-    cmdParts.push(`say "${timerName}"`);
+    cmdParts.push(`say "${launchConfig.timerName}"`);
   } else {
     cmdParts.push(afplayString);
   }
@@ -67,7 +67,11 @@ async function startTimer(
       return;
     }
   });
-  showHudOrToast(`Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`, launchedFromMenuBar, false);
+  showHudOrToast(
+    `Timer "${launchConfig.timerName}" started for ${formatTime(launchConfig.timeInSeconds)}!`,
+    launchConfig.launchedFromMenuBar,
+    false,
+  );
 }
 
 function stopTimer(timerFile: string) {

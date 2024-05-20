@@ -4,7 +4,7 @@ import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
 import CustomTimerView from "./startCustomTimer";
 import { formatDateTime, formatTime } from "./formatUtils";
-import { CommandLinkParams } from "./types";
+import { CommandLinkParams, TimerLaunchConfig } from "./types";
 import { readCustomTimers, startTimer } from "./timerUtils";
 
 export default function Command(props: LaunchProps<{ launchContext: CommandLinkParams }>) {
@@ -17,7 +17,13 @@ export default function Command(props: LaunchProps<{ launchContext: CommandLinkP
         title: "This custom timer no longer exists!",
       });
     } else {
-      startTimer(ct.timeInSeconds, false, ct.name, ct.selectedSound);
+      const launchConf = new TimerLaunchConfig({
+        timeInSeconds: ct.timeInSeconds,
+        launchedFromMenuBar: false,
+        timerName: ct.name,
+        selectedSound: ct.selectedSound,
+      });
+      startTimer(launchConf);
       return;
     }
   }

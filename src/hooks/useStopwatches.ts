@@ -15,7 +15,10 @@ export default function useStopwatches() {
   };
 
   const handleStartSW = (swName = "Untitled", launchedFromMenuBar = false) => {
-    startStopwatch(swName, launchedFromMenuBar);
+    startStopwatch({
+        swName: swName,
+        launchedFromMenuBar: launchedFromMenuBar
+    })
     refreshSWes();
   };
 
