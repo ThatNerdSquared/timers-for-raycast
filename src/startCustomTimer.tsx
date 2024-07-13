@@ -1,4 +1,4 @@
-import { Action, ActionPanel, closeMainWindow, Form, getPreferenceValues, Toast, useNavigation } from "@raycast/api";
+import { Action, ActionPanel, Form, getPreferenceValues, Toast, useNavigation } from "@raycast/api";
 import { useState } from "react";
 import { soundData } from "./backend/soundData";
 import { checkForOverlyLoudAlert, createCustomTimer, ensureCTFileExists, startTimer } from "./backend/timerBackend";
