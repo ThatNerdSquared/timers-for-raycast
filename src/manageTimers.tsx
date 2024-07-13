@@ -1,4 +1,15 @@
-import { Action, ActionPanel, Color, Icon, LaunchProps, List, Toast, showToast, useNavigation } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Color,
+  Icon,
+  LaunchProps,
+  List,
+  Toast,
+  popToRoot,
+  showToast,
+  useNavigation,
+} from "@raycast/api";
 import { useEffect } from "react";
 import useTimers from "./hooks/useTimers";
 import RenameView from "./RenameView";
@@ -17,6 +28,7 @@ export default function Command(props: LaunchProps<{ launchContext: CommandLinkP
         title: "This custom timer no longer exists!",
       });
     } else {
+      popToRoot();
       startTimer({
         timeInSeconds: ct.timeInSeconds,
         timerName: ct.name,

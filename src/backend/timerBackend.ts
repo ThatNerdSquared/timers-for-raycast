@@ -44,7 +44,9 @@ async function startTimer({
     environment.assetsPath + "/" + (selectedSound === "default" ? prefs.selectedSound : selectedSound)
   }`;
   const cmdParts = [`sleep ${timeInSeconds}`];
-  cmdParts.push(`if [ -f "${masterName}" ]; then open -b ca.nathanyeung.TimersNotifHelper --args "${timerName}"`);
+  cmdParts.push(
+    `if [ -f "${masterName}" ]; then osascript -e 'display notification "Timer \\"${timerName}\\" complete" with title "Ding!"'`,
+  );
   const afplayString = `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting.replace(",", ".")}`;
   if (prefs.selectedSound === "speak_timer_name") {
     cmdParts.push(`say "${timerName}"`);
@@ -57,7 +59,7 @@ async function startTimer({
     cmdParts.push(`while [ -f "${dismissFile}" ]; do ${afplayString}; done`);
   }
   cmdParts.push(`rm "${masterName}"; else echo "Timer deleted"; fi`);
-  exec(cmdParts.join(" && "), (error, stderr) => {
+  exec(cmdParts.join(" ; "), (error, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
