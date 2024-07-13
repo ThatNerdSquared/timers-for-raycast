@@ -2,7 +2,13 @@ import { Action, ActionPanel, Form, popToRoot, Toast } from "@raycast/api";
 import { renameStopwatch } from "./backend/stopwatchBackend";
 import { renameCustomTimer, renameTimer } from "./backend/timerBackend";
 
-export default function RenameView(props: { currentName: string; originalFile: string; ctID: string | null }) {
+interface RenameViewProps {
+  currentName: string
+  originalFile: string
+  ctID: string | null
+}
+
+function RenameView(props: RenameViewProps) {
   const handleSubmit = (newName: string) => {
     if (newName === "" || newName === props.currentName) {
       const toast = new Toast({ style: Toast.Style.Failure, title: "No new name given!" });
@@ -37,3 +43,5 @@ export default function RenameView(props: { currentName: string; originalFile: s
     </Form>
   );
 }
+
+export { type RenameViewProps, RenameView }
