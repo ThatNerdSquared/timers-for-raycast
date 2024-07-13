@@ -1,20 +1,22 @@
-import { Action, ActionPanel, Form, popToRoot, Toast } from "@raycast/api";
-import { renameStopwatch } from "./backend/stopwatchBackend";
-import { renameCustomTimer, renameTimer } from "./backend/timerBackend";
+import { Action, ActionPanel, Form, Toast, useNavigation } from "@raycast/api";
+import { renameStopwatch } from "../backend/stopwatchBackend";
+import { renameCustomTimer, renameTimer } from "../backend/timerBackend";
+import { showHudOrToast } from "../backend/utils";
 
 interface RenameViewProps {
-  currentName: string
-  originalFile: string
-  ctID: string | null
+  currentName: string;
+  originalFile: string;
+  ctID: string | null;
 }
 
 function RenameView(props: RenameViewProps) {
+  const { pop } = useNavigation();
   const handleSubmit = (newName: string) => {
     if (newName === "" || newName === props.currentName) {
       const toast = new Toast({ style: Toast.Style.Failure, title: "No new name given!" });
       toast.show();
     } else {
-      popToRoot();
+      pop();
       switch (props.originalFile) {
         case "customTimer":
           renameCustomTimer(props.ctID ? props.ctID : "-99", newName);
@@ -26,8 +28,8 @@ function RenameView(props: RenameViewProps) {
           renameTimer(props.originalFile, newName);
           break;
       }
-      const toast = new Toast({ style: Toast.Style.Success, title: `Renamed to ${newName}!` });
-      toast.show();
+
+      showHudOrToast({ msg: `Renamed to ${newName}!`, launchedFromMenuBar: false, isErr: false });
     }
   };
 
@@ -44,4 +46,4 @@ function RenameView(props: RenameViewProps) {
   );
 }
 
-export { type RenameViewProps, RenameView }
+export { type RenameViewProps, RenameView };

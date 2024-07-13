@@ -1,10 +1,11 @@
 # Timers Changelog
 
-## [Custom notification system] - 2024-05-23
+## [Bugfixes and improvements] - 2024-07-13
 
-- Send notifications using Swift app bundle for increased stability and access to system APIs
-- Notifications now have a custom icon
-- Notifications now have actions to dismiss ringing timers or open the "Manage Timers" command
+- Fix bug where alert sound would not play if osascript notification command failed due to lack of permissions
+- Fix bug where quicklink-root-presets would not close properly if "Automatically close window on start" was disabled
+- Add icons to "Manage Timers" and "Manage Stopwatches" command actions
+- Various code improvements
 
 ## [Persistent commands, codebase cleanup] - 2024-05-19
 

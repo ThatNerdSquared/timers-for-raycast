@@ -1,5 +1,5 @@
 import { Action, Icon, useNavigation } from "@raycast/api";
-import { RenameView, RenameViewProps } from "../RenameView";
+import { RenameView, RenameViewProps } from "./RenameView";
 
 interface RenameActionProps extends RenameViewProps {
   renameLabel: string;

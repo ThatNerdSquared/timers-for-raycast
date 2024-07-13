@@ -1,10 +1,10 @@
-import { environment, getPreferenceValues, popToRoot } from "@raycast/api";
+import { environment } from "@raycast/api";
 import { execSync } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { secondsBetweenDates } from "./formatUtils";
-import { Preferences, Stopwatch, StopwatchLaunchConfig } from "./types";
+import { Stopwatch, StopwatchLaunchConfig } from "./types";
 import { showHudOrToast } from "./utils";
 
 const SWPATH = environment.supportPath + "/raycast-stopwatches.json";
@@ -56,8 +56,6 @@ const startStopwatch = async ({ swName = "Untitled", launchedFromMenuBar = false
   swStore.push(newTimer);
   writeFileSync(SWPATH, JSON.stringify(swStore));
 
-  const prefs: Preferences = getPreferenceValues();
-  if (prefs.closeWindowOnTimerStart) popToRoot();
   showHudOrToast({ msg: `Stopwatch "${swName}" started!`, launchedFromMenuBar: launchedFromMenuBar, isErr: false });
 };
 
