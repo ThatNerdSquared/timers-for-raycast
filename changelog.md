@@ -1,5 +1,12 @@
 # Timers Changelog
 
+## [Fix date formatter and residual timer files] - 2024-09-21
+
+- Fix issue where date formatter incorrectly displayed the previous month instead of the current one
+- Fix issue where the "Speak Timer Name" alert sound would result in residual timer files
+- Fix issue where the "Speak Timer Name" alert sound would not respect the "Ring Continuously" setting
+- Add alert to inform the user about how to stop the alert sound when "Ring Continuously" is enabled
+
 ## [Bugfixes and improvements] - 2024-07-13
 
 - Fix bug where alert sound would not play if osascript notification command failed due to lack of permissions

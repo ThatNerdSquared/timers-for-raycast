@@ -5,7 +5,7 @@ import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from
 import { extname } from "path";
 import { CustomTimer, Preferences, Timer, TimerLaunchConfig } from "./types";
 import { formatTime, secondsBetweenDates } from "./formatUtils";
-import { showHudOrToast } from "./utils";
+import { showHudOrToast, showInitialRingContinuouslyWarning } from "./utils";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 const DEFAULT_PRESET_VISIBLES_FILE = environment.supportPath + "/defaultPresetVisibles.json";
@@ -35,6 +35,7 @@ async function startTimer({
   launchedFromMenuBar = false,
   selectedSound = "default",
 }: TimerLaunchConfig) {
+  if (!(await showInitialRingContinuouslyWarning())) return;
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName);
