@@ -5,3 +5,4 @@ node_modules/*
 .idea/
 raycast-env.d.ts
 assets/TimersNotifHelper.app/
+*.swp
