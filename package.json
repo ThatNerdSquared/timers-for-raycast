@@ -298,6 +298,15 @@
       "default": true
     },
     {
+      "name": "customTimerFormBypass",
+      "label": "Custom Timer Form Bypass",
+      "title": "Custom Timer Form Bypass",
+      "type": "checkbox",
+      "required": false,
+      "description": "For 'Start Custom Timer', immediately start an untitled timer with default sound if any of the inline search bar hour, minute, or second fields are populated.",
+      "default": true
+    },
+    {
       "name": "newTimerInputOrder",
       "type": "dropdown",
       "required": false,
