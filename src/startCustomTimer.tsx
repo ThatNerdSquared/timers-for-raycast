@@ -21,11 +21,7 @@ export default function CustomTimerView(props: { arguments: CTInlineArgs }) {
       .map(Number)
       .map(n=>Number.isNaN(n) ? 0 : n);
 
-    startTimer({
-      timeInSeconds: 3600 * hours + 60 * minutes + seconds,
-      timerName: "Untitled",
-      selectedSound: "default",
-    });
+    startTimer({ timeInSeconds: 3600 * hours + 60 * minutes + seconds });
 
     return null;
   }
