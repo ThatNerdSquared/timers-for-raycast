@@ -91,6 +91,40 @@
       "disabledByDefault": true
     },
     {
+      "name": "startTimerBySeconds",
+      "title": "Start Timer by Seconds",
+      "description": "(SPAUPA) Set a countdown for a custom amount of seconds.",
+      "mode": "no-view",
+      "keywords": [
+        "tim"
+      ],
+      "arguments": [
+        {
+          "name": "value",
+          "placeholder": "seconds",
+          "required": true,
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "startTimerByMinutes",
+      "title": "Start Timer by Minutes",
+      "description": "(SPAUPA) Set a countdown for a custom amount of minutes.",
+      "mode": "no-view",
+      "keywords": [
+        "tis"
+      ],
+      "arguments": [
+        {
+          "name": "value",
+          "placeholder": "minutes",
+          "required": true,
+          "type": "text"
+        }
+      ]
+    },
+    {
       "name": "startCustomTimer",
       "title": "Start Custom Timer",
       "description": "Set a countdown for a custom amount of time.",
