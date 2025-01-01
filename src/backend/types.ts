@@ -42,6 +42,7 @@ export interface Preferences {
   volumeSetting: string;
   showTitleInMenuBar: boolean;
   newTimerInputOrder: string;
+  customTimerFormBypass: boolean;
 }
 
 export interface CTInlineArgs {

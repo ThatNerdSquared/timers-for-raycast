@@ -10,7 +10,8 @@
     "GastroGeek",
     "pernielsentikaer",
     "lokot0k",
-    "mitchwu"
+    "mitchwu",
+    "a-laughlin"
   ],
   "categories": [
     "Productivity",
@@ -296,6 +297,15 @@
       "description": "Whether or not to close the Raycast window when a timer or stopwatch is started.",
       "label": "Automatically close window on start",
       "default": true
+    },
+    {
+      "name": "customTimerFormBypass",
+      "label": "Custom Timer Form Bypass",
+      "title": "Custom Timer Form Bypass",
+      "type": "checkbox",
+      "required": false,
+      "description": "Skip Form if Arguments Given",
+      "default": false
     },
     {
       "name": "newTimerInputOrder",
