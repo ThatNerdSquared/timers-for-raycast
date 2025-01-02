@@ -6,6 +6,7 @@ export interface Timer {
   timeLeft: number;
   originalFile: string;
   timeEnds: Date;
+  pid: number;
 }
 
 export interface Stopwatch {

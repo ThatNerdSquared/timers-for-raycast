@@ -300,11 +300,11 @@
     },
     {
       "name": "customTimerFormBypass",
-      "label": "Custom Timer Form Bypass",
+      "label": "Skip form if arguments are given",
       "title": "Custom Timer Form Bypass",
       "type": "checkbox",
       "required": false,
-      "description": "Skip Form if Arguments Given",
+      "description": "For the 'Start Custom Timer' command, skip the timer add form if any hour, minute, or second arguments are given.",
       "default": false
     },
     {

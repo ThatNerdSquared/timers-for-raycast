@@ -1,7 +1,7 @@
 import { environment, getPreferenceValues } from "@raycast/api";
 import { exec } from "child_process";
 import { randomUUID } from "crypto";
-import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { CustomTimer, Preferences, Timer, TimerLaunchConfig } from "./types";
 import { formatTime, secondsBetweenDates } from "./formatUtils";
@@ -38,7 +38,7 @@ async function startTimer({
   if (!(await showInitialRingContinuouslyWarning())) return;
   const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
   const masterName = fileName.replace(/:/g, "__");
-  writeFileSync(masterName, timerName);
+  writeFileSync(masterName, timerName + "\n");
 
   const prefs = getPreferenceValues<Preferences>();
   const selectedSoundPath = `${
@@ -59,7 +59,7 @@ async function startTimer({
     cmdParts.push(`while [ -f "${dismissFile}" ]; do ${alertSoundString}; done`);
   }
   cmdParts.push(`rm "${masterName}"; else echo "Timer deleted"; fi`);
-  exec(cmdParts.join(" ; "), (error, stderr) => {
+  const process = exec(cmdParts.join(" ; "), (error, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -69,6 +69,11 @@ async function startTimer({
       return;
     }
   });
+  if (process.pid) {
+    appendFileSync(masterName, process.pid.toString() + "\n");
+  } else appendFileSync(masterName, "\n");
+  // appendFileSync(masterName, "---\n");
+  // appendFileSync(masterName, "0");
   showHudOrToast({
     msg: `Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`,
     launchedFromMenuBar: launchedFromMenuBar,
@@ -94,8 +99,11 @@ function getTimers() {
         timeLeft: -99,
         originalFile: timerFile,
         timeEnds: new Date(),
+        pid: -1,
       };
-      timer.name = readFileSync(environment.supportPath + "/" + timerFile).toString();
+      const rawFileContents = readFileSync(environment.supportPath + "/" + timerFile).toString().split("\n");
+      timer.name = rawFileContents[0];
+      if (rawFileContents.length > 1) timer.pid = Number.parseInt(rawFileContents[1])
       const timerFileParts = timerFile.split("---");
       timer.secondsSet = Number(timerFileParts[1].split(".")[0]);
       const timeStarted = timerFileParts[0].replace(/__/g, ":");

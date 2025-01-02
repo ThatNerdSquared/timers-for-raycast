@@ -11,7 +11,7 @@ import {
   toggleCustomTimerMenubarVisibility,
 } from "../backend/timerBackend";
 import { CTLaunchConfig, CustomTimer, Timer, TimerLaunchConfig } from "../backend/types";
-import { Alert, Icon, confirmAlert } from "@raycast/api";
+import { Alert, Icon, Toast, confirmAlert, showToast } from "@raycast/api";
 
 export default function useTimers() {
   const [timers, setTimers] = useState<Timer[] | undefined>(undefined);
@@ -36,6 +36,19 @@ export default function useTimers() {
   const handleStopTimer = (timer: Timer) => {
     setTimers(timers?.filter((t: Timer) => t.originalFile !== timer.originalFile));
     stopTimer(timer.originalFile);
+    refreshTimers();
+  };
+
+  const handlePauseTimer = (timer: Timer) => {
+    if (timer.pid == -1)
+      return showToast({
+        style: Toast.Style.Failure,
+        title: "This timer does not support pausing. Try restarting it to enable pausing.",
+      });
+    showToast({
+      style: Toast.Style.Success,
+      title: "Paused!",
+    });
     refreshTimers();
   };
 
@@ -87,6 +100,7 @@ export default function useTimers() {
     isLoading,
     refreshTimers,
     handleStartTimer,
+    handlePauseTimer,
     handleStopTimer,
     handleStartCT,
     handleCreateCT,
