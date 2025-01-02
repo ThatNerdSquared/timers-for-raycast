@@ -9,6 +9,7 @@ export interface Timer {
   pid: number;
   lastPaused: Date | "---";
   pauseElapsed: number;
+  selectedSound: string;
 }
 
 export interface Stopwatch {

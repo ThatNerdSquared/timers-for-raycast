@@ -29,11 +29,15 @@ export default function RunningTimerListItem({ timer }: RunningTimerListItemProp
       ]}
       actions={
         <ActionPanel>
-          <Action
-            title={(timer.pid === -1 ? "Unpause" : "Pause") + " Timer"}
-            icon={Icon.Pause}
-            onAction={timer.pid === -1 ? () => handleUnpauseTimer(timer) : () => handlePauseTimer(timer)}
-          />
+          {timer.timeLeft === 0 ? (
+            <Action title="Stop Timer" icon={Icon.Stop} onAction={() => handleStopTimer(timer)} />
+          ) : (
+            <Action
+              title={(timer.pid === -1 ? "Unpause" : "Pause") + " Timer"}
+              icon={Icon.Pause}
+              onAction={timer.pid === -1 ? () => handleUnpauseTimer(timer) : () => handlePauseTimer(timer)}
+            />
+          )}
           <RenameAction renameLabel={"Timer"} currentName={timer.name} originalFile={timer.originalFile} ctID={null} />
           <Action
             title="Stop Timer"

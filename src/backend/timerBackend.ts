@@ -41,7 +41,8 @@ async function startTimer({
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName + "\n");
 
-  if (getPreferenceValues<Preferences>().ringContinuously) {
+  const prefs = getPreferenceValues<Preferences>();
+  if (prefs.ringContinuously) {
     const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
     writeFileSync(dismissFile, ".dismiss file for Timers");
   }
@@ -62,7 +63,8 @@ async function startTimer({
     appendFileSync(masterName, process.pid.toString() + "\n");
   } else appendFileSync(masterName, "\n");
   appendFileSync(masterName, "---\n");
-  appendFileSync(masterName, "0");
+  appendFileSync(masterName, "0\n");
+  appendFileSync(masterName, selectedSound === "default" ? prefs.selectedSound : selectedSound);
   showHudOrToast({
     msg: `Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`,
     launchedFromMenuBar: launchedFromMenuBar,
@@ -117,7 +119,7 @@ function pauseTimer(timerFile: string, timerPid: number) {
 function unpauseTimer(timer: Timer) {
   const timerFilePath = environment.supportPath + "/" + timer.originalFile;
 
-  const cmd = buildTimerCommand(timerFilePath, timer.name, timer.timeLeft, "default");
+  const cmd = buildTimerCommand(timerFilePath, timer.name, timer.timeLeft, timer.selectedSound);
   const process = exec(cmd);
 
   const fileContents = readFileSync(timerFilePath).toString().split("\n");
@@ -141,6 +143,7 @@ function getTimers() {
         pid: -2,
         lastPaused: "---",
         pauseElapsed: 0,
+        selectedSound: "default",
       };
       const rawFileContents = readFileSync(environment.supportPath + "/" + timerFile)
         .toString()
@@ -149,6 +152,7 @@ function getTimers() {
       if (rawFileContents[1] !== "") timer.pid = Number.parseInt(rawFileContents[1]);
       if (rawFileContents[2] !== "---") timer.lastPaused = new Date(rawFileContents[2]);
       timer.pauseElapsed = Number.parseInt(rawFileContents[3]);
+      timer.selectedSound = rawFileContents[4];
 
       const timerFileParts = timerFile.split("---");
       timer.secondsSet = Number(timerFileParts[1].split(".")[0]);
