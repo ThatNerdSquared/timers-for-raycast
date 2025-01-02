@@ -16,7 +16,7 @@ const finishedIcon = { source: Icon.Clock, tintColor: Color.Green };
 const finishedLabel = { tag: { value: "Finished!", color: Color.Green } };
 
 export default function RunningTimerListItem({ timer }: RunningTimerListItemProps) {
-  const { handlePauseTimer, handleStopTimer, handleCreateCT } = useTimers();
+  const { handlePauseTimer, handleUnpauseTimer, handleStopTimer, handleCreateCT } = useTimers();
   return (
     <List.Item
       icon={timer.timeLeft === 0 ? finishedIcon : timer.pid === -1 ? pausedIcon : runningIcon}
@@ -29,9 +29,21 @@ export default function RunningTimerListItem({ timer }: RunningTimerListItemProp
       ]}
       actions={
         <ActionPanel>
-          <Action title={(timer.pid === -1 ? "Pause" : "Unpause") + "Timer"} icon={Icon.Pause} onAction={() => handlePauseTimer(timer)} />
-          <Action title="Stop Timer" icon={Icon.Stop} onAction={() => handleStopTimer(timer)} />
+          <Action
+            title={(timer.pid === -1 ? "Unpause" : "Pause") + " Timer"}
+            icon={Icon.Pause}
+            onAction={timer.pid === -1 ? () => handleUnpauseTimer(timer) : () => handlePauseTimer(timer)}
+          />
           <RenameAction renameLabel={"Timer"} currentName={timer.name} originalFile={timer.originalFile} ctID={null} />
+          <Action
+            title="Stop Timer"
+            icon={Icon.Stop}
+            shortcut={{
+              modifiers: ["ctrl"],
+              key: "x",
+            }}
+            onAction={() => handleStopTimer(timer)}
+          />
           <Action
             title="Save Timer as Preset"
             icon={Icon.SaveDocument}

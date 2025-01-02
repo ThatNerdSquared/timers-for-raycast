@@ -5,10 +5,12 @@ import {
   deleteCustomTimer,
   ensureCTFileExists,
   getTimers,
+  pauseTimer,
   readCustomTimers,
   startTimer,
   stopTimer,
   toggleCustomTimerMenubarVisibility,
+  unpauseTimer,
 } from "../backend/timerBackend";
 import { CTLaunchConfig, CustomTimer, Timer, TimerLaunchConfig } from "../backend/types";
 import { Alert, Icon, Toast, confirmAlert, showToast } from "@raycast/api";
@@ -40,15 +42,22 @@ export default function useTimers() {
   };
 
   const handlePauseTimer = (timer: Timer) => {
-    if (timer.pid == -1)
+    if (timer.pid == -2)
       return showToast({
         style: Toast.Style.Failure,
         title: "This timer does not support pausing. Try restarting it to enable pausing.",
       });
-    showToast({
-      style: Toast.Style.Success,
-      title: "Paused!",
-    });
+    pauseTimer(timer.originalFile, timer.pid);
+    refreshTimers();
+  };
+
+  const handleUnpauseTimer = (timer: Timer) => {
+    if (timer.pid == -2)
+      return showToast({
+        style: Toast.Style.Failure,
+        title: "This timer does not support pausing. Try restarting it to enable pausing.",
+      });
+    unpauseTimer(timer);
     refreshTimers();
   };
 
@@ -101,6 +110,7 @@ export default function useTimers() {
     refreshTimers,
     handleStartTimer,
     handlePauseTimer,
+    handleUnpauseTimer,
     handleStopTimer,
     handleStartCT,
     handleCreateCT,

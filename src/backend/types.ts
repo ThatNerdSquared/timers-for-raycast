@@ -7,6 +7,8 @@ export interface Timer {
   originalFile: string;
   timeEnds: Date;
   pid: number;
+  lastPaused: Date | "---";
+  pauseElapsed: number;
 }
 
 export interface Stopwatch {

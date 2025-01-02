@@ -6,6 +6,7 @@ import { extname } from "path";
 import { CustomTimer, Preferences, Timer, TimerLaunchConfig } from "./types";
 import { formatTime, secondsBetweenDates } from "./formatUtils";
 import { showHudOrToast, showInitialRingContinuouslyWarning } from "./utils";
+import { kill } from "process";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 const DEFAULT_PRESET_VISIBLES_FILE = environment.supportPath + "/defaultPresetVisibles.json";
@@ -40,6 +41,41 @@ async function startTimer({
   const masterName = fileName.replace(/:/g, "__");
   writeFileSync(masterName, timerName + "\n");
 
+  if (getPreferenceValues<Preferences>().ringContinuously) {
+    const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
+    writeFileSync(dismissFile, ".dismiss file for Timers");
+  }
+
+  const cmd = buildTimerCommand(masterName, timerName, timeInSeconds, selectedSound);
+
+  const process = exec(cmd, (error, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+  });
+  if (process.pid) {
+    appendFileSync(masterName, process.pid.toString() + "\n");
+  } else appendFileSync(masterName, "\n");
+  appendFileSync(masterName, "---\n");
+  appendFileSync(masterName, "0");
+  showHudOrToast({
+    msg: `Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`,
+    launchedFromMenuBar: launchedFromMenuBar,
+    isErr: false,
+  });
+}
+
+function buildTimerCommand(
+  masterName: string,
+  timerName: string,
+  timeInSeconds: number,
+  selectedSound: string,
+): string {
   const prefs = getPreferenceValues<Preferences>();
   const selectedSoundPath = `${
     environment.assetsPath + "/" + (selectedSound === "default" ? prefs.selectedSound : selectedSound)
@@ -55,30 +91,10 @@ async function startTimer({
   cmdParts.push(alertSoundString);
   if (prefs.ringContinuously) {
     const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
-    writeFileSync(dismissFile, ".dismiss file for Timers");
     cmdParts.push(`while [ -f "${dismissFile}" ]; do ${alertSoundString}; done`);
   }
   cmdParts.push(`rm "${masterName}"; else echo "Timer deleted"; fi`);
-  const process = exec(cmdParts.join(" ; "), (error, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-  });
-  if (process.pid) {
-    appendFileSync(masterName, process.pid.toString() + "\n");
-  } else appendFileSync(masterName, "\n");
-  // appendFileSync(masterName, "---\n");
-  // appendFileSync(masterName, "0");
-  showHudOrToast({
-    msg: `Timer "${timerName}" started for ${formatTime(timeInSeconds)}!`,
-    launchedFromMenuBar: launchedFromMenuBar,
-    isErr: false,
-  });
+  return cmdParts.join(" ; ");
 }
 
 function stopTimer(timerFile: string) {
@@ -86,6 +102,29 @@ function stopTimer(timerFile: string) {
   const dismissFile = timerFilePath.replace(".timer", ".dismiss");
   silentFileDeletion(timerFilePath);
   silentFileDeletion(dismissFile);
+}
+
+function pauseTimer(timerFile: string, timerPid: number) {
+  const timerFilePath = environment.supportPath + "/" + timerFile;
+  kill(timerPid);
+
+  const fileContents = readFileSync(timerFilePath).toString().split("\n");
+  fileContents[1] = "-1";
+  fileContents[2] = new Date().toISOString();
+  writeFileSync(timerFilePath, fileContents.join("\n"));
+}
+
+function unpauseTimer(timer: Timer) {
+  const timerFilePath = environment.supportPath + "/" + timer.originalFile;
+
+  const cmd = buildTimerCommand(timerFilePath, timer.name, timer.timeLeft, "default");
+  const process = exec(cmd);
+
+  const fileContents = readFileSync(timerFilePath).toString().split("\n");
+  fileContents[3] = (timer.pauseElapsed + secondsBetweenDates({ d2: timer.lastPaused })).toString();
+  fileContents[2] = "---";
+  fileContents[1] = process.pid!.toString();
+  writeFileSync(timerFilePath, fileContents.join("\n"));
 }
 
 function getTimers() {
@@ -99,17 +138,33 @@ function getTimers() {
         timeLeft: -99,
         originalFile: timerFile,
         timeEnds: new Date(),
-        pid: -1,
+        pid: -2,
+        lastPaused: "---",
+        pauseElapsed: 0,
       };
-      const rawFileContents = readFileSync(environment.supportPath + "/" + timerFile).toString().split("\n");
+      const rawFileContents = readFileSync(environment.supportPath + "/" + timerFile)
+        .toString()
+        .split("\n");
       timer.name = rawFileContents[0];
-      if (rawFileContents.length > 1) timer.pid = Number.parseInt(rawFileContents[1])
+      if (rawFileContents[1] !== "") timer.pid = Number.parseInt(rawFileContents[1]);
+      if (rawFileContents[2] !== "---") timer.lastPaused = new Date(rawFileContents[2]);
+      timer.pauseElapsed = Number.parseInt(rawFileContents[3]);
+
       const timerFileParts = timerFile.split("---");
       timer.secondsSet = Number(timerFileParts[1].split(".")[0]);
       const timeStarted = timerFileParts[0].replace(/__/g, ":");
-      timer.timeLeft = Math.max(0, Math.round(timer.secondsSet - secondsBetweenDates({ d2: timeStarted })));
       timer.timeEnds = new Date(timeStarted);
-      timer.timeEnds.setSeconds(timer.timeEnds.getSeconds() + timer.secondsSet);
+      timer.timeEnds.setSeconds(timer.timeEnds.getSeconds() + timer.secondsSet + timer.pauseElapsed);
+      timer.timeLeft = Math.max(
+        0,
+        Math.round(
+          timer.pid === -1
+            ? timer.secondsSet -
+                secondsBetweenDates({ d1: timer.lastPaused, d2: new Date(timeStarted) }) +
+                timer.pauseElapsed
+            : secondsBetweenDates({ d1: timer.timeEnds }),
+        ),
+      );
       setOfTimers.push(timer);
     }
   });
@@ -206,6 +261,8 @@ export {
   toggleCustomTimerMenubarVisibility,
   startTimer,
   stopTimer,
+  pauseTimer,
+  unpauseTimer,
   readDefaultPresetVisibles,
   toggleDefaultPresetVisibility,
 };
