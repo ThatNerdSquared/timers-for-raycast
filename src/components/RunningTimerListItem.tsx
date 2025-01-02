@@ -19,13 +19,13 @@ export default function RunningTimerListItem({ timer }: RunningTimerListItemProp
   const { handlePauseTimer, handleUnpauseTimer, handleStopTimer, handleCreateCT } = useTimers();
   return (
     <List.Item
-      icon={timer.timeLeft === 0 ? finishedIcon : timer.pid === -1 ? pausedIcon : runningIcon}
+      icon={timer.timeLeft === 0 ? finishedIcon : timer.lastPaused !== "---" ? pausedIcon : runningIcon}
       title={timer.name}
       subtitle={formatTime(timer.timeLeft) + " left"}
       accessories={[
         { text: formatTime(timer.secondsSet) + " originally" },
         { text: `${timer.timeLeft === 0 ? "Ended" : "Ends"} at ${formatDateTime(timer.timeEnds)}` },
-        timer.timeLeft === 0 ? finishedLabel : timer.pid === -1 ? pausedLabel : runningLabel,
+        timer.timeLeft === 0 ? finishedLabel : timer.lastPaused !== "---" ? pausedLabel : runningLabel,
       ]}
       actions={
         <ActionPanel>
@@ -33,9 +33,9 @@ export default function RunningTimerListItem({ timer }: RunningTimerListItemProp
             <Action title="Stop Timer" icon={Icon.Stop} onAction={() => handleStopTimer(timer)} />
           ) : (
             <Action
-              title={(timer.pid === -1 ? "Unpause" : "Pause") + " Timer"}
+              title={(timer.lastPaused !== "---" ? "Unpause" : "Pause") + " Timer"}
               icon={Icon.Pause}
-              onAction={timer.pid === -1 ? () => handleUnpauseTimer(timer) : () => handlePauseTimer(timer)}
+              onAction={timer.lastPaused !== "---" ? () => handleUnpauseTimer(timer) : () => handlePauseTimer(timer)}
             />
           )}
           <RenameAction renameLabel={"Timer"} currentName={timer.name} originalFile={timer.originalFile} ctID={null} />

@@ -42,17 +42,19 @@ export default function useTimers() {
   };
 
   const handlePauseTimer = (timer: Timer) => {
-    if (timer.pid == -2)
+    // cannot migrate old timers as we don't know PID
+    if (timer.pid == undefined && timer.lastPaused === "---")
       return showToast({
         style: Toast.Style.Failure,
         title: "This timer does not support pausing. Try restarting it to enable pausing.",
       });
-    pauseTimer(timer.originalFile, timer.pid);
+    pauseTimer(timer.originalFile, timer.pid!);
     refreshTimers();
   };
 
   const handleUnpauseTimer = (timer: Timer) => {
-    if (timer.pid == -2)
+    // cannot migrate old timers as we don't know PID
+    if (timer.pid == undefined && timer.lastPaused === "---")
       return showToast({
         style: Toast.Style.Failure,
         title: "This timer does not support pausing. Try restarting it to enable pausing.",
