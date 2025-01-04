@@ -1,7 +1,7 @@
 import { environment, getPreferenceValues } from "@raycast/api";
 import { exec } from "child_process";
 import { randomUUID } from "crypto";
-import { appendFileSync, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { CustomTimer, Preferences, RawTimer, Timer, TimerLaunchConfig } from "./types";
 import { formatTime, secondsBetweenDates } from "./formatUtils";
@@ -172,7 +172,10 @@ function getTimers() {
         Math.round(
           timer.pid === undefined
             ? timer.secondsSet -
-                secondsBetweenDates({ d1: timer.lastPaused === "---" ? undefined : timer.lastPaused, d2: new Date(timeStarted) }) +
+                secondsBetweenDates({
+                  d1: timer.lastPaused === "---" ? undefined : timer.lastPaused,
+                  d2: new Date(timeStarted),
+                }) +
                 timer.pauseElapsed
             : secondsBetweenDates({ d1: timer.timeEnds }),
         ),
@@ -187,8 +190,11 @@ function getTimers() {
 }
 
 function renameTimer(timerFile: string, newName: string) {
-  const dataPath = environment.supportPath + "/" + timerFile;
-  writeFileSync(dataPath, newName);
+  const timerFilePath = environment.supportPath + "/" + timerFile;
+  const rawFileContents = readFileSync(timerFilePath).toString();
+  const fileContents: RawTimer = JSON.parse(rawFileContents);
+  fileContents.name = newName;
+  writeFileSync(timerFilePath, JSON.stringify(fileContents));
 }
 
 function ensureCTFileExists() {
