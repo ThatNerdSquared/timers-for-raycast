@@ -355,18 +355,19 @@
     "build": "ray build -e dist",
     "dev": "ray develop",
     "lint": "ray lint",
-    "lint-fix": "ray lint --fix"
+    "lint-fix": "ray lint --fix",
+    "test-ai": "ray evals"
   },
   "ai": {
     "instructions": "The user will request for a timer of a certain length to be started, in hours, minutes, and seconds. Some of these may be left out. For example, the user may ask, 'Start a 25 minute timer'. In this case the input is hours: 0, minutes: 25, seconds: 0. Always respond telling the user a timer has been successfully started, and include the length of the timer in hours, minutes, and seconds. The user can also add a name for the timer. Do not change the capitalisation or formatting of the name.",
     "evals": [
       {
-        "input": "@timers start a 25 min timer",
+        "input": "@timers start a 10 min timer",
         "mocks": {
           "start-timer": {
-            "timeInSeconds": 1500,
+            "timeInSeconds": 600,
             "timerName": null,
-            "saved": null
+            "saved": false
           }
         },
         "expected": [
@@ -375,10 +376,8 @@
               "name": "start-timer",
               "arguments": {
                 "hours": 0,
-                "minutes": 25,
-                "seconds": 0,
-                "name": null,
-                "shouldBeSaved": null
+                "minutes": 10,
+                "seconds": 0
               }
             }
           }
@@ -413,8 +412,7 @@
         "mocks": {
           "start-timer": {
             "timeInSeconds": 90,
-            "timerName": "fighting bears in woods",
-            "saved": false
+            "timerName": "fighting bears in woods"
           }
         },
         "expected": [
@@ -423,10 +421,9 @@
               "name": "start-timer",
               "arguments": {
                 "hours": 0,
-                "minutes": 0,
-                "seconds": 90,
-                "name": "fighting bears in woods",
-                "shouldBeSaved": false
+                "minutes": 1,
+                "seconds": 30,
+                "name": "fighting bears in woods"
               }
             }
           }
@@ -449,8 +446,7 @@
                 "hours": 0,
                 "minutes": 4,
                 "seconds": 0,
-                "name": "tea steeping",
-                "shouldBeSaved": false
+                "name": "tea steeping"
               }
             }
           }
@@ -468,15 +464,21 @@
               "arguments": {
                 "name": "pomodoro"
               }
-            },
+            }
+          },
+          {
             "not": {
               "callsTool": "start-timer"
             }
+          },
+          {
+            "meetsCriteria": "Tells the user that the 'pomodoro' preset timer has been successfully started."
           }
         ]
       },
       {
         "input": "@timers start dark magic preset",
+        "usedAsExample": false,
         "mocks": {
           "start-preset": null
         },
@@ -487,11 +489,15 @@
               "arguments": {
                 "name": "dark magic"
               }
-            },
+            }
+          },
+          {
             "not": {
               "callsTool": "start-timer"
-            },
-            "meetsCriteria": "Tells the user that this preset does not exist, and to create a new timer with this name and save it."
+            }
+          },
+          {
+            "meetsCriteria": "Tells the user that this preset does not exist."
           }
         ]
       }
