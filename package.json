@@ -5,6 +5,7 @@
   "description": "Start, stop, and save countdown timers, directly in Raycast, with no external dependencies.",
   "icon": "command-icon.png",
   "author": "ThatNerd",
+  "owner": "raycast-ai-extensions-beta",
   "contributors": [
     "GastroGeek",
     "pernielsentikaer",
@@ -191,6 +192,13 @@
       "mode": "view"
     }
   ],
+  "tools": [
+    {
+      "name": "start-timer",
+      "title": "Start Timer",
+      "description": "Start a new timer, optionally saving it as a preset."
+    }
+  ],
   "preferences": [
     {
       "name": "selectedSound",
@@ -329,7 +337,7 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.78.1"
+    "@raycast/api": "^1.91.2"
   },
   "devDependencies": {
     "@raycast/eslint-config": "^1.0.8",
@@ -343,5 +351,106 @@
     "dev": "ray develop",
     "lint": "ray lint",
     "lint-fix": "ray lint --fix"
+  },
+  "ai": {
+    "instructions": "The user will request for a timer of a certain length to be started, in hours, minutes, and seconds. Some of these may be left out. For example, the user may ask, 'Start a 25 minute timer'. In this case the input is hours: 0, minutes: 25, seconds: 0. Always respond telling the user a timer has been successfully started, and include the length of the timer in hours, minutes, and seconds. The user can also add a name for the timer. Do not change the capitalisation or formatting of the name.",
+    "evals": [
+      {
+        "input": "@timers start a 25 min timer",
+        "mocks": {
+          "start-timer": {
+            "timeInSeconds": 1500,
+            "timerName": null,
+            "saved": null
+          }
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "start-timer",
+              "arguments": {
+                "hours": 0,
+                "minutes": 25,
+                "seconds": 0,
+                "name": null,
+                "shouldBeSaved": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "@timers start a 1h30m 'deep work' timer and save it",
+        "mocks": {
+          "start-timer": {
+            "timeInSeconds": 5400,
+            "timerName": "deep work",
+            "saved": true
+          }
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "start-timer",
+              "arguments": {
+                "hours": 1,
+                "minutes": 30,
+                "seconds": 0,
+                "name": "deep work",
+                "shouldBeSaved": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "@timers start a 90s timer for fighting bears in woods",
+        "mocks": {
+          "start-timer": {
+            "timeInSeconds": 90,
+            "timerName": "fighting bears in woods",
+            "saved": false
+          }
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "start-timer",
+              "arguments": {
+                "hours": 0,
+                "minutes": 0,
+                "seconds": 90,
+                "name": "fighting bears in woods",
+                "shouldBeSaved": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "@timers start a 'tea steeping' timer for 4 min",
+        "mocks": {
+          "start-timer": {
+            "timeInSeconds": 240,
+            "timerName": "tea steeping",
+            "saved": false
+          }
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "start-timer",
+              "arguments": {
+                "hours": 0,
+                "minutes": 4,
+                "seconds": 0,
+                "name": "tea steeping",
+                "shouldBeSaved": false
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }
