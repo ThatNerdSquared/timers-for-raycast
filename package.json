@@ -197,6 +197,11 @@
       "name": "start-timer",
       "title": "Start Timer",
       "description": "Start a new timer, optionally saving it as a preset."
+    },
+    {
+      "name": "start-preset",
+      "title": "Start Preset",
+      "description": "Start a timer from an existing preset. Note that this will only work for presets that have already been saved."
     }
   ],
   "preferences": [
@@ -448,6 +453,45 @@
                 "shouldBeSaved": false
               }
             }
+          }
+        ]
+      },
+      {
+        "input": "@timers start pomodoro preset",
+        "mocks": {
+          "start-preset": "pomodoro"
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "start-preset",
+              "arguments": {
+                "name": "pomodoro"
+              }
+            },
+            "not": {
+              "callsTool": "start-timer"
+            }
+          }
+        ]
+      },
+      {
+        "input": "@timers start dark magic preset",
+        "mocks": {
+          "start-preset": null
+        },
+        "expected": [
+          {
+            "callsTool": {
+              "name": "start-preset",
+              "arguments": {
+                "name": "dark magic"
+              }
+            },
+            "not": {
+              "callsTool": "start-timer"
+            },
+            "meetsCriteria": "Tells the user that this preset does not exist, and to create a new timer with this name and save it."
           }
         ]
       }
