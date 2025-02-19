@@ -18,6 +18,7 @@ export default async function (input: StartPresetToolInput): Promise<string | nu
     timeInSeconds: selectedPreset.timeInSeconds,
     timerName: selectedPreset.name,
     launchedFromMenuBar: false,
+    skipRingContinuouslyWarning: true,
   });
   return selectedPreset.name;
 }
