@@ -26,7 +26,7 @@ type StartTimerToolInput = {
 };
 
 export default async function (input: StartTimerToolInput) {
-  const timeInSeconds = 3600 * Number(input.hours) + 60 * Number(input.minutes) + Number(input.seconds);
+  const timeInSeconds = 3600 * (input.hours ?? 0) + 60 * (input.minutes ?? 0) + (input.seconds ?? 0);
   const res: TimerLaunchConfig = {
     timeInSeconds: timeInSeconds,
     timerName: input.name,
