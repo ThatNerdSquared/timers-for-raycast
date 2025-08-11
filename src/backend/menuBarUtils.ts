@@ -8,9 +8,11 @@ const formatMenuBarTitle = <T extends Timer | Stopwatch>(
 ): string | undefined => {
   if (state === undefined || state?.length === 0 || state.length == undefined) return undefined;
 
-  const runTime = "timeLeft" in state[0] ? state[0].timeLeft : state[0].timeElapsed;
+  const firstUnpausedItem = state.find((x) => x.lastPaused === "---" || x.lastPaused == "----") ?? state[0];
+
+  const runTime = "timeLeft" in firstUnpausedItem ? firstUnpausedItem.timeLeft : firstUnpausedItem.timeElapsed;
   if (prefs.showTitleInMenuBar) {
-    return `${state[0].name}: ~${formatTime(runTime)}`;
+    return `${firstUnpausedItem.name}: ~${formatTime(runTime)}`;
   } else {
     return `~${formatTime(runTime)}`;
   }

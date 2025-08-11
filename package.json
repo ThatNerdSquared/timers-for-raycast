@@ -5,7 +5,6 @@
   "description": "Start, stop, and save countdown timers, directly in Raycast, with no external dependencies.",
   "icon": "command-icon.png",
   "author": "ThatNerd",
-  "owner": "raycast-ai-extensions-beta",
   "contributors": [
     "GastroGeek",
     "pernielsentikaer",
