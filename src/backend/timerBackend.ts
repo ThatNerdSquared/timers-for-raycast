@@ -45,7 +45,7 @@ async function startTimer({
 
   const prefs = getPreferenceValues<Preferences>();
   if (prefs.ringContinuously) {
-    const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
+    const dismissFile = `${masterName}`.slice(0, ".timer".length * -1) + ".dismiss";
     writeFileSync(dismissFile, ".dismiss file for Timers");
   }
 
