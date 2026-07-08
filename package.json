@@ -210,7 +210,7 @@
       "required": true,
       "title": "Selected Sound",
       "description": "Sound played when a timer finishes.",
-      "default": "Submarine",
+      "default": "alarmClock.wav",
       "data": [
         {
           "title": "Alarm Clock",

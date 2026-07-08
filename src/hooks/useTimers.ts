@@ -79,7 +79,7 @@ export default function useTimers() {
     const customTimer: CustomTimer = {
       name: timer.name,
       timeInSeconds: timer.secondsSet,
-      selectedSound: "default",
+      selectedSound: timer.selectedSound,
       showInMenuBar: true,
     };
     createCustomTimer(customTimer);
