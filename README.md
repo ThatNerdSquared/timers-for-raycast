@@ -24,11 +24,10 @@ _Note: if you do not receive notifications from the timer completion, you may ne
 - [x] Dismiss Ringing Timer (stop a ringing alert for a finished timer, if you've checked the Ring Continously setting)
 - [x] Preview Alert Sounds (test out the bundled timer alert sounds before selecting one in settings)
 - [x] Stop Running Timer (stop the running timer closest to completion)
-
-### Not Yet Implemented
-
-- [ ] Set Alarm
-- [ ] Manage Alarms (view/start/stop running alarms)
+- [x] Set Alarm (set an alarm for a specific date and time)
+- [x] Manage Alarms (view/start/rename/stop active alarms)
+- [x] Dismiss Ringing Alarm (stop a ringing alert for an active alarm, if you've checked the Ring Continously setting)
+- [x] Alarms Menu Bar (view, set, or stop existing alarms from the Menu Bar)
 
 ## Contributing
 

@@ -115,3 +115,21 @@ export interface CTLaunchConfig {
   customTimer: CustomTimer;
   launchedFromMenuBar?: boolean;
 }
+
+export interface Alarm {
+  name: string;
+  timeLeft: number; // seconds left
+  targetTime: Date;
+  originalFile: string;
+  pid: number | undefined;
+  selectedSound: string;
+  timeStarted: Date;
+}
+
+export interface RawAlarm {
+  name: string;
+  pid: number | undefined;
+  targetTime: string;
+  selectedSound: string;
+  timeStarted: string;
+}

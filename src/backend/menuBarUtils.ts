@@ -1,14 +1,16 @@
 import { Icon } from "@raycast/api";
 import { formatTime } from "./formatUtils";
-import { Preferences, Stopwatch, Timer } from "./types";
+import { Alarm, Preferences, Stopwatch, Timer } from "./types";
 
-const formatMenuBarTitle = <T extends Timer | Stopwatch>(
+const formatMenuBarTitle = <T extends Timer | Stopwatch | Alarm>(
   state: T[] | undefined,
   prefs: Preferences,
 ): string | undefined => {
   if (state === undefined || state?.length === 0 || state.length == undefined) return undefined;
 
-  const firstUnpausedItem = state.find((x) => x.lastPaused === "---" || x.lastPaused == "----") ?? state[0];
+  // Alarms have no "lastPaused" field (they can't be paused), so they always count as unpaused
+  const firstUnpausedItem =
+    state.find((x) => !("lastPaused" in x) || x.lastPaused === "---" || x.lastPaused == "----") ?? state[0];
 
   const runTime = "timeLeft" in firstUnpausedItem ? firstUnpausedItem.timeLeft : firstUnpausedItem.timeElapsed;
   if (prefs.showTitleInMenuBar) {
