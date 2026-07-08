@@ -189,6 +189,36 @@
       "title": "Configure Presets in Menu Bar",
       "description": "Configure which presets to show in the Timers Menu Bar.",
       "mode": "view"
+    },
+    {
+      "name": "setAlarm",
+      "title": "Set Alarm",
+      "description": "Set an alarm for a specific date and time.",
+      "mode": "view"
+    },
+    {
+      "name": "manageAlarms",
+      "title": "Manage Alarms",
+      "description": "View, start, or stop active alarms.",
+      "mode": "view"
+    },
+    {
+      "name": "dismissAlarmAlert",
+      "title": "Dismiss Ringing Alarm",
+      "keywords": [
+        "Dismiss Alarm Alert",
+        "Alarm",
+        "Alert"
+      ],
+      "description": "Stop a ringing alert from an active alarm.",
+      "mode": "no-view"
+    },
+    {
+      "name": "alarmsMenuBar",
+      "title": "Alarms Menu Bar",
+      "description": "View, set, or stop existing alarms from the Menu Bar.",
+      "mode": "menu-bar",
+      "interval": "10s"
     }
   ],
   "tools": [
@@ -210,7 +240,7 @@
       "required": true,
       "title": "Selected Sound",
       "description": "Sound played when a timer finishes.",
-      "default": "Submarine",
+      "default": "alarmClock.wav",
       "data": [
         {
           "title": "Alarm Clock",

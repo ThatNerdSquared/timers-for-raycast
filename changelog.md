@@ -1,5 +1,11 @@
 # Timers Changelog
 
+## [Alarms] - 2026-07-08
+
+- Added "Set Alarm" and "Manage Alarms" commands, allowing you to set an alarm for a specific date and time, and view/rename/stop active alarms
+- Added "Dismiss Ringing Alarm" command, to stop a ringing alarm's alert when Ring Continuously is enabled
+- Added "Alarms Menu Bar" command, to view, set, or stop alarms from the Menu Bar
+
 ## [Chore] - 2025-01-14
 
 - Moved contributor to past contributors list
