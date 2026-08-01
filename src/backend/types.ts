@@ -67,6 +67,11 @@ export interface SWInlineArgs {
   name: string;
 }
 
+export interface SimpleTimerArgs {
+  duration: string;
+  name: string;
+}
+
 export interface InputField {
   id: keyof CTInlineArgs;
   title: string;

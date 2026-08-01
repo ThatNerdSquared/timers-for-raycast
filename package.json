@@ -123,6 +123,30 @@
       ]
     },
     {
+      "name": "createSimpleTimer",
+      "title": "Create Simple Timer",
+      "description": "Start a timer from a single input like \"3h 2m 4s\", \"15\", or \"until 13:20\".",
+      "mode": "no-view",
+      "keywords": [
+        "quick",
+        "new"
+      ],
+      "arguments": [
+        {
+          "name": "duration",
+          "placeholder": "3h 2m 4s | 15 | until 13:20",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "name": "name",
+          "placeholder": "name",
+          "required": false,
+          "type": "text"
+        }
+      ]
+    },
+    {
       "name": "manageTimers",
       "title": "Manage Timers",
       "description": "View, start, or stop existing countdown timers.",
