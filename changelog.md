@@ -1,5 +1,9 @@
 # Timers Changelog
 
+## [Create Simple Timer command] - 2026-08-01
+
+- Added "Create Simple Timer" command: start a timer from a single input like `3h 2m 4s`, a plain number of minutes like `15`, or a time of day like `until 13:20` / `until 1320`
+
 ## [Chore] - 2025-01-14
 
 - Moved contributor to past contributors list
