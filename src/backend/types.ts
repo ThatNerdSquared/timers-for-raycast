@@ -116,30 +116,20 @@ export interface CTLaunchConfig {
   launchedFromMenuBar?: boolean;
 }
 
-export interface RawAlarm {
-  name: string;
-  ringsAt: Date | string;
-  pid: number | undefined;
-  selectedSound: string;
-}
-
 export interface Alarm {
   name: string;
-  ringsAt: Date;
+  timeLeft: number; // seconds left
+  targetTime: Date;
+  originalFile: string;
   pid: number | undefined;
   selectedSound: string;
-  originalFile: string;
-  isRinging: boolean;
+  timeStarted: Date;
 }
 
-export interface AlarmLaunchConfig {
-  ringsAt: Date;
-  alarmName?: string;
-  selectedSound?: string;
-  launchedFromMenuBar?: boolean;
-}
-
-export interface AlarmInlineArgs {
-  time: string;
+export interface RawAlarm {
   name: string;
+  pid: number | undefined;
+  targetTime: string;
+  selectedSound: string;
+  timeStarted: string;
 }

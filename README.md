@@ -26,8 +26,10 @@ _On Windows, alerts are shown as Windows PowerShell notifications and played thr
 - [x] Dismiss Ringing Timer (stop a ringing alert for a finished timer, if you've checked the Ring Continously setting)
 - [x] Preview Alert Sounds (test out the bundled timer alert sounds before selecting one in settings)
 - [x] Stop Running Timer (stop the running timer closest to completion)
-- [x] Set Alarm (set an alarm for a time of day, e.g. `7:30am` or `19:30`, or pick a date and time in the form)
-- [x] Manage Alarms (view/rename/cancel alarms, and dismiss ringing ones)
+- [x] Set Alarm (set an alarm for a specific date and time)
+- [x] Manage Alarms (view/start/rename/stop active alarms)
+- [x] Dismiss Ringing Alarm (stop a ringing alert for an active alarm, if you've checked the Ring Continously setting)
+- [x] Alarms Menu Bar (view, set, or stop existing alarms from the Menu Bar)
 
 ## Contributing
 
@@ -38,8 +40,7 @@ If you'd like to file an issue, make a feature request, or improve the code in t
 - Feel free to reach out to me on the Raycast Slack (`@ThatNerd(Squared)`) if I have not responded to you in a timely manner.
 - `src/hooks/useTimers.ts` contains the custom React hook that I use for state management across various commands, and `timerUtils.ts` contains backend functions I use to create the actual timer files.
 - Custom timers are saved in a `customTimers.json` file as an array of [`CustomTimers`](https://github.com/ThatNerdSquared/timers-for-raycast/blob/3ea18a109a357ade47a2f854883e21c1680f497b/src/types.ts#L16), and running timers are stored as text files where the filename is `[date and time started, with illegal characters replaced with __]---[length of timer in seconds]` and the file content is a single line with the name of the timer.
-- Alarms are stored like running timers: one `[uuid].alarm` JSON file per alarm (name, time it rings, PID, sound). `src/backend/alarmBackend.ts` contains the alarm backend.
-- `src/backend/alertProcess.ts` launches the background process that waits, notifies and plays the alert sound. On macOS this is a shell command using `osascript`/`afplay`/`say`; on Windows it is a hidden Windows PowerShell process using toast notifications, `MediaPlayer` and `System.Speech`.
+- `src/backend/alertProcess.ts` launches the background process that waits, notifies and plays the alert sound for timers and alarms. On macOS this is a shell command using `osascript`/`afplay`/`say`; on Windows it is a hidden Windows PowerShell process using toast notifications, `MediaPlayer` and `System.Speech`.
 - If you submit changes, please update these contributing guidelines as necessary to prevent confusion :)
 
 ## Acknowledgements

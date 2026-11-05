@@ -3,6 +3,7 @@ import { CommandLinkParams, CustomTimer } from "../backend/types";
 import { formatTime } from "../backend/formatUtils";
 import useTimers from "../hooks/useTimers";
 import RenameAction from "./RenameAction";
+import { soundData } from "../backend/soundData";
 import { shortcuts } from "../backend/shortcuts";
 
 const createPresetLink = (ctID: string): string => {
@@ -13,11 +14,18 @@ const createPresetLink = (ctID: string): string => {
 
 export default function CustomTimerListItem(props: { customTimer: CustomTimer; id: string }) {
   const { handleStartCT, handleDeleteCT } = useTimers();
+  const soundItem = soundData.find((s) => s.value === props.customTimer.selectedSound);
+  const soundName =
+    props.customTimer.selectedSound === "default" ? "Default" : soundItem?.title || props.customTimer.selectedSound;
+  const soundIcon =
+    props.customTimer.selectedSound === "default" ? Icon.SpeakerHigh : soundItem?.icon || Icon.SpeakerHigh;
+
   return (
     <List.Item
       icon={Icon.Clock}
       title={props.customTimer.name}
       subtitle={formatTime(props.customTimer.timeInSeconds)}
+      accessories={[{ text: soundName, icon: soundIcon }]}
       actions={
         <ActionPanel>
           <Action

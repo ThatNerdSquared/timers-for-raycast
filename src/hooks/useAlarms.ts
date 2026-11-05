@@ -1,20 +1,21 @@
 import { useState } from "react";
+import { Alarm } from "../backend/types";
 import { getAlarms, startAlarm, stopAlarm } from "../backend/alarmBackend";
 import { checkForOverlyLoudAlert } from "../backend/timerBackend";
-import { Alarm, AlarmLaunchConfig } from "../backend/types";
 
 export default function useAlarms() {
   const [alarms, setAlarms] = useState<Alarm[] | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(alarms === undefined);
 
   const refreshAlarms = () => {
-    setAlarms(getAlarms());
+    const setOfAlarms: Alarm[] = getAlarms();
+    setAlarms(setOfAlarms);
     setIsLoading(false);
   };
 
-  const handleStartAlarm = async (launchConf: AlarmLaunchConfig) => {
-    if (!checkForOverlyLoudAlert(launchConf.launchedFromMenuBar)) return;
-    await startAlarm(launchConf);
+  const handleStartAlarm = async (targetTime: Date, alarmName = "Untitled", selectedSound = "default") => {
+    if (!checkForOverlyLoudAlert()) return;
+    await startAlarm(targetTime, alarmName, selectedSound);
     refreshAlarms();
   };
 

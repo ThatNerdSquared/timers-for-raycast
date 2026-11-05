@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "timers",
   "title": "Timers",
-  "description": "Start, stop, and save countdown timers, stopwatches, and alarms, directly in Raycast, with no external dependencies.",
+  "description": "Start, stop, and save countdown timers, directly in Raycast, with no external dependencies.",
   "icon": "command-icon.png",
   "platforms": [
     "macOS",
@@ -14,7 +14,8 @@
     "pernielsentikaer",
     "lokot0k",
     "mitchwu",
-    "a-laughlin"
+    "a-laughlin",
+    "konopek94"
   ],
   "pastContributors": [
     "marcjulian"
@@ -160,43 +161,13 @@
       "mode": "view"
     },
     {
-      "name": "setAlarm",
-      "title": "Set Alarm",
-      "description": "Set an alarm for a specific time of day.",
-      "mode": "view",
-      "keywords": [
-        "wake",
-        "alarm clock"
-      ],
-      "arguments": [
-        {
-          "name": "time",
-          "placeholder": "time (e.g. 7:30am)",
-          "required": false,
-          "type": "text"
-        },
-        {
-          "name": "name",
-          "placeholder": "alarm name",
-          "required": false,
-          "type": "text"
-        }
-      ]
-    },
-    {
-      "name": "manageAlarms",
-      "title": "Manage Alarms",
-      "description": "View, rename, or cancel alarms.",
-      "mode": "view"
-    },
-    {
       "name": "dismissTimerAlert",
       "title": "Dismiss Ringing Timer",
       "keywords": [
         "Dismiss Timer Alert",
         "Alert"
       ],
-      "description": "Stop a ringing alert from a finished timer or alarm.",
+      "description": "Stop a ringing alert from a finished timer.",
       "mode": "no-view"
     },
     {
@@ -223,6 +194,36 @@
       "title": "Configure Presets in Menu Bar",
       "description": "Configure which presets to show in the Timers Menu Bar.",
       "mode": "view"
+    },
+    {
+      "name": "setAlarm",
+      "title": "Set Alarm",
+      "description": "Set an alarm for a specific date and time.",
+      "mode": "view"
+    },
+    {
+      "name": "manageAlarms",
+      "title": "Manage Alarms",
+      "description": "View, start, or stop active alarms.",
+      "mode": "view"
+    },
+    {
+      "name": "dismissAlarmAlert",
+      "title": "Dismiss Ringing Alarm",
+      "keywords": [
+        "Dismiss Alarm Alert",
+        "Alarm",
+        "Alert"
+      ],
+      "description": "Stop a ringing alert from an active alarm.",
+      "mode": "no-view"
+    },
+    {
+      "name": "alarmsMenuBar",
+      "title": "Alarms Menu Bar",
+      "description": "View, set, or stop existing alarms from the Menu Bar.",
+      "mode": "menu-bar",
+      "interval": "10s"
     }
   ],
   "tools": [
@@ -243,8 +244,8 @@
       "type": "dropdown",
       "required": true,
       "title": "Selected Sound",
-      "description": "Sound played when a timer or alarm finishes.",
-      "default": "Submarine",
+      "description": "Sound played when a timer finishes.",
+      "default": "alarmClock.wav",
       "data": [
         {
           "title": "Alarm Clock",
@@ -281,7 +282,7 @@
       "type": "textfield",
       "required": false,
       "title": "Timer Alert Volume",
-      "description": "Volume of the alert sound. Decimal between 0 and 1 (values above 1 are treated as 1 on Windows).",
+      "description": "Volume of the alert sound. Decimal between 0 and 1.",
       "default": "1"
     },
     {
@@ -289,7 +290,7 @@
       "type": "checkbox",
       "required": false,
       "title": "Timer Alert Type",
-      "description": "Whether or not to play the timer or alarm alert sound continuously until dismissed.",
+      "description": "Whether or not to play the timer alert sound continuously until dismissed.",
       "label": "Ring Continuously",
       "default": true
     },

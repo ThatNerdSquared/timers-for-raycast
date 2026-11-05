@@ -1,12 +1,17 @@
 # Timers Changelog
 
-## [Windows support, alarms] - {PR_MERGE_DATE}
+## [Windows support] - {PR_MERGE_DATE}
 
 - Timers, stopwatches and alarms now work on Windows (menu bar commands remain macOS-only)
-- Added "Set Alarm" and "Manage Alarms" commands for alarms that ring at a specific time of day
-- "Dismiss Ringing Timer" now also dismisses ringing alarms
-- Fixed timer names containing quotes breaking the alert notification on macOS
-- Fixed "Speak Timer Name" being used for every timer whenever it was the default sound, even for timers with a different sound
+- Upgraded to Raycast API 2.9, which Raycast on Windows requires
+- Alarms now ring at the right time even if the computer was asleep while they were waiting
+- Fixed timer and alarm names containing quotes breaking the alert notification on macOS
+
+## [Alarms] - 2026-07-08
+
+- Added "Set Alarm" and "Manage Alarms" commands, allowing you to set an alarm for a specific date and time, and view/rename/stop active alarms
+- Added "Dismiss Ringing Alarm" command, to stop a ringing alarm's alert when Ring Continuously is enabled
+- Added "Alarms Menu Bar" command, to view, set, or stop alarms from the Menu Bar
 
 ## [Chore] - 2025-01-14
 

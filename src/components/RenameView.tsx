@@ -22,14 +22,15 @@ function RenameView(props: RenameViewProps) {
         case "customTimer":
           renameCustomTimer(props.ctID ? props.ctID : "-99", newName);
           break;
-        case "alarm":
-          renameAlarm(props.ctID ? props.ctID : "-99", newName);
-          break;
         case "stopwatch":
           renameStopwatch(props.ctID ? props.ctID : "-99", newName);
           break;
         default:
-          renameTimer(props.originalFile, newName);
+          if (props.originalFile.endsWith(".alarm")) {
+            renameAlarm(props.originalFile, newName);
+          } else {
+            renameTimer(props.originalFile, newName);
+          }
           break;
       }
 
