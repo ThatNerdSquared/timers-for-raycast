@@ -1,5 +1,4 @@
 import { environment, getPreferenceValues } from "@raycast/api";
-import { exec } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { extname } from "path";
@@ -7,6 +6,7 @@ import { CustomTimer, Preferences, RawTimer, Timer, TimerLaunchConfig } from "./
 import { formatTime, secondsBetweenDates } from "./formatUtils";
 import { showHudOrToast, showInitialRingContinuouslyWarning } from "./utils";
 import { kill } from "process";
+import { launchAlert } from "./alertProcess";
 
 const DATAPATH = environment.supportPath + "/customTimers.json";
 const DEFAULT_PRESET_VISIBLES_FILE = environment.supportPath + "/defaultPresetVisibles.json";
@@ -40,31 +40,20 @@ async function startTimer({
   if (!skipRingContinuouslyWarning) {
     if (!(await showInitialRingContinuouslyWarning())) return;
   }
-  const fileName = environment.supportPath + "/" + new Date().toISOString() + "---" + timeInSeconds + ".timer";
-  const masterName = fileName.replace(/:/g, "__");
+  // only the file name is sanitised, so that drive letters in Windows paths (e.g. "C:") are left alone
+  const masterName =
+    environment.supportPath + "/" + new Date().toISOString().replace(/:/g, "__") + "---" + timeInSeconds + ".timer";
 
   const prefs = getPreferenceValues<Preferences>();
   if (prefs.ringContinuously) {
-    const dismissFile = `${masterName}`.slice(0, ".timer".length * -1) + ".dismiss";
-    writeFileSync(dismissFile, ".dismiss file for Timers");
+    writeFileSync(dismissFileFor(masterName), ".dismiss file for Timers");
   }
 
-  const cmd = buildTimerCommand(masterName, timerName, timeInSeconds, selectedSound);
-
-  const process = exec(cmd, (error, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-  });
+  const pid = launchTimerAlert(masterName, timerName, timeInSeconds, selectedSound);
 
   const fileContents: RawTimer = {
     name: timerName,
-    pid: process.pid,
+    pid: pid,
     lastPaused: "---",
     pauseElapsed: 0,
     selectedSound: selectedSound === "default" ? prefs.selectedSound : selectedSound,
@@ -77,38 +66,25 @@ async function startTimer({
   });
 }
 
-function buildTimerCommand(
-  masterName: string,
-  timerName: string,
-  timeInSeconds: number,
-  selectedSound: string,
-): string {
+const dismissFileFor = (timerFilePath: string) => timerFilePath.replace(/\.timer$/, ".dismiss");
+
+function launchTimerAlert(masterName: string, timerName: string, timeInSeconds: number, selectedSound: string) {
   const prefs = getPreferenceValues<Preferences>();
-  const selectedSoundPath = `${
-    environment.assetsPath + "/" + (selectedSound === "default" ? prefs.selectedSound : selectedSound)
-  }`;
-  const cmdParts = [`sleep ${timeInSeconds}`];
-  cmdParts.push(
-    `if [ -f "${masterName}" ]; then osascript -e 'display notification "Timer \\"${timerName}\\" complete" with title "Ding!"'`,
-  );
-  const alertSoundString =
-    prefs.selectedSound === "speak_timer_name"
-      ? `say ${timerName}`
-      : `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting.replace(",", ".")}`;
-  cmdParts.push(alertSoundString);
-  if (prefs.ringContinuously) {
-    const dismissFile = `${masterName}`.replace(".timer", ".dismiss");
-    cmdParts.push(`while [ -f "${dismissFile}" ]; do ${alertSoundString}; done`);
-  }
-  cmdParts.push(`rm "${masterName}"; else echo "Timer deleted"; fi`);
-  return cmdParts.join(" ; ");
+  return launchAlert({
+    masterFile: masterName,
+    dismissFile: prefs.ringContinuously ? dismissFileFor(masterName) : undefined,
+    wait: { seconds: timeInSeconds },
+    notificationTitle: "Ding!",
+    notificationBody: `Timer "${timerName}" complete`,
+    sound: selectedSound,
+    spokenText: timerName,
+  });
 }
 
 function stopTimer(timerFile: string) {
   const timerFilePath = environment.supportPath + "/" + timerFile;
-  const dismissFile = timerFilePath.replace(".timer", ".dismiss");
   silentFileDeletion(timerFilePath);
-  silentFileDeletion(dismissFile);
+  silentFileDeletion(dismissFileFor(timerFilePath));
 }
 
 function pauseTimer(timerFile: string, timerPid: number) {
@@ -125,14 +101,13 @@ function pauseTimer(timerFile: string, timerPid: number) {
 function unpauseTimer(timer: Timer) {
   const timerFilePath = environment.supportPath + "/" + timer.originalFile;
 
-  const cmd = buildTimerCommand(timerFilePath, timer.name, timer.timeLeft, timer.selectedSound);
-  const process = exec(cmd);
+  const pid = launchTimerAlert(timerFilePath, timer.name, timer.timeLeft, timer.selectedSound);
 
   const rawFileContents = readFileSync(timerFilePath).toString();
   const fileContents: RawTimer = JSON.parse(rawFileContents);
   fileContents.pauseElapsed = fileContents.pauseElapsed + secondsBetweenDates({ d2: timer.lastPaused });
   fileContents.lastPaused = "---";
-  fileContents.pid = process.pid;
+  fileContents.pid = pid;
   writeFileSync(timerFilePath, JSON.stringify(fileContents));
 }
 
@@ -272,6 +247,7 @@ const toggleDefaultPresetVisibility = (key: string) => {
 
 export {
   checkForOverlyLoudAlert,
+  silentFileDeletion,
   createCustomTimer,
   deleteCustomTimer,
   ensureCTFileExists,

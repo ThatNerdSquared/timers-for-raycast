@@ -3,6 +3,7 @@ import { Timer } from "../backend/types";
 import { formatDateTime, formatTime } from "../backend/formatUtils";
 import useTimers from "../hooks/useTimers";
 import RenameAction from "./RenameAction";
+import { shortcuts } from "../backend/shortcuts";
 
 interface RunningTimerListItemProps {
   timer: Timer;
@@ -42,19 +43,13 @@ export default function RunningTimerListItem({ timer }: RunningTimerListItemProp
           <Action
             title="Stop Timer"
             icon={Icon.Stop}
-            shortcut={{
-              modifiers: ["ctrl"],
-              key: "x",
-            }}
+            shortcut={shortcuts.stop}
             onAction={() => handleStopTimer(timer)}
           />
           <Action
             title="Save Timer as Preset"
             icon={Icon.SaveDocument}
-            shortcut={{
-              modifiers: ["cmd", "shift"],
-              key: "enter",
-            }}
+            shortcut={shortcuts.savePreset}
             onAction={() => handleCreateCT(timer)}
           />
         </ActionPanel>

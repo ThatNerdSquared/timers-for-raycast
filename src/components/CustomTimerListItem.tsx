@@ -4,6 +4,7 @@ import { formatTime } from "../backend/formatUtils";
 import useTimers from "../hooks/useTimers";
 import RenameAction from "./RenameAction";
 import { soundData } from "../backend/soundData";
+import { shortcuts } from "../backend/shortcuts";
 
 const createPresetLink = (ctID: string): string => {
   const payload: CommandLinkParams = { timerID: ctID };
@@ -15,13 +16,9 @@ export default function CustomTimerListItem(props: { customTimer: CustomTimer; i
   const { handleStartCT, handleDeleteCT } = useTimers();
   const soundItem = soundData.find((s) => s.value === props.customTimer.selectedSound);
   const soundName =
-    props.customTimer.selectedSound === "default"
-      ? "Default"
-      : soundItem?.title || props.customTimer.selectedSound;
+    props.customTimer.selectedSound === "default" ? "Default" : soundItem?.title || props.customTimer.selectedSound;
   const soundIcon =
-    props.customTimer.selectedSound === "default"
-      ? Icon.SpeakerHigh
-      : soundItem?.icon || Icon.SpeakerHigh;
+    props.customTimer.selectedSound === "default" ? Icon.SpeakerHigh : soundItem?.icon || Icon.SpeakerHigh;
 
   return (
     <List.Item
@@ -45,10 +42,7 @@ export default function CustomTimerListItem(props: { customTimer: CustomTimer; i
           <Action
             title="Delete Custom Timer"
             icon={Icon.Trash}
-            shortcut={{
-              modifiers: ["ctrl"],
-              key: "x",
-            }}
+            shortcut={shortcuts.stop}
             onAction={() => handleDeleteCT(props.id)}
           />
           <Action.CreateQuicklink

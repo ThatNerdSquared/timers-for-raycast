@@ -1,5 +1,4 @@
 import { environment, getPreferenceValues } from "@raycast/api";
-import { exec } from "child_process";
 import { randomUUID } from "crypto";
 import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { extname } from "path";
@@ -7,6 +6,7 @@ import { Alarm, RawAlarm, Preferences } from "./types";
 import { formatDateTime, secondsBetweenDates } from "./formatUtils";
 import { showHudOrToast, showInitialRingContinuouslyWarning } from "./utils";
 import { kill } from "process";
+import { launchAlert } from "./alertProcess";
 
 const silentFileDeletion = (fp: string) => {
   try {
@@ -16,31 +16,7 @@ const silentFileDeletion = (fp: string) => {
   }
 };
 
-function buildAlarmCommand(
-  masterName: string,
-  alarmName: string,
-  secondsUntilTarget: number,
-  selectedSound: string,
-): string {
-  const prefs = getPreferenceValues<Preferences>();
-  const resolvedSound = selectedSound === "default" ? prefs.selectedSound : selectedSound;
-  const selectedSoundPath = `${environment.assetsPath}/${resolvedSound}`;
-  const cmdParts = [`sleep ${Math.max(0, Math.round(secondsUntilTarget))}`];
-  cmdParts.push(
-    `if [ -f "${masterName}" ]; then osascript -e 'display notification "Alarm \\"${alarmName}\\" complete" with title "Ding!"'`,
-  );
-  const alertSoundString =
-    resolvedSound === "speak_timer_name"
-      ? `say "${alarmName}"`
-      : `afplay "${selectedSoundPath}" --volume ${prefs.volumeSetting.replace(",", ".")}`;
-  cmdParts.push(alertSoundString);
-  if (prefs.ringContinuously) {
-    const dismissFile = `${masterName}`.replace(".alarm", ".dismiss");
-    cmdParts.push(`while [ -f "${dismissFile}" ]; do ${alertSoundString}; done`);
-  }
-  cmdParts.push(`rm "${masterName}"; else echo "Alarm deleted"; fi`);
-  return cmdParts.join(" ; ");
-}
+const dismissFileFor = (alarmFilePath: string) => alarmFilePath.replace(/\.alarm$/, ".dismiss");
 
 export async function startAlarm(
   targetTime: Date,
@@ -57,27 +33,24 @@ export async function startAlarm(
 
   const prefs = getPreferenceValues<Preferences>();
   if (prefs.ringContinuously) {
-    const dismissFile = fileName.replace(".alarm", ".dismiss");
-    writeFileSync(dismissFile, "dismiss");
+    writeFileSync(dismissFileFor(fileName), "dismiss");
   }
 
-  const secondsUntilTarget = secondsBetweenDates({ d1: targetTime });
-  const cmd = buildAlarmCommand(fileName, alarmName, secondsUntilTarget, selectedSound);
-
-  const process = exec(cmd, (error, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
+  // waits for the wall-clock time rather than sleeping for a duration, so that the alarm
+  // still rings on time if the computer was asleep in between
+  const pid = launchAlert({
+    masterFile: fileName,
+    dismissFile: prefs.ringContinuously ? dismissFileFor(fileName) : undefined,
+    wait: { until: targetTime },
+    notificationTitle: "Ding!",
+    notificationBody: `Alarm "${alarmName}" complete`,
+    sound: selectedSound,
+    spokenText: alarmName,
   });
 
   const fileContents: RawAlarm = {
     name: alarmName,
-    pid: process.pid,
+    pid: pid,
     targetTime: targetTime.toISOString(),
     selectedSound: selectedSound === "default" ? prefs.selectedSound : selectedSound,
     timeStarted: new Date().toISOString(),
@@ -93,7 +66,6 @@ export async function startAlarm(
 
 export function stopAlarm(alarmFile: string) {
   const alarmFilePath = environment.supportPath + "/" + alarmFile;
-  const dismissFile = alarmFilePath.replace(".alarm", ".dismiss");
 
   try {
     const rawFileContents = readFileSync(alarmFilePath).toString();
@@ -101,12 +73,12 @@ export function stopAlarm(alarmFile: string) {
     if (fileContents.pid) {
       kill(fileContents.pid);
     }
-  } catch (err) {
+  } catch {
     // If the file can't be read or doesn't exist, we still want to clean up files
   }
 
   silentFileDeletion(alarmFilePath);
-  silentFileDeletion(dismissFile);
+  silentFileDeletion(dismissFileFor(alarmFilePath));
 }
 
 export function getAlarms() {

@@ -1,7 +1,6 @@
 import { environment } from "@raycast/api";
-import { execSync } from "child_process";
 import { randomUUID } from "crypto";
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { extname } from "path";
 import { secondsBetweenDates } from "./formatUtils";
 import { Stopwatch, StopwatchLaunchConfig } from "./types";
@@ -96,7 +95,7 @@ const cleanUpOldStopwatches = (newStore: Stopwatch[]) => {
       const timeStarted = swFile.replace(/__/g, ":").replace(".stopwatch", "");
       stopwatch.timeStarted = new Date(timeStarted);
       stopwatch.timeElapsed = Math.max(0, secondsBetweenDates({}));
-      execSync(`rm "${environment.supportPath}/${swFile}"`);
+      unlinkSync(environment.supportPath + "/" + swFile);
       newStore.push(stopwatch);
     }
   });

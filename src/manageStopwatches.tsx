@@ -4,6 +4,7 @@ import useStopwatches from "./hooks/useStopwatches";
 import { formatTime, formatDateTime } from "./backend/formatUtils";
 import { Stopwatch } from "./backend/types";
 import RenameAction from "./components/RenameAction";
+import { shortcuts } from "./backend/shortcuts";
 
 export default function Command() {
   const {
@@ -54,19 +55,19 @@ export default function Command() {
                 <RenameAction renameLabel="Stopwatch" currentName={sw.name} originalFile={"stopwatch"} ctID={sw.swID} />
                 <Action.CopyToClipboard
                   title="Copy Current Time"
-                  shortcut={{ modifiers: ["cmd"], key: "c" }}
+                  shortcut={shortcuts.copy}
                   content={formatTime(sw.timeElapsed)}
                 />
                 <Action
                   title="Restart Stopwatch"
                   icon={Icon.ArrowCounterClockwise}
-                  shortcut={{ modifiers: ["cmd"], key: "r" }}
+                  shortcut={shortcuts.restart}
                   onAction={() => handleRestartSW(sw)}
                 />
                 <Action
                   title="Stop Stopwatch"
                   icon={Icon.Stop}
-                  shortcut={{ modifiers: ["ctrl"], key: "x" }}
+                  shortcut={shortcuts.stop}
                   onAction={() => handleStopSW(sw)}
                 />
               </ActionPanel>

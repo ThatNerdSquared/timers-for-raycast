@@ -4,6 +4,10 @@
   "title": "Timers",
   "description": "Start, stop, and save countdown timers, directly in Raycast, with no external dependencies.",
   "icon": "command-icon.png",
+  "platforms": [
+    "macOS",
+    "Windows"
+  ],
   "author": "ThatNerd",
   "contributors": [
     "GastroGeek",
@@ -372,7 +376,7 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.104.1"
+    "@raycast/api": "^2.9.0"
   },
   "devDependencies": {
     "@raycast/eslint-config": "^2.1.1",

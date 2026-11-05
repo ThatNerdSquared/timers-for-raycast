@@ -3,6 +3,7 @@ import { Alarm } from "../backend/types";
 import { formatDateTime, formatTime } from "../backend/formatUtils";
 import useAlarms from "../hooks/useAlarms";
 import RenameAction from "./RenameAction";
+import { shortcuts } from "../backend/shortcuts";
 
 interface RunningAlarmListItemProps {
   alarm: Alarm;
@@ -29,10 +30,7 @@ export default function RunningAlarmListItem({ alarm }: RunningAlarmListItemProp
           <Action
             title="Stop Alarm"
             icon={Icon.Stop}
-            shortcut={{
-              modifiers: ["ctrl"],
-              key: "x",
-            }}
+            shortcut={shortcuts.stop}
             onAction={() => handleStopAlarm(alarm)}
           />
           <RenameAction renameLabel="Alarm" currentName={alarm.name} originalFile={alarm.originalFile} ctID={null} />

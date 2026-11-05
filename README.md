@@ -16,6 +16,8 @@ If you enjoy using Timers for Raycast and/or want to support further development
 
 _Note: if you do not receive notifications from the timer completion, you may need to allow Script Editor notifications in your Focus settings._
 
+_On Windows, alerts are shown as Windows PowerShell notifications and played through Windows PowerShell, which ships with Windows. If you do not see the notification banner, check that notifications from "Windows PowerShell" are allowed in Settings > System > Notifications. Menu bar commands are only available on macOS._
+
 - [x] Start Timer (2, 5, 10, 15, 25, 30, 45, 60, and 90 minute variations)
 - [x] Start Custom Timer (allows you to set a custom countdown and optionally save it for future use)
 - [x] Manage Timers (view/rename/start/stop running or preset countdown timers)
@@ -38,6 +40,7 @@ If you'd like to file an issue, make a feature request, or improve the code in t
 - Feel free to reach out to me on the Raycast Slack (`@ThatNerd(Squared)`) if I have not responded to you in a timely manner.
 - `src/hooks/useTimers.ts` contains the custom React hook that I use for state management across various commands, and `timerUtils.ts` contains backend functions I use to create the actual timer files.
 - Custom timers are saved in a `customTimers.json` file as an array of [`CustomTimers`](https://github.com/ThatNerdSquared/timers-for-raycast/blob/3ea18a109a357ade47a2f854883e21c1680f497b/src/types.ts#L16), and running timers are stored as text files where the filename is `[date and time started, with illegal characters replaced with __]---[length of timer in seconds]` and the file content is a single line with the name of the timer.
+- `src/backend/alertProcess.ts` launches the background process that waits, notifies and plays the alert sound for timers and alarms. On macOS this is a shell command using `osascript`/`afplay`/`say`; on Windows it is a hidden Windows PowerShell process using toast notifications, `MediaPlayer` and `System.Speech`.
 - If you submit changes, please update these contributing guidelines as necessary to prevent confusion :)
 
 ## Acknowledgements
